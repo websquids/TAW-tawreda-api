@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class BrandController extends Controller {
     public function index(Request $request): JsonResponse {
-        $brands = Brand::paginate(10);
+        $brands = Brand::paginate($request->integer('per_page', 10));
         $brands->data = BrandResource::collection($brands);
         return response()->json($brands);
     }

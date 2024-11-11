@@ -10,10 +10,23 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller {
+
+    /**
+     * List all products.
+     *
+     * This endpoint retrieves a paginated list of products, automatically wrapped in a resource collection.
+     *
+     * @response array{status: bool, message: string, payload: Illuminate\Pagination\LengthAwarePaginator<ProductResource>}}
+     */
     public function index(Request $request): JsonResponse {
-        $products = Product::paginate(10);
+        // Paginate the products
+        $products = Product::paginate($request->input('per_page', 10));
+
+        // Wrap the paginated data in ProductResource
         $products->data = ProductResource::collection($products);
-        return response()->json($products);
+
+        // Return the custom response as JSON
+        return response()->apiResponse($products);
     }
 
     public function show(Request $request, Product $product): JsonResponse {

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller {
     public function index(Request $request): JsonResponse {
-        $categories = Category::paginate(10);
+        $categories = Category::paginate($request->integer('per_page', 10));
         $categories->data =  CategoryResource::collection($categories);
         return response()->json(new CategoryResource($categories));
     }
