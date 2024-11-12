@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Category extends Model implements HasMedia {
+class Category extends Model implements HasMedia
+{
     use HasFactory, InteractsWithMedia;
 
     /**
@@ -15,6 +16,7 @@ class Category extends Model implements HasMedia {
      *
      * @var array
      */
+
     protected $fillable = [
         'name_en',
         'name_ar',
@@ -32,7 +34,8 @@ class Category extends Model implements HasMedia {
         'id' => 'integer',
     ];
 
-    public function registerMediaCollections(): void {
+    public function registerMediaCollections(): void
+    {
         $this->addMediaCollection('featured')->singleFile();
     }
 }
