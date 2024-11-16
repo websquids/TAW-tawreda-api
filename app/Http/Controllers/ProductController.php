@@ -9,31 +9,24 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
-
-    /**
-     * List all products.
-     *
-     * This endpoint retrieves a paginated list of products, automatically wrapped in a resource collection.
-     *
-     * @response array{status: bool, message: string, payload: Illuminate\Pagination\LengthAwarePaginator<ProductResource>}}
-     */
-    public function index(Request $request): JsonResponse {
-        // Paginate the products
-        $products = Product::paginate($request->input('per_page', 10));
-
-        // Wrap the paginated data in ProductResource
+class ProductController extends Controller
+{
+    public function index(Request $request): JsonResponse
+    {
+        $products = Product::paginate(10);
         $products->data = ProductResource::collection($products);
 
         // Return the custom response as JSON
         return response()->apiResponse($products);
     }
 
-    public function show(Request $request, Product $product): JsonResponse {
+    public function show(Request $request, Product $product): JsonResponse
+    {
         return response()->json(new ProductResource($product));
     }
 
-    public function store(ProductStoreRequest $request): JsonResponse {
+    public function store(ProductStoreRequest $request): JsonResponse
+    {
         $product = Product::create($request->validated());
         $product->addMedia($request->file('featured_image'))->toMediaCollection('featured');
         foreach ($request->all()['images'] as $image) {
@@ -42,7 +35,8 @@ class ProductController extends Controller {
         return response()->json(new ProductResource($product));
     }
 
-    public function update(ProductUpdateRequest $request, Product $product): JsonResponse {
+    public function update(ProductUpdateRequest $request, Product $product): JsonResponse
+    {
         $product->update($request->validated());
         if ($request->hasFile('featured_image')) {
             $product->addMedia($request->file('featured_image'))->toMediaCollection('featured');
@@ -53,7 +47,8 @@ class ProductController extends Controller {
         return response()->json(new ProductResource($product));
     }
 
-    public function destroy(Request $request, Product $product): JsonResponse {
+    public function destroy(Request $request, Product $product): JsonResponse
+    {
         $product->delete();
         return response()->json();
     }

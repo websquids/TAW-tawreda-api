@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\App;
 
 class CategoryResource extends JsonResource
 {
@@ -12,14 +13,25 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $locale = App::getLocale();
+        $translatedTitle = $this->translate($locale);
+
+        $data = [
             'id' => $this->id,
-            'name_en' => $this->name_en,
-            'name_ar' => $this->name_ar,
-            'image' => $this->getFirstMediaUrl('featured'),
-            'description_en' => $this->description_en,
-            'description_ar' => $this->description_ar,
+            'title' => $translatedTitle ? $translatedTitle->title : null,
             'parent_id' => $this->parent_id,
         ];
+
+        if ($request->all_translation_data == 'true') {
+            $data['translations'] = $this->getTranslationsArray();
+        }
+
+        if ($request->has_image !== 'false') {
+            $data['image'] = $this->getMedia('featured')->isNotEmpty()
+                ? url($this->getMedia('featured')->first()->getUrl())
+                : null;
+        }
+
+        return $data;
     }
 }
