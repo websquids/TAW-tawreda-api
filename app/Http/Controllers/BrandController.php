@@ -15,32 +15,24 @@ class BrandController extends Controller
     {
         // Initialize the query builder for the Brand model
         $query = Brand::query();
+        $perPage = $request->get('perPage', 10);
+        $currentPage = $request->get('current_page', 1);
 
-        // Apply filters based on request parameters if they exist
-        if ($request->has('name_en')) {
-            $query->where('name_en', 'like', '%' . $request->name_en . '%');
+        if ($request->get('all', false)) {
+            $brands = $query->get();
+        } else {
+            $brands = $query->paginate($perPage, ['*'], 'page', $currentPage);
         }
-
-        if ($request->has('name_ar')) {
-            $query->where('name_ar', 'like', '%' . $request->name_ar . '%');
-        }
-
-        if ($request->has('description_en')) {
-            $query->where('description_en', 'like', '%' . $request->description_en . '%');
-        }
-
-        if ($request->has('description_ar')) {
-            $query->where('description_ar', 'like', '%' . $request->description_ar . '%');
-        }
-
-        // Paginate the results after applying the filters
-        $brands = $query->paginate(10);
-
-        // Format the paginated results using the BrandResource
-        $brands->data = BrandResource::collection($brands);
-
         // Return the filtered and paginated results as a JSON response
-        return response()->json($brands);
+        return response()->json([
+            'data' => BrandResource::collection($brands),
+            'meta' => [
+                'current_page' => $brands->currentPage(),
+                'per_page' => $brands->perPage(),
+                'total' => $brands->total(),
+                'last_page' => $brands->lastPage(),
+            ]
+        ]);
     }
 
     public function show(Request $request, Brand $brand)

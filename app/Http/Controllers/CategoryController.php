@@ -19,13 +19,21 @@ class CategoryController extends Controller
         // Get filter parameters from the request
         $filteredQuery = $categoryFilter->apply($query);
         $perPage = $request->get('perPage', 10);
+        $currentPage = $request->get('current_page', 1);
         if ($request->get('all', false)) {
             $categories = $filteredQuery->get();
         } else {
-            $perPage = $request->get('perPage', 10);
-            $categories = $filteredQuery->paginate($perPage);
+            $categories = $filteredQuery->paginate($perPage, ['*'], 'page', $currentPage);
         }
-        return response()->json(CategoryResource::collection($categories));
+        return response()->json([
+            'data' => CategoryResource::collection($categories),
+            'meta' => [
+                'current_page' => $categories->currentPage(),
+                'per_page' => $categories->perPage(),
+                'total' => $categories->total(),
+                'last_page' => $categories->lastPage(),
+            ]
+        ]);
     }
 
     public function show(Request $request, Category $category): JsonResponse
@@ -36,16 +44,18 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request): JsonResponse
     {
         $category = Category::create($request->validated());
-        $category->addMedia($request->file('image'))->toMediaCollection();
+        $category->addMedia($request->file('image'))->toMediaCollection('featured');
         return response()->json(new CategoryResource($category));
     }
 
-    public function update(CategoryUpdateRequest $request, Category $category): JsonResponse
+    public function update(Request $request, Category $category): JsonResponse
     {
-        $category->update($request->validated());
+        // $category->update($request->validated());
         if ($request->hasFile('image')) {
+            dd('');
             $category->addMedia($request->file('image'))->toMediaCollection('featured');
         }
+        $category->save();
         return response()->json(new CategoryResource($category));
     }
 

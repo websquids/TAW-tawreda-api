@@ -6,21 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Brand extends Model implements HasMedia {
-    use HasFactory, InteractsWithMedia;
+class Brand extends Model implements TranslatableContract, HasMedia
+{
+    use HasFactory, InteractsWithMedia, Translatable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name_en',
-        'name_ar',
-        'description_en',
-        'description_ar',
-    ];
+    public $translatedAttributes = ['name'];
+    protected $fillable = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -31,7 +30,8 @@ class Brand extends Model implements HasMedia {
         'id' => 'integer',
     ];
 
-    public function registerMediaCollections(): void {
+    public function registerMediaCollections(): void
+    {
         $this->addMediaCollection('featured')->singleFile();
     }
 }

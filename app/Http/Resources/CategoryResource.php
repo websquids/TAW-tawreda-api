@@ -15,23 +15,19 @@ class CategoryResource extends JsonResource
     {
         $locale = App::getLocale();
         $translatedTitle = $this->translate($locale);
-
         $data = [
             'id' => $this->id,
-            'title' => $translatedTitle ? $translatedTitle->title : null,
+            "title" => $translatedTitle->title,
             'parent_id' => $this->parent_id,
         ];
-
-        if ($request->all_translation_data == 'true') {
-            $data['translations'] = $this->getTranslationsArray();
-        }
-
         if ($request->has_image !== 'false') {
             $data['image'] = $this->getMedia('featured')->isNotEmpty()
                 ? url($this->getMedia('featured')->first()->getUrl())
                 : null;
         }
-
+        if ($request->all_translation_data == 'true') {
+            $data['translations'] = $this->getTranslationsArray();
+        }
         return $data;
     }
 }

@@ -23,8 +23,8 @@ class CategoryUpdateRequest extends FormRequest
         // dd($this);
 
         return [
-            'en.title' => ['required', 'string'],
-            'ar.title' => ['required', 'string'],
+            // 'en.title' => ['required', 'string'],
+            // 'ar.title' => ['required', 'string'],
             'image' => ['sometimes', 'image'],
             'parent_id' => [
                 'nullable',
