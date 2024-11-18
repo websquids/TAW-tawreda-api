@@ -4,22 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Unit extends Model
+class Unit extends Model implements TranslatableContract
 {
-    use HasFactory;
+    use HasFactory, Translatable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name_en',
-        'name_ar',
-        'description_en',
-        'description_ar',
-    ];
+    public $translatedAttributes = ['name'];
+
+    protected $fillable = [];
 
     /**
      * The attributes that should be cast to native types.

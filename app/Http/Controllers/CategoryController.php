@@ -14,27 +14,36 @@ class CategoryController extends Controller
 {
     public function index(Request $request, CategoryFilter $categoryFilter): JsonResponse
     {
-        // Initialize the query builder
-        $query = Category::query();
-        // Get filter parameters from the request
-        $filteredQuery = $categoryFilter->apply($query);
-        $perPage = $request->get('perPage', 10);
-        $currentPage = $request->get('current_page', 1);
-        if ($request->get('all', false)) {
-            $categories = $filteredQuery->get();
-        } else {
-            $categories = $filteredQuery->paginate($perPage, ['*'], 'page', $currentPage);
+        $query = $categoryFilter->apply(Category::query());
+        if ($excludedId = $request->get('except_category_id')) {
+            $query->where('id', '!=', $excludedId);
         }
+        // Handle fetching only parent categories
+        if ($request->boolean('is_parent')) {
+            $query->whereNull('parent_id');
+        }
+        // Check if all categories are requested without pagination
+        if ($request->boolean('all')) {
+            $categories = $query->get();
+        } else {
+            // Handle pagination
+            $perPage = $request->get('perPage', 10);
+            $currentPage = $request->get('current_page', 1);
+            $categories = $query->paginate($perPage, ['*'], 'page', $currentPage);
+        }
+
+        // Prepare the response
         return response()->json([
             'data' => CategoryResource::collection($categories),
-            'meta' => [
+            'meta' => !$request->boolean('all') ? [
                 'current_page' => $categories->currentPage(),
                 'per_page' => $categories->perPage(),
                 'total' => $categories->total(),
                 'last_page' => $categories->lastPage(),
-            ]
+            ] : null,
         ]);
     }
+
 
     public function show(Request $request, Category $category): JsonResponse
     {
@@ -48,9 +57,9 @@ class CategoryController extends Controller
         return response()->json(new CategoryResource($category));
     }
 
-    public function update(Request $request, Category $category): JsonResponse
+    public function update(CategoryUpdateRequest $request, Category $category): JsonResponse
     {
-        // $category->update($request->validated());
+        $category->update($request->validated());
         if ($request->hasFile('image')) {
             dd('');
             $category->addMedia($request->file('image'))->toMediaCollection('featured');
@@ -63,5 +72,12 @@ class CategoryController extends Controller
     {
         $category->delete();
         return response()->json();
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->get('ids', []);
+        $result = Category::whereIn('id', $ids)->delete();
+        return response()->json($result);
     }
 }

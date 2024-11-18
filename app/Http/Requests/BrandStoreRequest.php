@@ -20,9 +20,17 @@ class BrandStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'en.title' => ['required', 'string'],
-            'ar.title' => ['required', 'string'],
+            'en.name' => ['required', 'string'],
+            'ar.name' => ['required', 'string'],
             'image' => ['required', 'file', 'image'],
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new \Illuminate\Validation\ValidationException(
+            $validator,
+            response()->json($validator->errors(), 422)
+        );
     }
 }

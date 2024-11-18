@@ -14,13 +14,12 @@ class BrandResource extends JsonResource
     {
         $locale = app()->getLocale();
         $translated = $this->translate($locale);
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $translated->name,
-            'image' => $this->getFirstMediaUrl('featured')->getUtl(),
+            'image' => $this->getMedia('featured')->last()?->getUrl(),
         ];
-
-        if ($request->all_translation_data) {
+        if ($request->all_translation_data == 'true') {
             $data['translations'] = $this->getTranslationsArray();
         }
         return $data;

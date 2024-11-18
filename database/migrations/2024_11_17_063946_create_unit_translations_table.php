@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('units', function (Blueprint $table) {
+        Schema::create('unit_translations', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('locale')->index();
+            $table->foreignId('unit_id')->constrained('units')->cascadeOnDelete();
+            $table->string('name');
+            $table->unique(['unit_id', 'locale']);
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('units');
+        Schema::dropIfExists('unit_translations');
     }
 };

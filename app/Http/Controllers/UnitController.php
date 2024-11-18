@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UnitFilter;
 use App\Http\Requests\UnitStoreRequest;
 use App\Http\Requests\UnitUpdateRequest;
 use App\Http\Resources\UnitResource;
@@ -11,36 +12,32 @@ use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, UnitFilter $unitFilter): JsonResponse
     {
         // Initialize the query builder for the Unit model
         $query = Unit::query();
 
-        // Apply filters based on request parameters if they exist
-        if ($request->has('name_en')) {
-            $query->where('name_en', 'like', '%' . $request->name_en . '%');
+        // Apply filters to the query
+        $query = $unitFilter->apply($query);
+        $perPage = $request->get('perPage', 10);
+        $currentPage = $request->get('current_page', 1);
+
+        if ($request->get('all', false)) {
+            $units = $query->get();
+            return response()->json(UnitResource::collection($units));
+        } else {
+            $units = $query->paginate($perPage, ['*'], 'page', $currentPage);
+            $units->data = UnitResource::collection($units);
         }
-
-        if ($request->has('name_ar')) {
-            $query->where('name_ar', 'like', '%' . $request->name_ar . '%');
-        }
-
-        if ($request->has('description_en')) {
-            $query->where('description_en', 'like', '%' . $request->description_en . '%');
-        }
-
-        if ($request->has('description_ar')) {
-            $query->where('description_ar', 'like', '%' . $request->description_ar . '%');
-        }
-
-        // Paginate the results after applying the filters
-        $units = $query->paginate(10);
-
-        // Format the paginated results using the UnitResource
-        $units->data = UnitResource::collection($units);
-
-        // Return the filtered and paginated results as a JSON response
-        return response()->json($units);
+        return response()->json([
+            'data' => UnitResource::collection($units),
+            'meta' => [
+                'current_page' => $units->currentPage(),
+                'per_page' => $units->perPage(),
+                'total' => $units->total(),
+                'last_page' => $units->lastPage(),
+            ],
+        ]);
     }
 
     public function show(Request $request, Unit $unit): JsonResponse
@@ -64,5 +61,12 @@ class UnitController extends Controller
     {
         $unit->delete();
         return response()->json();
+    }
+
+    public function bulkDelete(Request $request): JsonResponse
+    {
+        $ids = $request->get('ids', []);
+        $result = Unit::whereIn('id', $ids)->delete();
+        return response()->json($result);
     }
 }

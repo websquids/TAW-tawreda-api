@@ -23,8 +23,8 @@ class CategoryUpdateRequest extends FormRequest
         // dd($this);
 
         return [
-            // 'en.title' => ['required', 'string'],
-            // 'ar.title' => ['required', 'string'],
+            'en.title' => ['required', 'string'],
+            'ar.title' => ['required', 'string'],
             'image' => ['sometimes', 'image'],
             'parent_id' => [
                 'nullable',
@@ -41,5 +41,13 @@ class CategoryUpdateRequest extends FormRequest
                 }
             ],
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new \Illuminate\Validation\ValidationException(
+            $validator,
+            response()->json($validator->errors(), 422)
+        );
     }
 }

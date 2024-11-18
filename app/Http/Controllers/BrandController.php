@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\BrandFilter;
 use App\Http\Requests\BrandStoreRequest;
 use App\Http\Requests\BrandUpdateRequest;
 use App\Http\Resources\BrandResource;
@@ -11,19 +12,18 @@ use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, BrandFilter $brandFilter): JsonResponse
     {
         // Initialize the query builder for the Brand model
         $query = Brand::query();
+        $filteredQuery = $brandFilter->apply($query, $request);
         $perPage = $request->get('perPage', 10);
         $currentPage = $request->get('current_page', 1);
-
         if ($request->get('all', false)) {
-            $brands = $query->get();
+            $brands = $filteredQuery->get();
         } else {
-            $brands = $query->paginate($perPage, ['*'], 'page', $currentPage);
+            $brands = $filteredQuery->paginate($perPage, ['*'], 'page', $currentPage);
         }
-        // Return the filtered and paginated results as a JSON response
         return response()->json([
             'data' => BrandResource::collection($brands),
             'meta' => [
@@ -42,14 +42,14 @@ class BrandController extends Controller
 
     public function store(BrandStoreRequest $request)
     {
-        $brand = Brand::create($request->validated());
+        $brand = Brand::create($request->safe()->except(['image']));
         $brand->addMedia($request->file('image'))->toMediaCollection('featured');
         return response()->json(new BrandResource($brand));
     }
 
     public function update(BrandUpdateRequest $request, Brand $brand)
     {
-        $brand->update($request->validated());
+        $brand->update($request->safe()->except(['image']));
         if ($request->hasFile('image')) {
             $brand->addMedia($request->file('image'))->toMediaCollection('featured');
         }
@@ -60,5 +60,13 @@ class BrandController extends Controller
     {
         $brand->delete();
         return response()->json();
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        // dd($request);
+        $ids = $request->get('ids', []);
+        $result = Brand::whereIn('id', $ids)->delete();
+        return response()->json($result);
     }
 }
