@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('category_translations', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->integer('category_id')->unsigned();
+            $table->foreignId('category_id')
+                ->constrained('categories')
+                ->onDelete('cascade');
             $table->string('locale')->index();
             $table->string('title');
             $table->string('description')->nullable();
 
             $table->unique(['category_id', 'locale']);
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
