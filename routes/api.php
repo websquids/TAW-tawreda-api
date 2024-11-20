@@ -9,6 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('products', App\Http\Controllers\ProductController::class);
+Route::post('products/bulk-delete', [App\Http\Controllers\ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
 Route::post('products/{product}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
 
 Route::apiResource('brands', App\Http\Controllers\BrandController::class);

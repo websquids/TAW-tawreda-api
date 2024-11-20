@@ -18,15 +18,15 @@ class CategoryController extends Controller
         if ($excludedId = $request->get('except_category_id')) {
             $query->where('id', '!=', $excludedId);
         }
-        // Handle fetching only parent categories
         if ($request->boolean('is_parent')) {
             $query->whereNull('parent_id');
         }
-        // Check if all categories are requested without pagination
+        if ($request->has('parent_id')) {
+            $query->where('parent_id', $request->get('parent_id'));
+        }
         if ($request->boolean('all')) {
             $categories = $query->get();
         } else {
-            // Handle pagination
             $perPage = $request->get('perPage', 10);
             $currentPage = $request->get('current_page', 1);
             $categories = $query->paginate($perPage, ['*'], 'page', $currentPage);
@@ -61,7 +61,6 @@ class CategoryController extends Controller
     {
         $category->update($request->validated());
         if ($request->hasFile('image')) {
-            dd('');
             $category->addMedia($request->file('image'))->toMediaCollection('featured');
         }
         $category->save();

@@ -24,19 +24,18 @@ class UnitController extends Controller
 
         if ($request->get('all', false)) {
             $units = $query->get();
-            return response()->json(UnitResource::collection($units));
         } else {
             $units = $query->paginate($perPage, ['*'], 'page', $currentPage);
             $units->data = UnitResource::collection($units);
         }
         return response()->json([
             'data' => UnitResource::collection($units),
-            'meta' => [
+            'meta' => !$request->boolean('all') ?  [
                 'current_page' => $units->currentPage(),
                 'per_page' => $units->perPage(),
                 'total' => $units->total(),
                 'last_page' => $units->lastPage(),
-            ],
+            ] : null,
         ]);
     }
 

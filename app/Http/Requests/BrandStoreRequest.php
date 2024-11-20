@@ -19,6 +19,7 @@ class BrandStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'en.name' => ['required', 'string'],
             'ar.name' => ['required', 'string'],

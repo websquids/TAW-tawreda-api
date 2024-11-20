@@ -4,23 +4,26 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductUpdateRequest extends FormRequest {
+class ProductUpdateRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool {
+    public function authorize(): bool
+    {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      */
-    public function rules(): array {
+    public function rules(): array
+    {
         return [
-            'title_en' => ['required', 'string'],
-            'title_ar' => ['required', 'string'],
-            'description_en' => ['required', 'string'],
-            'description_ar' => ['required', 'string'],
+            'en.title' => ['required', 'string'],
+            'en.description' => ['required', 'string'],
+            'ar.title' => ['required', 'string'],
+            'ar.description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0.01'],
             'discount' => ['required', 'numeric', 'between:0,100'],
             'current_stock_quantity' => ['required', 'integer', 'min:0'],
@@ -31,9 +34,6 @@ class ProductUpdateRequest extends FormRequest {
             'max_order_quantity' => ['required', 'integer', 'gte:min_order_quantity'],
             'min_storage_quantity' => ['required', 'integer', 'min:1'],
             'max_storage_quantity' => ['required', 'integer', 'gte:min_storage_quantity'],
-            'images' => ['required', 'array', 'max:10'],
-            'images.*' => ['file', 'image'],
-            'featured_image' => ['sometimes', 'file', 'image'],
         ];
     }
 }

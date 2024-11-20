@@ -12,12 +12,15 @@ class UnitResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $locale = app()->getLocale();
+        $translated = $this->translate($locale);
+        $data = [
             'id' => $this->id,
-            'name_en' => $this->name_en,
-            'name_ar' => $this->name_ar,
-            'description_en' => $this->description_en,
-            'description_ar' => $this->description_ar,
+            'name' => $translated->name,
         ];
+        if ($request->all_translation_data == 'true') {
+            $data['translations'] = $this->getTranslationsArray();
+        }
+        return $data;
     }
 }

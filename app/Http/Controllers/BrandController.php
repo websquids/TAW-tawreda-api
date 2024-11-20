@@ -14,7 +14,6 @@ class BrandController extends Controller
 {
     public function index(Request $request, BrandFilter $brandFilter): JsonResponse
     {
-        // Initialize the query builder for the Brand model
         $query = Brand::query();
         $filteredQuery = $brandFilter->apply($query, $request);
         $perPage = $request->get('perPage', 10);
@@ -26,12 +25,12 @@ class BrandController extends Controller
         }
         return response()->json([
             'data' => BrandResource::collection($brands),
-            'meta' => [
+            'meta' => !$request->boolean('all') ? [
                 'current_page' => $brands->currentPage(),
                 'per_page' => $brands->perPage(),
                 'total' => $brands->total(),
                 'last_page' => $brands->lastPage(),
-            ]
+            ] : null
         ]);
     }
 

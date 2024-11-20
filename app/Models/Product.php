@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Product extends Model implements HasMedia {
-    use HasFactory, InteractsWithMedia;
+class Product extends Model implements TranslatableContract, HasMedia
+{
+    use HasFactory, InteractsWithMedia, Translatable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    public $translatedAttributes = ['title', 'description'];
     protected $fillable = [
-        'title_en',
-        'title_ar',
-        'description_en',
-        'description_ar',
         'price',
         'discount',
         'current_stock_quantity',
@@ -47,20 +47,24 @@ class Product extends Model implements HasMedia {
         'unit_id' => 'integer',
     ];
 
-    public function registerMediaCollections(): void {
+    public function registerMediaCollections(): void
+    {
         $this->addMediaCollection('featured')->singleFile();
         $this->addMediaCollection('gallery')->onlyKeepLatest(10);
     }
 
-    public function category(): BelongsTo {
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function brand(): BelongsTo {
+    public function brand(): BelongsTo
+    {
         return $this->belongsTo(Brand::class);
     }
 
-    public function unit(): BelongsTo {
+    public function unit(): BelongsTo
+    {
         return $this->belongsTo(Unit::class);
     }
 }

@@ -20,10 +20,8 @@ class UnitStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_en' => ['required', 'string'],
-            'name_ar' => ['required', 'string'],
-            'description_en' => ['required', 'string'],
-            'description_ar' => ['required', 'string'],
+            'en.name' => ['required', 'string'],
+            'ar.name' => ['required', 'string'],
         ];
     }
 }
