@@ -15,13 +15,11 @@ use Tests\TestCase;
 /**
  * @see \App\Http\Controllers\ProductController
  */
-final class ProductControllerTest extends TestCase
-{
+final class ProductControllerTest extends TestCase {
     use AdditionalAssertions, RefreshDatabase, WithFaker;
 
     #[Test]
-    public function index_behaves_as_expected(): void
-    {
+    public function index_behaves_as_expected(): void {
         $products = Product::factory()->count(3)->create();
 
         $response = $this->get(route('products.index'));
@@ -32,8 +30,7 @@ final class ProductControllerTest extends TestCase
 
 
     #[Test]
-    public function show_responds_with(): void
-    {
+    public function show_responds_with(): void {
         $product = Product::factory()->create();
 
         $response = $this->get(route('products.show', $product));
@@ -44,18 +41,16 @@ final class ProductControllerTest extends TestCase
 
 
     #[Test]
-    public function store_uses_form_request_validation(): void
-    {
+    public function store_uses_form_request_validation(): void {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\ProductController::class,
             'store',
-            \App\Http\Requests\ProductControllerStoreRequest::class
+            \App\Http\Requests\ProductControllerStoreRequest::class,
         );
     }
 
     #[Test]
-    public function store_saves(): void
-    {
+    public function store_saves(): void {
         $title_en = $this->faker->word();
         $title_ar = $this->faker->word();
         $description_en = $this->faker->text();
@@ -110,18 +105,16 @@ final class ProductControllerTest extends TestCase
 
 
     #[Test]
-    public function update_uses_form_request_validation(): void
-    {
+    public function update_uses_form_request_validation(): void {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\ProductController::class,
             'update',
-            \App\Http\Requests\ProductControllerUpdateRequest::class
+            \App\Http\Requests\ProductControllerUpdateRequest::class,
         );
     }
 
     #[Test]
-    public function update_behaves_as_expected(): void
-    {
+    public function update_behaves_as_expected(): void {
         $product = Product::factory()->create();
         $title_en = $this->faker->word();
         $title_ar = $this->faker->word();
@@ -175,8 +168,7 @@ final class ProductControllerTest extends TestCase
 
 
     #[Test]
-    public function destroy_deletes(): void
-    {
+    public function destroy_deletes(): void {
         $product = Product::factory()->create();
 
         $response = $this->delete(route('products.destroy', $product));

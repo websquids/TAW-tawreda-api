@@ -12,13 +12,11 @@ use Tests\TestCase;
 /**
  * @see \App\Http\Controllers\BrandController
  */
-final class BrandControllerTest extends TestCase
-{
+final class BrandControllerTest extends TestCase {
     use AdditionalAssertions, RefreshDatabase, WithFaker;
 
     #[Test]
-    public function index_responds_with(): void
-    {
+    public function index_responds_with(): void {
         $brands = Brand::factory()->count(3)->create();
 
         $response = $this->get(route('brands.index'));
@@ -31,8 +29,7 @@ final class BrandControllerTest extends TestCase
 
 
     #[Test]
-    public function show_responds_with(): void
-    {
+    public function show_responds_with(): void {
         $brand = Brand::factory()->create();
 
         $response = $this->get(route('brands.show', $brand));
@@ -45,18 +42,16 @@ final class BrandControllerTest extends TestCase
 
 
     #[Test]
-    public function store_uses_form_request_validation(): void
-    {
+    public function store_uses_form_request_validation(): void {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\BrandController::class,
             'store',
-            \App\Http\Requests\BrandStoreRequest::class
+            \App\Http\Requests\BrandStoreRequest::class,
         );
     }
 
     #[Test]
-    public function store_saves_and_responds_with(): void
-    {
+    public function store_saves_and_responds_with(): void {
         $name_en = $this->faker->word();
         $name_ar = $this->faker->word();
         $description_en = $this->faker->text();
@@ -84,18 +79,16 @@ final class BrandControllerTest extends TestCase
 
 
     #[Test]
-    public function update_uses_form_request_validation(): void
-    {
+    public function update_uses_form_request_validation(): void {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\BrandController::class,
             'update',
-            \App\Http\Requests\BrandUpdateRequest::class
+            \App\Http\Requests\BrandUpdateRequest::class,
         );
     }
 
     #[Test]
-    public function update_responds_with(): void
-    {
+    public function update_responds_with(): void {
         $brand = Brand::factory()->create();
         $name_en = $this->faker->word();
         $name_ar = $this->faker->word();
@@ -122,8 +115,7 @@ final class BrandControllerTest extends TestCase
 
 
     #[Test]
-    public function destroy_deletes_and_responds_with(): void
-    {
+    public function destroy_deletes_and_responds_with(): void {
         $brand = Brand::factory()->create();
 
         $response = $this->delete(route('brands.destroy', $brand));

@@ -42,7 +42,7 @@ final class CategoryControllerTest extends TestCase {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\CategoryController::class,
             'store',
-            \App\Http\Requests\CategoryStoreRequest::class
+            \App\Http\Requests\CategoryStoreRequest::class,
         );
     }
 
@@ -79,7 +79,7 @@ final class CategoryControllerTest extends TestCase {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\CategoryController::class,
             'update',
-            \App\Http\Requests\CategoryUpdateRequest::class
+            \App\Http\Requests\CategoryUpdateRequest::class,
         );
     }
 

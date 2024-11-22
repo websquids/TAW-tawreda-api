@@ -4,21 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryUpdateRequest extends FormRequest
-{
+class CategoryUpdateRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
+    public function authorize(): bool {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         $id = $this->route('category')?->id;
         // dd($this);
 
@@ -38,16 +35,15 @@ class CategoryUpdateRequest extends FormRequest
                     if ($isParent) {
                         $fail('This category cannot have a parent because it is already a parent of another category.');
                     }
-                }
+                },
             ],
         ];
     }
 
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
-    {
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator) {
         throw new \Illuminate\Validation\ValidationException(
             $validator,
-            response()->json($validator->errors(), 422)
+            response()->json($validator->errors(), 422),
         );
     }
 }

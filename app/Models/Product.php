@@ -10,8 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 
-class Product extends Model implements TranslatableContract, HasMedia
-{
+class Product extends Model implements TranslatableContract, HasMedia {
     use HasFactory, InteractsWithMedia, Translatable;
 
     /**
@@ -47,24 +46,20 @@ class Product extends Model implements TranslatableContract, HasMedia
         'unit_id' => 'integer',
     ];
 
-    public function registerMediaCollections(): void
-    {
+    public function registerMediaCollections(): void {
         $this->addMediaCollection('featured')->singleFile();
         $this->addMediaCollection('gallery')->onlyKeepLatest(10);
     }
 
-    public function category(): BelongsTo
-    {
+    public function category(): BelongsTo {
         return $this->belongsTo(Category::class);
     }
 
-    public function brand(): BelongsTo
-    {
+    public function brand(): BelongsTo {
         return $this->belongsTo(Brand::class);
     }
 
-    public function unit(): BelongsTo
-    {
+    public function unit(): BelongsTo {
         return $this->belongsTo(Unit::class);
     }
 }

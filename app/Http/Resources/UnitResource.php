@@ -5,13 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UnitResource extends JsonResource
-{
+class UnitResource extends JsonResource {
     /**
      * Transform the resource into an array.
      */
-    public function toArray(Request $request): array
-    {
+    public function toArray(Request $request): array {
         $locale = app()->getLocale();
         $translated = $this->translate($locale);
         $data = [

@@ -10,10 +10,8 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
-{
-    public function index(Request $request, ProductFilter $productFilter): JsonResponse
-    {
+class ProductController extends Controller {
+    public function index(Request $request, ProductFilter $productFilter): JsonResponse {
         $query = $productFilter->apply(Product::query());
         $query->with('brand', 'category', 'unit');
         $perPage = $request->get('perPage', 10);
@@ -30,14 +28,12 @@ class ProductController extends Controller
             ],
         ]);
     }
-    public function show(Request $request, Product $product): JsonResponse
-    {
+    public function show(Request $request, Product $product): JsonResponse {
         $product->load('brand', 'category', 'unit');
         return response()->json(new ProductResource($product));
     }
 
-    public function store(ProductStoreRequest $request): JsonResponse
-    {
+    public function store(ProductStoreRequest $request): JsonResponse {
         $product = Product::create($request->validated());
         foreach ($request->all()['images'] as $image) {
             $product->addMedia($image)->toMediaCollection('gallery');
@@ -45,8 +41,7 @@ class ProductController extends Controller
         return response()->json(new ProductResource($product));
     }
 
-    public function update(ProductUpdateRequest $request, Product $product): JsonResponse
-    {
+    public function update(ProductUpdateRequest $request, Product $product): JsonResponse {
         $product->update($request->validated());
         if ($request->has('images')) {
             // Retrieve all media items from the 'gallery' collection
@@ -66,14 +61,12 @@ class ProductController extends Controller
         return response()->json(new ProductResource($product));
     }
 
-    public function destroy(Request $request, Product $product): JsonResponse
-    {
+    public function destroy(Request $request, Product $product): JsonResponse {
         $product->delete();
         return response()->json();
     }
 
-    public function bulkDelete(Request $request): JsonResponse
-    {
+    public function bulkDelete(Request $request): JsonResponse {
         $ids = $request->get('ids', []);
         $result = Product::whereIn('id', $ids)->delete();
         return response()->json($result);

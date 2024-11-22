@@ -9,8 +9,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 
-class Category extends Model implements TranslatableContract, HasMedia
-{
+class Category extends Model implements TranslatableContract, HasMedia {
     use Translatable, HasFactory, InteractsWithMedia;
     /**
      * The attributes that are mass assignable.
@@ -33,8 +32,7 @@ class Category extends Model implements TranslatableContract, HasMedia
         'id' => 'integer',
     ];
 
-    public function registerMediaCollections(): void
-    {
+    public function registerMediaCollections(): void {
         $this->addMediaCollection('featured')->singleFile();
     }
 }

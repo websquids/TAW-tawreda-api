@@ -12,13 +12,11 @@ use Tests\TestCase;
 /**
  * @see \App\Http\Controllers\UnitController
  */
-final class UnitControllerTest extends TestCase
-{
+final class UnitControllerTest extends TestCase {
     use AdditionalAssertions, RefreshDatabase, WithFaker;
 
     #[Test]
-    public function index_behaves_as_expected(): void
-    {
+    public function index_behaves_as_expected(): void {
         $units = Unit::factory()->count(3)->create();
 
         $response = $this->get(route('units.index'));
@@ -29,8 +27,7 @@ final class UnitControllerTest extends TestCase
 
 
     #[Test]
-    public function show_behaves_as_expected(): void
-    {
+    public function show_behaves_as_expected(): void {
         $unit = Unit::factory()->create();
 
         $response = $this->get(route('units.show', $unit));
@@ -41,18 +38,16 @@ final class UnitControllerTest extends TestCase
 
 
     #[Test]
-    public function store_uses_form_request_validation(): void
-    {
+    public function store_uses_form_request_validation(): void {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\UnitController::class,
             'store',
-            \App\Http\Requests\UnitControllerStoreRequest::class
+            \App\Http\Requests\UnitControllerStoreRequest::class,
         );
     }
 
     #[Test]
-    public function store_saves(): void
-    {
+    public function store_saves(): void {
         $name_en = $this->faker->word();
         $name_ar = $this->faker->word();
         $description_en = $this->faker->text();
@@ -77,18 +72,16 @@ final class UnitControllerTest extends TestCase
 
 
     #[Test]
-    public function update_uses_form_request_validation(): void
-    {
+    public function update_uses_form_request_validation(): void {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\UnitController::class,
             'update',
-            \App\Http\Requests\UnitControllerUpdateRequest::class
+            \App\Http\Requests\UnitControllerUpdateRequest::class,
         );
     }
 
     #[Test]
-    public function update_behaves_as_expected(): void
-    {
+    public function update_behaves_as_expected(): void {
         $unit = Unit::factory()->create();
         $name_en = $this->faker->word();
         $name_ar = $this->faker->word();
@@ -112,8 +105,7 @@ final class UnitControllerTest extends TestCase
 
 
     #[Test]
-    public function destroy_deletes(): void
-    {
+    public function destroy_deletes(): void {
         $unit = Unit::factory()->create();
 
         $response = $this->delete(route('units.destroy', $unit));

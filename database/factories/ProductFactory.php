@@ -3,14 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Unit;
 
-class ProductFactory extends Factory
-{
+class ProductFactory extends Factory {
     /**
      * The name of the factory's corresponding model.
      *
@@ -21,8 +19,7 @@ class ProductFactory extends Factory
     /**
      * Define the model's default state.
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
             'title_en' => $this->faker->word(),
             'title_ar' => $this->faker->word(),

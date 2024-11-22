@@ -5,12 +5,10 @@ namespace App\Helpers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class BrandFilter
-{
+class BrandFilter {
     protected $request;
 
-    public function __construct(Request $request)
-    {
+    public function __construct(Request $request) {
         $this->request = $request;
     }
 
@@ -20,8 +18,7 @@ class BrandFilter
      * @param  Builder  $query
      * @return Builder
      */
-    public function apply(Builder $query): Builder
-    {
+    public function apply(Builder $query): Builder {
         $search = json_decode($this->request->search, true); // Decode once at the beginning
         $query = $query
             ->when($search && isset($search['name']), function ($query) use ($search) {

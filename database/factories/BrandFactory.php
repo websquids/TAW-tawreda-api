@@ -3,11 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Brand;
 
-class BrandFactory extends Factory
-{
+class BrandFactory extends Factory {
     /**
      * The name of the factory's corresponding model.
      *
@@ -18,8 +16,7 @@ class BrandFactory extends Factory
     /**
      * Define the model's default state.
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
             'name_en' => $this->faker->word(),
             'name_ar' => $this->faker->word(),

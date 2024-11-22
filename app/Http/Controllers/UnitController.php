@@ -10,10 +10,8 @@ use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class UnitController extends Controller
-{
-    public function index(Request $request, UnitFilter $unitFilter): JsonResponse
-    {
+class UnitController extends Controller {
+    public function index(Request $request, UnitFilter $unitFilter): JsonResponse {
         // Initialize the query builder for the Unit model
         $query = Unit::query();
 
@@ -39,31 +37,26 @@ class UnitController extends Controller
         ]);
     }
 
-    public function show(Request $request, Unit $unit): JsonResponse
-    {
+    public function show(Request $request, Unit $unit): JsonResponse {
         return response()->json(new UnitResource($unit));
     }
 
-    public function store(UnitStoreRequest $request): JsonResponse
-    {
+    public function store(UnitStoreRequest $request): JsonResponse {
         $unit = Unit::create($request->validated());
         return response()->json(new UnitResource($unit));
     }
 
-    public function update(UnitUpdateRequest $request, Unit $unit): JsonResponse
-    {
+    public function update(UnitUpdateRequest $request, Unit $unit): JsonResponse {
         $unit->update($request->validated());
         return response()->json(new UnitResource($unit));
     }
 
-    public function destroy(Request $request, Unit $unit): JsonResponse
-    {
+    public function destroy(Request $request, Unit $unit): JsonResponse {
         $unit->delete();
         return response()->json();
     }
 
-    public function bulkDelete(Request $request): JsonResponse
-    {
+    public function bulkDelete(Request $request): JsonResponse {
         $ids = $request->get('ids', []);
         $result = Unit::whereIn('id', $ids)->delete();
         return response()->json($result);
