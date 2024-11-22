@@ -18,7 +18,7 @@ class UnitResource extends JsonResource
             'id' => $this->id,
             'name' => $translated->name,
         ];
-        if ($request->all_translation_data == 'true') {
+        if ($request->get('all_translation_data') == 'true') {
             $data['translations'] = $this->getTranslationsArray();
         }
         return $data;

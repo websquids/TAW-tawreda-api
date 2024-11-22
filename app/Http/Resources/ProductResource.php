@@ -6,14 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\App;
 
-class ProductResource extends JsonResource
-{
+class ProductResource extends JsonResource {
     /**
      * Transform the resource into an array.
      */
-    public function toArray(Request $request): array
-    {
-        // $media = $this->getMedia('featured')->first();
+    public function toArray(Request $request): array {
+        $media = $this->getMedia('featured')->first();
         $locale = App::getLocale();
         $translatedTitle = $this->translate($locale);
         // dd($this);
@@ -48,10 +46,10 @@ class ProductResource extends JsonResource
             'min_storage_quantity' => $this->min_storage_quantity,
             'max_storage_quantity' => $this->max_storage_quantity,
         ];
-        if ($request->has_image !== 'false') {
+        if ($request->get('has_image') !== 'false') {
             $data['images'] = $this->getMedia('gallery')->map(fn($media) => url($media->getUrl()))->toArray();
         }
-        if ($request->all_translation_data == 'true') {
+        if ($request->get('all_translation_data') == 'true') {
             $data['translations'] = $this->getTranslationsArray();
         } else {
             $data['title'] = $translatedTitle->title;

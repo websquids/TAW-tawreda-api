@@ -25,7 +25,7 @@ class CategoryResource extends JsonResource
                 ? url($this->getMedia('featured')->first()->getUrl())
                 : null;
         }
-        if ($request->all_translation_data == 'true') {
+        if ($request->get('all_translation_data') == 'true') {
             $data['translations'] = $this->getTranslationsArray();
         }
         return $data;

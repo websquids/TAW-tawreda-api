@@ -17,9 +17,9 @@ class BrandResource extends JsonResource
         $data = [
             'id' => $this->id,
             'name' => $translated->name,
-            'image' => $this->getMedia('featured')->last()?->getUrl(),
+            'image' => $this->getFirstMediaUrl('featured'),
         ];
-        if ($request->all_translation_data == 'true') {
+        if ($request->get('all_translation_data') == 'true') {
             $data['translations'] = $this->getTranslationsArray();
         }
         return $data;
