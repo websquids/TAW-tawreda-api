@@ -29,5 +29,9 @@ return (new Config())
     'no_unused_imports' => true, // Remove unused imports
     'single_blank_line_at_eof' => true, // Ensure single blank line at EOF
     'no_trailing_whitespace' => true, // Remove trailing whitespace
+    'indentation_type' => true, // Ensure correct indentation (spaces)
+    'phpdoc_indent' => true, // PHPDoc should also follow the same indentation
   ])
+  ->setIndent('  ') // Set the indent size to 2 spaces
+  ->setLineEnding("\n") // Ensure consistent line endings
   ->setFinder($finder);
