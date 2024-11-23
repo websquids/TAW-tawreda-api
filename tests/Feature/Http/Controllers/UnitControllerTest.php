@@ -54,10 +54,10 @@ final class UnitControllerTest extends TestCase {
     $description_ar = $this->faker->text();
 
     $response = $this->post(route('units.store'), [
-        'name_en' => $name_en,
-        'name_ar' => $name_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
+      'name_en' => $name_en,
+      'name_ar' => $name_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
     ]);
 
     $units = Unit::query()
@@ -89,10 +89,10 @@ final class UnitControllerTest extends TestCase {
     $description_ar = $this->faker->text();
 
     $response = $this->put(route('units.update', $unit), [
-        'name_en' => $name_en,
-        'name_ar' => $name_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
+      'name_en' => $name_en,
+      'name_ar' => $name_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
     ]);
 
     $unit->refresh();

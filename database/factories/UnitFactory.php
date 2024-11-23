@@ -18,10 +18,10 @@ class UnitFactory extends Factory {
    */
   public function definition(): array {
     return [
-        'name_en' => $this->faker->word(),
-        'name_ar' => $this->faker->word(),
-        'description_en' => $this->faker->text(),
-        'description_ar' => $this->faker->text(),
+      'name_en' => $this->faker->word(),
+      'name_ar' => $this->faker->word(),
+      'description_en' => $this->faker->text(),
+      'description_ar' => $this->faker->text(),
     ];
   }
 }

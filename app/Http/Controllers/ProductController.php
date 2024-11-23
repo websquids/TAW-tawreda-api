@@ -19,13 +19,13 @@ class ProductController extends Controller {
     $products = $query->paginate($perPage, ['*'], 'page', $currentPage);
     // Return the custom response as JSON
     return response()->json([
-        'data' => ProductResource::collection($products),
-        'meta' => [
-            'total' => $products->total(),
-            'current_page' => $products->currentPage(),
-            'per_page' => $products->perPage(),
-            'last_page' => $products->lastPage(),
-        ],
+      'data' => ProductResource::collection($products),
+      'meta' => [
+        'total' => $products->total(),
+        'current_page' => $products->currentPage(),
+        'per_page' => $products->perPage(),
+        'last_page' => $products->lastPage(),
+      ],
     ]);
   }
   public function show(Request $request, Product $product): JsonResponse {

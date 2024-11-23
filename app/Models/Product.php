@@ -20,16 +20,16 @@ class Product extends Model implements TranslatableContract, HasMedia {
    */
   public $translatedAttributes = ['title', 'description'];
   protected $fillable = [
-      'price',
-      'discount',
-      'current_stock_quantity',
-      'category_id',
-      'brand_id',
-      'unit_id',
-      'min_order_quantity',
-      'max_order_quantity',
-      'min_storage_quantity',
-      'max_storage_quantity',
+    'price',
+    'discount',
+    'current_stock_quantity',
+    'category_id',
+    'brand_id',
+    'unit_id',
+    'min_order_quantity',
+    'max_order_quantity',
+    'min_storage_quantity',
+    'max_storage_quantity',
   ];
 
   /**
@@ -38,12 +38,12 @@ class Product extends Model implements TranslatableContract, HasMedia {
    * @var array
    */
   protected $casts = [
-      'id' => 'integer',
-      'price' => 'decimal:2',
-      'discount' => 'decimal:2',
-      'category_id' => 'integer',
-      'brand_id' => 'integer',
-      'unit_id' => 'integer',
+    'id' => 'integer',
+    'price' => 'decimal:2',
+    'discount' => 'decimal:2',
+    'category_id' => 'integer',
+    'brand_id' => 'integer',
+    'unit_id' => 'integer',
   ];
 
   public function registerMediaCollections(): void {

@@ -55,11 +55,11 @@ final class CategoryControllerTest extends TestCase {
     $parent_id = $this->faker->word();
 
     $response = $this->post(route('categories.store'), [
-        'name_en' => $name_en,
-        'name_ar' => $name_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
-        'parent_id' => $parent_id,
+      'name_en' => $name_en,
+      'name_ar' => $name_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
+      'parent_id' => $parent_id,
     ]);
 
     $categories = Category::query()
@@ -93,11 +93,11 @@ final class CategoryControllerTest extends TestCase {
     $parent_id = $this->faker->word();
 
     $response = $this->put(route('categories.update', $category), [
-        'name_en' => $name_en,
-        'name_ar' => $name_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
-        'parent_id' => $parent_id,
+      'name_en' => $name_en,
+      'name_ar' => $name_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
+      'parent_id' => $parent_id,
     ]);
 
     $category->refresh();

@@ -67,20 +67,20 @@ final class ProductControllerTest extends TestCase {
     $max_storage_quantity = $this->faker->numberBetween(-10000, 10000);
 
     $response = $this->post(route('products.store'), [
-        'title_en' => $title_en,
-        'title_ar' => $title_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
-        'price' => $price,
-        'discount' => $discount,
-        'current_stock_quantity' => $current_stock_quantity,
-        'category_id' => $category->id,
-        'brand_id' => $brand->id,
-        'unit_id' => $unit->id,
-        'min_order_quantity' => $min_order_quantity,
-        'max_order_quantity' => $max_order_quantity,
-        'min_storage_quantity' => $min_storage_quantity,
-        'max_storage_quantity' => $max_storage_quantity,
+      'title_en' => $title_en,
+      'title_ar' => $title_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
+      'price' => $price,
+      'discount' => $discount,
+      'current_stock_quantity' => $current_stock_quantity,
+      'category_id' => $category->id,
+      'brand_id' => $brand->id,
+      'unit_id' => $unit->id,
+      'min_order_quantity' => $min_order_quantity,
+      'max_order_quantity' => $max_order_quantity,
+      'min_storage_quantity' => $min_storage_quantity,
+      'max_storage_quantity' => $max_storage_quantity,
     ]);
 
     $products = Product::query()
@@ -132,20 +132,20 @@ final class ProductControllerTest extends TestCase {
     $max_storage_quantity = $this->faker->numberBetween(-10000, 10000);
 
     $response = $this->put(route('products.update', $product), [
-        'title_en' => $title_en,
-        'title_ar' => $title_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
-        'price' => $price,
-        'discount' => $discount,
-        'current_stock_quantity' => $current_stock_quantity,
-        'category_id' => $category->id,
-        'brand_id' => $brand->id,
-        'unit_id' => $unit->id,
-        'min_order_quantity' => $min_order_quantity,
-        'max_order_quantity' => $max_order_quantity,
-        'min_storage_quantity' => $min_storage_quantity,
-        'max_storage_quantity' => $max_storage_quantity,
+      'title_en' => $title_en,
+      'title_ar' => $title_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
+      'price' => $price,
+      'discount' => $discount,
+      'current_stock_quantity' => $current_stock_quantity,
+      'category_id' => $category->id,
+      'brand_id' => $brand->id,
+      'unit_id' => $unit->id,
+      'min_order_quantity' => $min_order_quantity,
+      'max_order_quantity' => $max_order_quantity,
+      'min_storage_quantity' => $min_storage_quantity,
+      'max_storage_quantity' => $max_storage_quantity,
     ]);
 
     $product->refresh();

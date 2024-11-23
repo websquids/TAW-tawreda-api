@@ -17,21 +17,29 @@ $finder = Finder::create()
 
 return (new Config())
   ->setRules([
-    '@PSR12' => false,
+    '@PSR12' => false, // Disable strict PSR-12 compliance
     'braces' => [
       'position_after_functions_and_oop_constructs' => 'same', // Same-line curly braces
     ],
     'array_syntax' => ['syntax' => 'short'], // Short array syntax
     // 'binary_operator_spaces' => ['default' => 'align_single_space'], // Align operators
     'trailing_comma_in_multiline' => [
-      'elements' => ['arrays', 'arguments'], // Add trailing commas
+      'elements' => ['arrays', 'arguments'], // Ensure trailing commas in multiline arrays
     ],
+    'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'], // No multiline semicolons
+    'method_argument_space' => [
+      'on_multiline' => 'ensure_fully_multiline', // Correct indentation for method arguments
+    ],
+    'binary_operator_spaces' => [
+      'default' => 'single_space',
+    ],
+    'array_indentation' => true, // Ensure arrays are properly indented
+    'indentation_type' => true, // Use spaces for indentation
+    'phpdoc_indent' => true, // Consistent PHPDoc indentation
     'no_unused_imports' => true, // Remove unused imports
-    'single_blank_line_at_eof' => true, // Ensure single blank line at EOF
-    'no_trailing_whitespace' => true, // Remove trailing whitespace
-    'indentation_type' => true, // Ensure correct indentation (spaces)
-    'phpdoc_indent' => true, // PHPDoc should also follow the same indentation
+    'single_blank_line_at_eof' => true, // Single blank line at EOF
+    'no_trailing_whitespace' => true, // No trailing whitespace
   ])
-  ->setIndent('  ') // Set the indent size to 2 spaces
+  ->setIndent('  ') // Set indentation to 2 spaces
   ->setLineEnding("\n") // Ensure consistent line endings
   ->setFinder($finder);

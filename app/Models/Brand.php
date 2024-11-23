@@ -26,7 +26,7 @@ class Brand extends Model implements TranslatableContract, HasMedia {
    * @var array
    */
   protected $casts = [
-      'id' => 'integer',
+    'id' => 'integer',
   ];
 
   /**
@@ -35,18 +35,18 @@ class Brand extends Model implements TranslatableContract, HasMedia {
    * @var array
    */
   protected static array $fields = [
-      'name' => [
-          'searchable' => true,
-          'sortable' => true,
-      ],
-      'created_at' => [
-          'searchable' => false,
-          'sortable' => true,
-      ],
-      'updated_at' => [
-          'searchable' => false,
-          'sortable' => true,
-      ],
+    'name' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'created_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
+    'updated_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
   ];
 
   /**
@@ -66,9 +66,9 @@ class Brand extends Model implements TranslatableContract, HasMedia {
       } else {
         // Add translated fields that aren't explicitly defined in $fields
         $fields[$translatedAttribute] = [
-            'translated' => true,
-            'searchable' => true, // Default behavior for translated fields
-            'sortable' => false, // Optional, adjust as needed
+          'translated' => true,
+          'searchable' => true, // Default behavior for translated fields
+          'sortable' => false, // Optional, adjust as needed
         ];
       }
     }

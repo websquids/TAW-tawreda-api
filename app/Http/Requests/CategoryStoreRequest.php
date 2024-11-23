@@ -17,10 +17,10 @@ class CategoryStoreRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-        'en.title' => ['required', 'string'],
-        'ar.title' => ['required', 'string'],
-        'image' => ['required', 'mimes:jpg,jpeg,png'],
-        'parent_id' => ['nullable', 'exists:categories,id,parent_id,NULL'],
+      'en.title' => ['required', 'string'],
+      'ar.title' => ['required', 'string'],
+      'image' => ['required', 'mimes:jpg,jpeg,png'],
+      'parent_id' => ['nullable', 'exists:categories,id,parent_id,NULL'],
     ];
   }
 

@@ -8,8 +8,8 @@ class ProductTranslation extends Model {
   protected $table = 'product_translations';
 
   protected $fillable = [
-      'title',
-      'description',
+    'title',
+    'description',
   ];
   public $timestamps = false;
 }

@@ -17,22 +17,22 @@ class ProductStoreRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-        'en.title' => ['required', 'string'],
-        'en.description' => ['required', 'string'],
-        'ar.title' => ['required', 'string'],
-        'ar.description' => ['required', 'string'],
-        'price' => ['required', 'numeric', 'between:-999999.99,999999.99'],
-        'discount' => ['required', 'numeric', 'between:-999999.99,999999.99'],
-        'current_stock_quantity' => ['required', 'integer'],
-        'category_id' => ['required', 'integer', 'exists:categories,id'],
-        'brand_id' => ['required', 'integer', 'exists:brands,id'],
-        'unit_id' => ['required', 'integer', 'exists:units,id'],
-        'min_order_quantity' => ['required', 'integer'],
-        'max_order_quantity' => ['required', 'integer'],
-        'min_storage_quantity' => ['required', 'integer'],
-        'max_storage_quantity' => ['required', 'integer'],
-        'images' => ['required', 'array', 'max:10'],
-        'images.*' => ['file', 'image'],
+      'en.title' => ['required', 'string'],
+      'en.description' => ['required', 'string'],
+      'ar.title' => ['required', 'string'],
+      'ar.description' => ['required', 'string'],
+      'price' => ['required', 'numeric', 'between:-999999.99,999999.99'],
+      'discount' => ['required', 'numeric', 'between:-999999.99,999999.99'],
+      'current_stock_quantity' => ['required', 'integer'],
+      'category_id' => ['required', 'integer', 'exists:categories,id'],
+      'brand_id' => ['required', 'integer', 'exists:brands,id'],
+      'unit_id' => ['required', 'integer', 'exists:units,id'],
+      'min_order_quantity' => ['required', 'integer'],
+      'max_order_quantity' => ['required', 'integer'],
+      'min_storage_quantity' => ['required', 'integer'],
+      'max_storage_quantity' => ['required', 'integer'],
+      'images' => ['required', 'array', 'max:10'],
+      'images.*' => ['file', 'image'],
     ];
   }
 }

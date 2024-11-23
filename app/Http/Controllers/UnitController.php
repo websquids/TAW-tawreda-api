@@ -27,13 +27,13 @@ class UnitController extends Controller {
       $units->data = UnitResource::collection($units);
     }
     return response()->json([
-        'data' => UnitResource::collection($units),
-        'meta' => !$request->boolean('all') ?  [
-            'current_page' => $units->currentPage(),
-            'per_page' => $units->perPage(),
-            'total' => $units->total(),
-            'last_page' => $units->lastPage(),
-        ] : null,
+      'data' => UnitResource::collection($units),
+      'meta' => !$request->boolean('all') ?  [
+        'current_page' => $units->currentPage(),
+        'per_page' => $units->perPage(),
+        'total' => $units->total(),
+        'last_page' => $units->lastPage(),
+      ] : null,
     ]);
   }
 

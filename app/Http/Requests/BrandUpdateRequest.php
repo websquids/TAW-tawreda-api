@@ -17,9 +17,9 @@ class BrandUpdateRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-        'en.name' => ['required', 'string'],
-        'ar.name' => ['required', 'string'],
-        'image' => ['sometimes', 'image'],
+      'en.name' => ['required', 'string'],
+      'ar.name' => ['required', 'string'],
+      'image' => ['sometimes', 'image'],
     ];
   }
 }

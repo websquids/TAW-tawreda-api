@@ -25,6 +25,6 @@ class Unit extends Model implements TranslatableContract {
    * @var array
    */
   protected $casts = [
-      'id' => 'integer',
+    'id' => 'integer',
   ];
 }

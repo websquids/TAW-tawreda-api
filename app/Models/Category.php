@@ -19,7 +19,7 @@ class Category extends Model implements TranslatableContract, HasMedia {
   public $translatedAttributes = ['title', 'description'];
 
   protected $fillable = [
-      'parent_id',
+    'parent_id',
   ];
 
   /**
@@ -28,18 +28,18 @@ class Category extends Model implements TranslatableContract, HasMedia {
    * @var array
    */
   protected static array $fields = [
-      'title' => [
-          'searchable' => true,
-          'sortable' => true,
-      ],
-      'created_at' => [
-          'searchable' => false,
-          'sortable' => true,
-      ],
-      'updated_at' => [
-          'searchable' => false,
-          'sortable' => true,
-      ],
+    'title' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'created_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
+    'updated_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
   ];
 
   /**
@@ -48,7 +48,7 @@ class Category extends Model implements TranslatableContract, HasMedia {
    * @var array
    */
   protected $casts = [
-      'id' => 'integer',
+    'id' => 'integer',
   ];
 
   /**
@@ -68,9 +68,9 @@ class Category extends Model implements TranslatableContract, HasMedia {
       } else {
         // Add translated fields that aren't explicitly defined in $fields
         $fields[$translatedAttribute] = [
-            'translated' => true,
-            'searchable' => true, // Default behavior for translated fields
-            'sortable' => false, // Optional, adjust as needed
+          'translated' => true,
+          'searchable' => true, // Default behavior for translated fields
+          'sortable' => false, // Optional, adjust as needed
         ];
       }
     }

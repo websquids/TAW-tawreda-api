@@ -13,8 +13,8 @@ class UnitResource extends JsonResource {
     $locale = app()->getLocale();
     $translated = $this->translate($locale);
     $data = [
-        'id' => $this->id,
-        'name' => $translated->name,
+      'id' => $this->id,
+      'name' => $translated->name,
     ];
     if ($request->get('all_translation_data') == 'true') {
       $data['translations'] = $this->getTranslationsArray();

@@ -14,10 +14,10 @@ class CategoryResource extends JsonResource {
     $locale = App::getLocale();
     $translation = $this->translate($locale);
     $data = [
-        'id' => $this->id,
-        "title" => $translation->title,
-        "description" => $translation->description,
-        'parent_id' => $this->parent_id,
+      'id' => $this->id,
+      "title" => $translation->title,
+      "description" => $translation->description,
+      'parent_id' => $this->parent_id,
     ];
     if ($request->has_image !== 'false') {
       $data['image'] = $this->getMedia('featured')->isNotEmpty()

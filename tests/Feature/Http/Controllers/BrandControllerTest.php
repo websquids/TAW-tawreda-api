@@ -58,10 +58,10 @@ final class BrandControllerTest extends TestCase {
     $description_ar = $this->faker->text();
 
     $response = $this->post(route('brands.store'), [
-        'name_en' => $name_en,
-        'name_ar' => $name_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
+      'name_en' => $name_en,
+      'name_ar' => $name_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
     ]);
 
     $brands = Brand::query()
@@ -96,10 +96,10 @@ final class BrandControllerTest extends TestCase {
     $description_ar = $this->faker->text();
 
     $response = $this->put(route('brands.update', $brand), [
-        'name_en' => $name_en,
-        'name_ar' => $name_ar,
-        'description_en' => $description_en,
-        'description_ar' => $description_ar,
+      'name_en' => $name_en,
+      'name_ar' => $name_ar,
+      'description_en' => $description_en,
+      'description_ar' => $description_ar,
     ]);
 
     $brand->refresh();
