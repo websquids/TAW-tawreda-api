@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Filters;
 
-use App\Filters\BaseFilter;
 use App\Models\Brand;
 
 class BrandFilter extends BaseFilter {
-  public function __construct() {
+  function __construct() {
     parent::__construct(Brand::class);
   }
 }
