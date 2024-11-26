@@ -10,54 +10,46 @@ use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
-{
-    protected CategoryService $categoryService;
+class CategoryController extends Controller {
+  protected CategoryService $categoryService;
 
-    public function __construct(CategoryService $categoryService)
-    {
-        $this->categoryService = $categoryService;
+  public function __construct(CategoryService $categoryService) {
+    $this->categoryService = $categoryService;
+  }
+
+  public function index(Request $request): JsonResponse {
+    $categories = $this->categoryService->getFilteredCategories($request);
+    return response()->apiResponse($categories);
+  }
+
+
+  public function show(Request $request, Category $category): JsonResponse {
+    return response()->apiResponse(new CategoryResource($category));
+  }
+
+  public function store(CategoryStoreRequest $request): JsonResponse {
+    $category = Category::create($request->validated());
+    $category->addMedia($request->file('image'))->toMediaCollection('featured');
+    return response()->json(new CategoryResource($category));
+  }
+
+  public function update(CategoryUpdateRequest $request, Category $category): JsonResponse {
+    $category->update($request->validated());
+    if ($request->hasFile('image')) {
+      $category->addMedia($request->file('image'))->toMediaCollection('featured');
     }
+    $category->save();
+    return response()->json(new CategoryResource($category));
+  }
 
-    public function index(Request $request): JsonResponse
-    {
-        $categories = $this->categoryService->getFilteredCategories($request);
-        return response()->apiResponse($categories);
-    }
+  public function destroy(Request $request, Category $category): JsonResponse {
+    $category->delete();
+    return response()->json();
+  }
 
-
-    public function show(Request $request, Category $category): JsonResponse
-    {
-        return response()->apiResponse(new CategoryResource($category));
-    }
-
-    public function store(CategoryStoreRequest $request): JsonResponse
-    {
-        $category = Category::create($request->validated());
-        $category->addMedia($request->file('image'))->toMediaCollection('featured');
-        return response()->json(new CategoryResource($category));
-    }
-
-    public function update(CategoryUpdateRequest $request, Category $category): JsonResponse
-    {
-        $category->update($request->validated());
-        if ($request->hasFile('image')) {
-            $category->addMedia($request->file('image'))->toMediaCollection('featured');
-        }
-        $category->save();
-        return response()->json(new CategoryResource($category));
-    }
-
-    public function destroy(Request $request, Category $category): JsonResponse
-    {
-        $category->delete();
-        return response()->json();
-    }
-
-    public function bulkDelete(Request $request)
-    {
-        $ids = $request->get('ids', []);
-        $result = Category::whereIn('id', $ids)->delete();
-        return response()->json($result);
-    }
+  public function bulkDelete(Request $request) {
+    $ids = $request->get('ids', []);
+    $result = Category::whereIn('id', $ids)->delete();
+    return response()->json($result);
+  }
 }
