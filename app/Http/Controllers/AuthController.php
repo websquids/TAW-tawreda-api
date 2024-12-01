@@ -19,6 +19,8 @@ class AuthController extends Controller {
     }
 
     $user = User::where('email', $request->email)->first();
+    $roles = $user->getRoleNames();
+    $permissions = $user->getAllPermissions()->pluck('name');
 
     if (!$user || !Hash::check($request->password, $user->password)) {
       return response()->json(['message' => 'Invalid credentials.'], 401);
@@ -26,6 +28,6 @@ class AuthController extends Controller {
 
     $token = $user->createToken('UserApp')->accessToken;
 
-    return response()->json(['token' => $token, 'user' => $user], 200);
+    return response()->json(['token' => $token, 'user' => $user, 'roles' => $roles, 'permissions' => $permissions], 200);
   }
 }

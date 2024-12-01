@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Category extends Model implements TranslatableContract, HasMedia {
   use Translatable, HasFactory, InteractsWithMedia;
@@ -78,7 +79,19 @@ class Category extends Model implements TranslatableContract, HasMedia {
     return $fields;
   }
 
-  public function registerMediaCollections(): void {
-    $this->addMediaCollection('featured')->singleFile();
+  public function registerMediaConversions(?Media $media = null): void {
+    $this->addMediaConversion('thumb')
+        ->width(150)
+        ->height(150)
+        ->quality(80);
+
+    $this->addMediaConversion('medium')
+        ->width(300)
+        ->height(300)
+        ->quality(80);
+    $this->addMediaConversion('large')
+        ->width(1000)
+        ->height(1000)
+        ->quality(100);
   }
 }
