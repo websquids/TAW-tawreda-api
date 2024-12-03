@@ -11,14 +11,18 @@
         "php": "^8.2",
         "abbasudo/laravel-purity": "^3.3",
         "astrotomic/laravel-translatable": "^11.15",
+        "darkaonline/l5-swagger": "^8.6",
         "doctrine/dbal": "^4.2",
         "laravel/framework": "^11.9",
+        "laravel/passport": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-medialibrary": "^11.10"
+        "spatie/laravel-medialibrary": "^11.10",
+        "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.64",
         "jasonmccreary/laravel-test-assertions": "^2.4",
         "laravel-shift/blueprint": "^2.10",
         "laravel/pail": "^1.1",
@@ -44,13 +48,18 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "git config core.hooksPath .githooks"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "git config core.hooksPath .githooks"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-install-cmd": [
+            "git config core.hooksPath .githooks"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
@@ -60,6 +69,9 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "format": [
+            "./vendor/bin/php-cs-fixer fix"
         ]
     },
     "extra": {
