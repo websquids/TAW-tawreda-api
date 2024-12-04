@@ -4,7 +4,7 @@ namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddressRequest extends FormRequest {
+class CartItemsStoreRequest extends FormRequest {
   /**
    * Determine if the user is authorized to make this request.
    */
@@ -19,7 +19,8 @@ class AddressRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-      //
+      'product_id' => 'required|exists:products,id',
+      'quantity' => 'required|integer|min:1',
     ];
   }
 }

@@ -7,9 +7,21 @@ use App\Http\Requests\Customer\AddressStoreRequest;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\Middleware;
 
-class AddressController extends Controller {
+class AddressController extends Controller implements HasMiddleware {
+  public static function middleware(): array {
+    return [
+      new Middleware('check.role.permissions:view address', only: ['index', 'show']),
+      new Middleware('check.role.permissions:edit address', only: ['update']),
+      new Middleware('check.role.permissions:delete address', only: ['bulkDelete']),
+      new Middleware('check.role.permissions:create address', only: ['store']),
+      new Middleware('check.role.permissions:edit address', only: ['update']),
+    ];
+  }
+
   /**
    * Display a listing of the resource.
    */

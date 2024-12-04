@@ -7,14 +7,12 @@ use App\Http\Requests\BrandUpdateRequest;
 use App\Http\Resources\BrandResource;
 use App\Models\Brand;
 use App\Services\BrandService;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
 class BrandController extends Controller implements HasMiddleware {
-  use AuthorizesRequests;
   protected BrandService $brandService;
   public static function middleware(): array {
     return [

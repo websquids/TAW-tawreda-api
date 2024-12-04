@@ -9,8 +9,19 @@ use App\Models\Category;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CategoryController extends Controller {
+class CategoryController extends Controller  implements HasMiddleware {
+  public static function middleware(): array {
+    return [
+      new Middleware('check.role.permissions:view address', only: ['index', 'show']),
+      new Middleware('check.role.permissions:edit address', only: ['update']),
+      new Middleware('check.role.permissions:delete address', only: ['bulkDelete']),
+      new Middleware('check.role.permissions:create address', only: ['store']),
+      new Middleware('check.role.permissions:edit address', only: ['update']),
+    ];
+  }
   protected CategoryService $categoryService;
 
   public function __construct(CategoryService $categoryService) {

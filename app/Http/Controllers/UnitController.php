@@ -9,8 +9,19 @@ use App\Models\Unit;
 use App\Services\UnitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UnitController extends Controller {
+class UnitController extends Controller implements HasMiddleware {
+  public static function middleware(): array {
+    return [
+      new Middleware('check.role.permissions:view unit', only: ['index', 'show']),
+      new Middleware('check.role.permissions:edit unit', only: ['update']),
+      new Middleware('check.role.permissions:delete unit', only: ['bulkDelete']),
+      new Middleware('check.role.permissions:create unit', only: ['store']),
+      new Middleware('check.role.permissions:edit unit', only: ['update']),
+    ];
+  }
   protected UnitService $unitService;
 
   public function __construct(UnitService $uniteService) {

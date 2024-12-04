@@ -9,8 +9,19 @@ use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ProductController extends Controller {
+class ProductController extends Controller implements HasMiddleware {
+  public static function middleware(): array {
+    return [
+      new Middleware('check.role.permissions:view product', only: ['index', 'show']),
+      new Middleware('check.role.permissions:edit product', only: ['update']),
+      new Middleware('check.role.permissions:delete product', only: ['bulkDelete']),
+      new Middleware('check.role.permissions:create product', only: ['store']),
+      new Middleware('check.role.permissions:edit product', only: ['update']),
+    ];
+  }
   protected ProductService $productService;
   public function __construct(ProductService $productService) {
     $this->productService = $productService;

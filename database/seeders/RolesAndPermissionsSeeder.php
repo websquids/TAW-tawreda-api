@@ -8,10 +8,8 @@ use Spatie\Permission\Models\Permission;
 
 class RolesAndPermissionsSeeder extends Seeder {
   public function run() {
-    // Clear cached permissions
     app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-    // Define resource permissions
     $resources = [
       'category',
       'unit',
@@ -23,7 +21,6 @@ class RolesAndPermissionsSeeder extends Seeder {
       'address',
     ];
 
-    // Create permissions if they don't already exist
     foreach ($resources as $resource) {
       $this->createPermission("view $resource");
       $this->createPermission("create $resource");
@@ -31,11 +28,9 @@ class RolesAndPermissionsSeeder extends Seeder {
       $this->createPermission("delete $resource");
     }
 
-    // Create admin role if it doesn't already exist
     $adminRole = Role::firstOrCreate(['name' => 'admin']);
     $adminRole->givePermissionTo(Permission::all());
 
-    // Define customer-specific permissions
     $customerPermissions = [
       'view product',
       'view cart',
@@ -48,12 +43,10 @@ class RolesAndPermissionsSeeder extends Seeder {
       'create order',
     ];
 
-    // Ensure customer-specific permissions exist
     foreach ($customerPermissions as $permission) {
       $this->createPermission($permission);
     }
 
-    // Create customer role if it doesn't already exist
     $customerRole = Role::firstOrCreate(['name' => 'customer']);
     $customerRole->givePermissionTo($customerPermissions);
   }
