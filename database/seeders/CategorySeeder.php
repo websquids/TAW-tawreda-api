@@ -11,26 +11,26 @@ class CategorySeeder extends Seeder {
    */
   public function run(): void {
     // $categories = [
-        //     [
-        //         'translations' => [
-        //             'en' => ['title' => 'Electronics', 'description' => 'Electronics Description'],
-        //             'ar' => ['title' => 'الإلكترونيات', 'description' => 'الإلكترونيات الوصف'],
-        //         ],
-        //         'parent_id' => null,
-        //     ],
-        //     [
-        //         'translations' => [
-        //             'en' => [
-        //                 'title' => 'Books',
-        //                 'description' => 'Books Description',
-        //             ],
-        //             'ar' => [
-        //                 'title' => 'الكتب',
-        //                 'description' => 'الكتب الوصف',
-        //             ],
-        //         ],
-        //         'parent_id' => null,
-        //     ],
+    //     [
+    //         'translations' => [
+    //             'en' => ['title' => 'Electronics', 'description' => 'Electronics Description'],
+    //             'ar' => ['title' => 'الإلكترونيات', 'description' => 'الإلكترونيات الوصف'],
+    //         ],
+    //         'parent_id' => null,
+    //     ],
+    //     [
+    //         'translations' => [
+    //             'en' => [
+    //                 'title' => 'Books',
+    //                 'description' => 'Books Description',
+    //             ],
+    //             'ar' => [
+    //                 'title' => 'الكتب',
+    //                 'description' => 'الكتب الوصف',
+    //             ],
+    //         ],
+    //         'parent_id' => null,
+    //     ],
 
     // ];
 

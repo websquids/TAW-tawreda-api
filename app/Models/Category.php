@@ -33,6 +33,10 @@ class Category extends Model implements TranslatableContract, HasMedia {
       'searchable' => true,
       'sortable' => true,
     ],
+    'parent_id' => [
+      'searchable' => true,
+      'relation' => Category::class,
+    ],
     'created_at' => [
       'searchable' => false,
       'sortable' => true,
@@ -81,17 +85,17 @@ class Category extends Model implements TranslatableContract, HasMedia {
 
   public function registerMediaConversions(?Media $media = null): void {
     $this->addMediaConversion('thumb')
-        ->width(150)
-        ->height(150)
-        ->quality(80);
+      ->width(150)
+      ->height(150)
+      ->quality(80);
 
     $this->addMediaConversion('medium')
-        ->width(300)
-        ->height(300)
-        ->quality(80);
+      ->width(300)
+      ->height(300)
+      ->quality(80);
     $this->addMediaConversion('large')
-        ->width(1000)
-        ->height(1000)
-        ->quality(100);
+      ->width(1000)
+      ->height(1000)
+      ->quality(100);
   }
 }

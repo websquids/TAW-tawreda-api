@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\App;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ProductResource extends JsonResource {
   /**
    * Transform the resource into an array.
@@ -25,6 +27,7 @@ class ProductResource extends JsonResource {
         return [
           'id' => $this->brand->id,
           'name' => $this->brand->name,
+          'image' => $this->brand->getFirstMediaUrl('featured'),
         ];
       }),
       'unit' => $this->whenLoaded('unit', function () {
@@ -48,12 +51,16 @@ class ProductResource extends JsonResource {
     ];
     if ($request->get('has_image') !== 'false') {
       $data['images'] = $this->getMedia('gallery')->map(fn($media) => url($media->getUrl()))->toArray();
+      $data['featureImage'] = $this->getFirstMediaUrl('featured');
+      if (isEmpty($data['featureImage'])) {
+        $data['featureImage'] = $this->getFirstMediaUrl('gallery');
+      }
     }
     if ($request->get('all_translation_data') == 'true') {
       $data['translations'] = $this->getTranslationsArray();
     } else {
-      $data['title'] = $translatedTitle->title;
-      $data['description'] = $translatedTitle->description;
+      $data['title'] = $translatedTitle?->title ?? '';
+      $data['description'] = $translatedTitle?->description ?? '';
     }
     return $data;
   }

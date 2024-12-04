@@ -73,8 +73,16 @@ class Product extends Model implements TranslatableContract, HasMedia {
       'sortable' => true,
     ],
     'category_id' => [
-      'searchable' => false,
+      'searchable' => true,
       'sortable' => true,
+    ],
+    'parent_category' => [
+      'searchable' => true,
+      'relation' => [
+        'category',
+        'parent_id',
+      ],
+      'sortable' => false,
     ],
     'brand_id' => [
       'searchable' => false,

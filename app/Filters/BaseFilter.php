@@ -50,13 +50,21 @@ abstract class BaseFilter {
   protected function applySearchFilters(Builder $query, array $search): void {
     foreach ($this->getAllowedFields() as $field => $options) {
       if ($options['searchable'] ?? false) {
-        $query->when(isset($search[$field]), function ($query) use ($search, $field, $options) {
-          if ($options['translated'] ?? false) {
-            $query->whereTranslationLike($field, '%' . $search[$field] . '%');
-          } else {
-            $query->where($field, 'like', '%' . $search[$field] . '%');
-          }
-        });
+        if (isset($options['relation']) && is_array($options['relation']) && isset($search[$field])) {
+          $key = $options['relation'][1];
+          $value = $search[$field];
+          $query->whereHas($options['relation'][0], function ($query) use ($key, $value) {
+            $query->where($key, $value);
+          });
+        } else {
+          $query->when(isset($search[$field]), function ($query) use ($search, $field, $options) {
+            if ($options['translated'] ?? false) {
+              $query->whereTranslationLike($field, '%' . $search[$field] . '%');
+            } else {
+              $query->where($field, 'like', '%' . $search[$field] . '%');
+            }
+          });
+        }
       }
     }
   }

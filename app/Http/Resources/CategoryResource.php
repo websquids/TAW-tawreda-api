@@ -15,15 +15,11 @@ class CategoryResource extends JsonResource {
     $translation = $this->translate($locale);
     $data = [
       'id' => $this->id,
-      "title" => $translation->title,
-      "description" => $translation->description,
+      'title' => $translation?->title ?? '',
+      'description' => $translation?->description ?? '',
       'parent_id' => $this->parent_id,
     ];
-    if ($this->hasMedia('featured')) {
-      $data['image'] = $this->getFirstMediaUrl('featured');
-    } else {
-      $data['image'] = null;
-    }
+    $data['image'] = $this->getFirstMediaUrl('featured');
     if ($request->get('all_translation_data') == 'true') {
       $data['translations'] = $this->getTranslationsArray();
     }

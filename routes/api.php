@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
   // Route::get('/user', function (Request $request) {
-    //     return $request->user();
+  //     return $request->user();
   // });
   Route::apiResource('products', App\Http\Controllers\ProductController::class);
   Route::post('products/bulk-delete', [App\Http\Controllers\ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
@@ -27,6 +27,11 @@ Route::middleware('auth:api')->group(function () {
   Route::post('categories/{category}', [App\Http\Controllers\CategoryController::class, 'update'])->name('categories.update');
 });
 
+Route::prefix('customer_app')->group(function () {
+  Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
+  Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
+  Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
+});
 
 // Route::apiResource('products', App\Http\Controllers\ProductController::class);
 // Route::post('products/bulk-delete', [App\Http\Controllers\ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
