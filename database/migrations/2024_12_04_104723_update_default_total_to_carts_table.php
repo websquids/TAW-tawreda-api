@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -10,7 +11,7 @@ return new class extends Migration {
    */
   public function up(): void {
     Schema::table('carts', function (Blueprint $table) {
-      $table->enum('type', ['shopping', 'wishlist', 'investment', 'saved_for_later'])->after('id')->default('shopping');
+      DB::statement('ALTER TABLE carts ALTER COLUMN total SET DEFAULT 0');
     });
   }
 
@@ -19,7 +20,7 @@ return new class extends Migration {
    */
   public function down(): void {
     Schema::table('carts', function (Blueprint $table) {
-      $table->dropColumn('type');
+      DB::statement('ALTER TABLE carts ALTER COLUMN total DROP DEFAULT');
     });
   }
 };
