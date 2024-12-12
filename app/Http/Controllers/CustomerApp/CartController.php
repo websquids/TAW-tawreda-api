@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerApp\CartIndexRequest;
 use App\Http\Requests\CustomerApp\CartItemRemoveRequest;
 use App\Http\Requests\CustomerApp\CartStoreRequest;
+use App\Http\Resources\Customer\CartResource;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +24,7 @@ class CartController extends Controller {
       $cart = Cart::create(['type' => $type, 'user_id' => $userId,]);
     }
 
-    return response()->apiResponse($cart->load(['cartItems']));
+    return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
   }
 
   public function store(CartStoreRequest $request): JsonResponse {
@@ -48,7 +49,7 @@ class CartController extends Controller {
     // $this->updateCartTotal($cart);
 
     // Return the cart with its items
-    return response()->apiResponse($cart->load(['cartItems']));
+    return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
   }
 
   public function removeItem(CartItemRemoveRequest $request): JsonResponse {
@@ -63,7 +64,7 @@ class CartController extends Controller {
     if (!empty($cart)) {
       $cart->cartItems()->where(['product_id' => $product_id])?->delete();
     }
-    return response()->apiResponse($cart->load(['cartItems']));
+    return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
   }
 
   public function destroy(CartItemRemoveRequest $request): JsonResponse {
@@ -77,6 +78,6 @@ class CartController extends Controller {
     if (!empty($cart)) {
       $cart->cartItems()->delete();
     }
-    return response()->apiResponse($cart->load(['cartItems']));
+    return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
   }
 }

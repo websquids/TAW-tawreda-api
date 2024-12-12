@@ -14,11 +14,29 @@ class CartResource extends JsonResource {
   public function toArray(Request $request): array {
     return [
       'id' => $this->id,
-      'products' => $this->products,
-      'quantity' => $this->quantity,
+      'user_id' => $this->user_id,
       'total' => $this->total,
-      'created_at' => $this->createdAt,
-      'updated_at' => $this->updatedAt,
+      'type' => $this->type,
+      'cart_items' => $this->whenLoaded('cartItems', function () {
+        return $this->cartItems()->orderBy('created_at')->get()->map(function ($item) {
+          $featureImage = $item->product?->getFirstMediaUrl('featured');
+          if (empty($featureImage) && !empty($item->product)) {
+            $featureImage = $item->product->getFirstMediaUrl('gallery');
+          }
+          return [
+            'id' => $item->id,
+            'cart_id' => $item->cart_id,
+            'product_id' => $item->product_id,
+            'quantity' => $item->quantity,
+            'price' => $item->price,
+            'discount' => $item->product?->discount,
+            'product_name' => $item->product?->title,
+            'product_image' => $featureImage,
+          ];
+        });
+      }),
+      'created_at' => $this->created_at,
+      'updated_at' => $this->updated_at,
     ];
   }
 
