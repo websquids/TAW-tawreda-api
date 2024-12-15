@@ -42,7 +42,7 @@ class OrderController extends Controller implements HasMiddleware {
    * Show the form for creating a new resource.
    */
   public function create() {
-        //
+    //
   }
 
   /**
@@ -50,19 +50,19 @@ class OrderController extends Controller implements HasMiddleware {
    */
   public function store(OrderStoreRequest $request) {
     // 'order_type' => 'required|in:customer,investor',
-        //     'order_items' => 'required|array|min:1',
-        //     'order_items.*.product_id' => 'required|exists:products,id',
-        //     'order_items.*.quantity' => 'required|integer|min:1',
-        //     'order_address_id' => 'required_if:order_address,null|exists:addresses,id',
-        //     'order_address' => 'required_if:order_address_id,null',
-        //     'order_address.street' => 'required|string|max:255',
-        //     'order_address.city' => 'required|string|max:255',
-        //     'order_address.state' => 'required|string|max:255',
-        //     'order_address.country' => 'required|string|max:255',
-        //     'order_address.postal_code' => 'required|string|max:255',
-        //     'order_address.building_number' => 'required|string|max:255',
-        //     'order_address.mobile_number' => 'required|string|max:255',
-        //     'order_address.address_type' => 'required|enum:user,order',
+    //     'order_items' => 'required|array|min:1',
+    //     'order_items.*.product_id' => 'required|exists:products,id',
+    //     'order_items.*.quantity' => 'required|integer|min:1',
+    //     'order_address_id' => 'required_if:order_address,null|exists:addresses,id',
+    //     'order_address' => 'required_if:order_address_id,null',
+    //     'order_address.street' => 'required|string|max:255',
+    //     'order_address.city' => 'required|string|max:255',
+    //     'order_address.state' => 'required|string|max:255',
+    //     'order_address.country' => 'required|string|max:255',
+    //     'order_address.postal_code' => 'required|string|max:255',
+    //     'order_address.building_number' => 'required|string|max:255',
+    //     'order_address.mobile_number' => 'required|string|max:255',
+    //     'order_address.address_type' => 'required|enum:user,order',
 
 
     // begin transaction db
@@ -96,27 +96,27 @@ class OrderController extends Controller implements HasMiddleware {
    * Display the specified resource.
    */
   public function show(string $id) {
-        //
+    //
   }
 
   /**
    * Show the form for editing the specified resource.
    */
   public function edit(string $id) {
-        //
+    //
   }
 
   /**
    * Update the specified resource in storage.
    */
   public function update(Request $request, string $id) {
-        //
+    //
   }
 
   /**
    * Remove the specified resource from storage.
    */
   public function destroy(string $id) {
-        //
+    //
   }
 }
