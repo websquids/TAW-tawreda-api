@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Filters\OrderFilter;
 use App\Http\Resources\Customer\OrderResource;

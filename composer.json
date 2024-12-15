@@ -11,7 +11,7 @@
         "php": "^8.2",
         "abbasudo/laravel-purity": "^3.3",
         "astrotomic/laravel-translatable": "^11.15",
-        "darkaonline/l5-swagger": "^8.6",
+        "dedoc/scramble": "^0.11.30",
         "doctrine/dbal": "^4.2",
         "giggsey/libphonenumber-for-php": "^8.13",
         "laravel/framework": "^11.9",

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services;
+
 use App\Models\OrderProduct;
 use App\Models\Product;
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\OrderStoreRequest;
 use App\Models\Order;
-use App\Service\OrderService;
+use App\Services\OrderService;
 use App\Services\AddressService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
