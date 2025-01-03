@@ -7,23 +7,37 @@ use App\Http\Resources\UnitResource;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class UnitService {
-  protected UnitFilter $unitFilter;
+class UnitService
+{
+    protected UnitFilter $unitFilter;
 
-  public function __construct() {
-    $this->unitFilter = new UnitFilter();
-  }
+    public function __construct()
+    {
+        $this->unitFilter = new UnitFilter();
+    }
 
-  public function getFilteredUnits(Request $request) {
-    // Apply filters to the Unit query
-    $query = $this->unitFilter->apply(Unit::query(), $request);
+    public function getFilteredUnits(Request $request)
+    {
+        // Apply filters to the Unit query
+        $query = $this->unitFilter->apply(Unit::query(), $request);
 
-    // Paginate the results with a default `perPage` value
-    $paginatedUnits = $query->paginate($request->get('perPage', 10));
+        $perPage = (int) $request->get('perPage', 10);
 
-    // Transform the results into a resource collection
-    $paginatedUnits->data = UnitResource::collection($paginatedUnits);
 
-    return $paginatedUnits;
-  }
+        if ($perPage === -1) {
+            $units = $query->get();
+            $data = UnitResource::collection($units);
+            return [
+                'data' => $data,
+            ];
+        }
+
+        // Paginate the results with a default `perPage` value
+        $paginatedUnits = $query->paginate($request->get('perPage', 10));
+
+        // Transform the results into a resource collection
+        $paginatedUnits->data = UnitResource::collection($paginatedUnits);
+
+        return $paginatedUnits;
+    }
 }

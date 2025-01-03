@@ -7,23 +7,36 @@ use App\Http\Resources\BrandResource;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 
-class BrandService {
-  protected BrandFilter $brandFilter;
+class BrandService
+{
+    protected BrandFilter $brandFilter;
 
-  public function __construct() {
-    $this->brandFilter = new BrandFilter();
-  }
+    public function __construct()
+    {
+        $this->brandFilter = new BrandFilter();
+    }
 
-  public function getFilteredBrands(Request $request) {
-    // Apply filters to the Brand query
-    $query = $this->brandFilter->apply(Brand::query(), $request);
+    public function getFilteredBrands(Request $request)
+    {
+        // Apply filters to the Brand query
+        $query = $this->brandFilter->apply(Brand::query(), $request);
 
-    // Paginate the results with a default `perPage` value
-    $paginatedBrands = $query->paginate($request->get('perPage', 10));
+        $perPage = (int) $request->get('perPage', 10);
 
-    // Transform the results into a resource collection
-    $paginatedBrands->data = BrandResource::collection($paginatedBrands);
+        if ($perPage == -1) {
+            $brands = $query->get();
+            $data = BrandResource::collection($brands);
+            return [
+                'data' => $data,
+            ];
+        }
 
-    return $paginatedBrands;
-  }
+        // Paginate the results with a default `perPage` value
+        $paginatedBrands = $query->paginate($request->get('perPage', 10));
+
+        // Transform the results into a resource collection
+        $paginatedBrands->data = BrandResource::collection($paginatedBrands);
+
+        return $paginatedBrands;
+    }
 }
