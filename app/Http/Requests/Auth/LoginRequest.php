@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\ValidPhoneNumber;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -18,13 +19,24 @@ class LoginRequest extends FormRequest {
   }
 
   /**
+   * Prepare the data for validation.
+   */
+  protected function prepareForValidation() {
+    if ($this->has('phone')) {
+      $this->merge([
+        'phone' => ltrim($this->input('phone'), '0'), // Remove leading zero
+      ]);
+    }
+  }
+
+  /**
    * Get the validation rules that apply to the request.
    *
    * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
    */
   public function rules(): array {
     return [
-      'email' => ['required', 'string', 'email'],
+      'phone' => ['required', new ValidPhoneNumber()],
       'password' => ['required', 'string'],
     ];
   }
@@ -37,7 +49,7 @@ class LoginRequest extends FormRequest {
   public function authenticate(): void {
     $this->ensureIsNotRateLimited();
 
-    if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+    if (!Auth::attempt($this->only('phone', 'password'), $this->boolean('remember'))) {
       RateLimiter::hit($this->throttleKey());
 
       throw ValidationException::withMessages([
@@ -63,7 +75,7 @@ class LoginRequest extends FormRequest {
     $seconds = RateLimiter::availableIn($this->throttleKey());
 
     throw ValidationException::withMessages([
-      'email' => trans('auth.throttle', [
+      'password' => trans('auth.throttle', [
         'seconds' => $seconds,
         'minutes' => ceil($seconds / 60),
       ]),
@@ -74,6 +86,6 @@ class LoginRequest extends FormRequest {
    * Get the rate limiting throttle key for the request.
    */
   public function throttleKey(): string {
-    return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
+    return Str::transliterate(Str::lower($this->input('phone')) . '|' . $this->ip());
   }
 }

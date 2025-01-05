@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,22 +19,46 @@ class AuthController extends Controller {
       return response()->json(['errors' => $validator->errors()], 422);
     }
     $user = User::where('email', $request->email)->first();
-    $roles = $user->getRoleNames();
-    $permissions = $user->getAllPermissions()->pluck('name');
     if (!$user || !Hash::check($request->password, $user->password)) {
       return response()->json(['message' => 'Invalid credentials.'], 401);
     }
+    $roles = $user->getRoleNames();
+    $permissions = $user->getAllPermissions()->pluck('name');
+    $token = $user->createToken('UserApp')->accessToken;
+    return response()->json(['token' => $token, 'user' => $user, 'roles' => $roles, 'permissions' => $permissions], 200);
+  }
+
+  public function customerLogin(LoginRequest $request) {
+    $validator = Validator::make($request->all(), [
+      'phone' => 'required',
+      'password' => 'required|string',
+    ]);
+    if ($validator->fails()) {
+      return response()->json(['errors' => $validator->errors()], 422);
+    }
+    $user = User::where('phone', $request->phone)->first();
+    if (!$user || !Hash::check($request->password, $user->password)) {
+      return response()->json(['message' => 'Invalid credentials.'], 401);
+    }
+    $roles = $user->getRoleNames();
+    $permissions = $user->getAllPermissions()->pluck('name');
     $token = $user->createToken('UserApp')->accessToken;
     return response()->json(['token' => $token, 'user' => $user, 'roles' => $roles, 'permissions' => $permissions], 200);
   }
 
   public function register(RegisterRequest $request, ) {
-    $user = User::create([
-      'name' => $request->name,
-      'email' => $request->email,
-      'password' => Hash::make($request->password),
-    ]);
+    $user = User::create($request->validated());
     $user->assignRole('customer');
-    return response()->json(['message' => 'User registered successfully.'], 201);
+    $token = $user->createToken('UserApp')->accessToken;
+    $roles = $user->getRoleNames();
+    $permissions = $user->getAllPermissions()->pluck('name');
+    return response()->apiResponse(
+      [
+        'token' => $token,
+        'user' => $user,
+        'roles' => $roles,
+        'permissions' => $permissions,
+      ],
+    );
   }
 }

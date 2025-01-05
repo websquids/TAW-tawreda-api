@@ -9,8 +9,8 @@ return new class extends Migration {
    * Run the migrations.
    */
   public function up(): void {
-    Schema::table('carts', function (Blueprint $table) {
-      $table->enum('type', ['shopping', 'wishlist', 'investment', 'saved_for_later'])->after('id')->default('shopping');
+    Schema::table('users', function (Blueprint $table) {
+      $table->string('phone')->unique()->nullable()->after('email');
     });
   }
 
@@ -18,8 +18,8 @@ return new class extends Migration {
    * Reverse the migrations.
    */
   public function down(): void {
-    Schema::table('carts', function (Blueprint $table) {
-      $table->dropColumn('type');
+    Schema::table('users', function (Blueprint $table) {
+      $table->dropColumn('phone');
     });
   }
 };

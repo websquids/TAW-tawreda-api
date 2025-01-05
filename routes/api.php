@@ -27,11 +27,24 @@ Route::middleware('auth:api')->group(function () {
   Route::post('categories/{category}', [App\Http\Controllers\CategoryController::class, 'update'])->name('categories.update');
 });
 
-Route::prefix('customer_app')->group(function () {
+Route::group(['prefix' => 'customer_app'], function () {
+  Route::post('/auth/login', [AuthController::class, 'customerLogin']);
+  Route::post('/auth/register', [AuthController::class, 'register']);
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
   Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
   Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
+
+  Route::group(['middleware' => ['role:customer', 'auth:api']], function () {
+    Route::get('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'index']);
+    Route::post('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'store']);
+    Route::delete('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'destroy']);
+    Route::delete('/carts/items', [App\Http\Controllers\CustomerApp\CartController::class, 'removeItem']);
+  });
 });
+
+
+// Route::prefix('customer_app')->group(function () {
+// });
 
 // Route::apiResource('products', App\Http\Controllers\ProductController::class);
 // Route::post('products/bulk-delete', [App\Http\Controllers\ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
