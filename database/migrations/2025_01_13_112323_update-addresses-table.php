@@ -5,26 +5,24 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        // Add latitude and longitude to addresses table
-        Schema::table('addresses', function (Blueprint $table) {
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void {
+    // Add latitude and longitude to addresses table
+    Schema::table('addresses', function (Blueprint $table) {
+      $table->decimal('latitude', 10, 8)->nullable();
+      $table->decimal('longitude', 11, 8)->nullable();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        // Remove latitude and longitude columns
-        Schema::table('addresses', function (Blueprint $table) {
-            $table->dropColumn(['latitude', 'longitude']);
-        });
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void {
+    // Remove latitude and longitude columns
+    Schema::table('addresses', function (Blueprint $table) {
+      $table->dropColumn(['latitude', 'longitude']);
+    });
+  }
 };
