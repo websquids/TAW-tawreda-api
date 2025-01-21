@@ -54,7 +54,7 @@ return [
                 'type' => 'service_account',
                 'project_id' => env('FIREBASE_PROJECT_ID'),
                 'private_key_id' => env('FIREBASE_PRIVATE_KEY_ID'),
-                'private_key' => str_replace('\n', "\n", env('FIREBASE_PRIVATE_KEY')),
+                'private_key' => env('FIREBASE_PRIVATE_KEY') ? str_replace('\n', "\n", env('FIREBASE_PRIVATE_KEY')) : null,
                 'client_email' => env('FIREBASE_CLIENT_EMAIL'),
                 'client_id' => env('FIREBASE_CLIENT_ID'),
                 'auth_uri' => env('FIREBASE_AUTH_URI'),
