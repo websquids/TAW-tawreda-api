@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckPermissions;
+use App\Http\Middleware\SetLanguageFromUrl;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,7 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
-            'check.role.permissions' => CheckPermissions::class
+            'check.role.permissions' => CheckPermissions::class,
+            'setLanguage' => SetLanguageFromUrl::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

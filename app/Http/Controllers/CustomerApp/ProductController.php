@@ -9,20 +9,24 @@ use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
-  protected ProductService $productService;
+class ProductController extends Controller
+{
+    protected ProductService $productService;
 
-  public function __construct(ProductService $productService) {
-    $this->productService = $productService;
-  }
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
 
-  public function index(Request $request): JsonResponse {
-    $categories = $this->productService->getFilteredProducts($request);
-    return response()->apiResponse($categories);
-  }
+    public function index(Request $request): JsonResponse
+    {
+        $categories = $this->productService->getFilteredProducts($request);
+        return response()->apiResponse($categories);
+    }
 
-  public function show(Request $request, int $id): JsonResponse {
-    $product = Product::findOrFail($id)->load('brand', 'category', 'unit');
-    return response()->apiResponse(new ProductResource($product));
-  }
+    public function show(Request $request, int $id): JsonResponse
+    {
+        $product = Product::findOrFail($id)->load('brand', 'category', 'unit');
+        return response()->apiResponse(new ProductResource($product));
+    }
 }
