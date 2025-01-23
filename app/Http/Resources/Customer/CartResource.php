@@ -19,7 +19,7 @@ class CartResource extends JsonResource {
       'type' => $this->type,
       'cart_items' => $this->whenLoaded('cartItems', function () {
         return $this->cartItems()->orderBy('created_at')->get()->map(function ($item) {
-          $mediaItems = $item->getMedia('products');
+          $mediaItems = $item->product->getMedia('products');
           $mediaWithConversions = $mediaItems->map(function ($media) {
             return [
               'original' => $media->getUrl(),
