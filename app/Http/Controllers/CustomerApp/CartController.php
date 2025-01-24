@@ -10,6 +10,8 @@ use App\Http\Resources\Customer\CartResource;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use App\Enums\CartType;
 
 class CartController extends Controller {
   public function index(CartIndexRequest $request): JsonResponse {
@@ -30,26 +32,38 @@ class CartController extends Controller {
   public function store(CartStoreRequest $request): JsonResponse {
     $inputs = $request->validated();
     $userId = $request->user()->id;
+    DB::beginTransaction();
+    try {
+      $cart = Cart::updateOrCreate([
+        'user_id' => $userId,
+        'type' => $inputs['type'],
+      ], []);
 
-    $cart = Cart::updateOrCreate([
-      'user_id' => $userId,
-      'type' => $inputs['type'],
-    ], []);
+      $product = Product::findOrFail($inputs['product_id']);
+      $cartItem = $cart->cartItems()->firstOrNew(['product_id' => $product->id]);
 
-    $product = Product::findOrFail($inputs['product_id']);
-    $cartItem = $cart->cartItems()->firstOrNew(['product_id' => $product->id]);
+      // Update quantity or create the item
+      $cartItem->quantity = $inputs['quantity'];
 
-    // Update quantity or create the item
-    $cartItem->quantity = $inputs['quantity'];
+      $cartItem->price = $product->price;
+      $cartItem->save();
+      if ($inputs['type'] == CartType::SHOPPING->value) {
+        $wishlist = Cart::where([
+          'user_id' => $userId,
+          'type' => CartType::WISHLIST->value,
+        ])->first();
+        if (!empty($wishlist)) {
+          $wishlist->cartItems()->where(['product_id' => $product->id])?->delete();
+        }
+      }
+      DB::commit();
 
-    $cartItem->price = $product->price;
-    $cartItem->save();
-
-    // Optionally, update cart total (if needed)
-    // $this->updateCartTotal($cart);
-
-    // Return the cart with its items
-    return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
+      // Return the cart with its items
+      return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
+    } catch (\Exception $e) {
+      DB::rollback();
+      return response()->apiResponse(new CartResource($cart->load(['cartItems'])));
+    }
   }
 
   public function removeItem(CartItemRemoveRequest $request): JsonResponse {

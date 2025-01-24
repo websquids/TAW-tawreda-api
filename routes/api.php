@@ -46,6 +46,8 @@ Route::group(['prefix' => 'customer_app', 'middleware' => ['setLanguage']], func
     Route::put('/addresses/{id}', [App\Http\Controllers\CustomerApp\AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [App\Http\Controllers\CustomerApp\AddressController::class, 'destroy']);
     Route::post('/fcm', [App\Http\Controllers\CustomerApp\FcmTokenController::class, 'edit']);
+    Route::post('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'store']);
+    Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index']);
   });
 });
 

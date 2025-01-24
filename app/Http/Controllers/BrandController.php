@@ -45,7 +45,6 @@ class BrandController extends Controller implements HasMiddleware {
   public function store(BrandStoreRequest $request) {
     try {
       DB::beginTransaction();
-
       $brand = Brand::create($request->safe()->except(['image']));
       $brand->addMedia($request->file('image'))->toMediaCollection('brands');
       DB::commit();

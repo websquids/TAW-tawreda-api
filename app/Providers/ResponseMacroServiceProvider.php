@@ -10,7 +10,7 @@ class ResponseMacroServiceProvider extends ServiceProvider {
    * Register services.
    */
   public function register(): void {
-    //
+        //
   }
 
   /**

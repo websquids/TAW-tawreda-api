@@ -26,4 +26,14 @@ class OrderService {
     $order = Order::create($orderData);
     return $order;
   }
+
+  public function getOrderById($id) {
+    return Order::find($id);
+  }
+
+  public function updateOrder($request, $order) {
+    $order->update($request->validated());
+    $order->save();
+    return $order;
+  }
 }

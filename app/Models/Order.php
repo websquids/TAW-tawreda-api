@@ -18,6 +18,7 @@ class Order extends Model {
     'order_type',
     'order_status',
     'total',
+    'address_id',
   ];
 
 
@@ -44,7 +45,7 @@ class Order extends Model {
   }
 
   public function address() {
-    return $this->hasOne(Address::class, 'addressable');
+    return $this->hasOne(Address::class, 'id', 'address_id');
   }
 
   public function orderProducts() {
