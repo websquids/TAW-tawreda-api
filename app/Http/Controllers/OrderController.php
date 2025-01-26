@@ -16,7 +16,7 @@ class OrderController extends Controller {
   }
   public function index(Request $request): JsonResponse {
     $orders = $this->orderService->getFilteredOrders($request);
-    return response()->json($orders);
+    return response()->apiResponse($orders);
   }
 
   public function edit(Request $request, $id): JsonResponse {
@@ -24,14 +24,23 @@ class OrderController extends Controller {
     try {
       $order = $this->orderService->getOrderById($id);
       if (!$order) {
-        return response()->json(['error' => 'Order not found.'], 404);
+        return response()->apiResponse(['error' => 'Order not found.'], 404);
       }
       $order = $this->orderService->updateOrder($request, $order);
       DB::commit();
-      return response()->json($order);
+      return response()->apiResponse($order);
     } catch (\Exception $e) {
       DB::rollBack();
-      return response()->json(['error' => $e->getMessage()], 500);
+      return response()->apiResponse(['error' => $e->getMessage()], 500);
     }
+  }
+
+  public function destroy($id): JsonResponse {
+    $order = $this->orderService->getOrderById($id);
+    if (!$order) {
+      return response()->apiResponse(['error' => 'Order not found.'], 404);
+    }
+    $this->orderService->deleteOrder($order);
+    return response()->apiResponse(['message' => 'Order deleted successfully.']);
   }
 }

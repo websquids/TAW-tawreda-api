@@ -61,8 +61,8 @@ class AuthController extends Controller {
     $token = $user->createToken('UserApp')->accessToken;
     $roles = $user->getRoleNames();
     $permissions = $user->getAllPermissions()->pluck('name');
-    $user->fcm_tokens()->create([
-      'token' => $request->fcm_token,
+    $user->fcmTokens()->create([
+      'fcm_token' => $request->fcm_token,
       'device_name' => $request->device_name,
     ]);
     return response()->apiResponse(
@@ -78,21 +78,18 @@ class AuthController extends Controller {
   public function customerLogout(Request $request) {
     // Validate fcm_token
     $validator = Validator::make($request->all(), [
-      'fcm_token' => 'required|string',
+      'fcm_token' => 'required|string|exists:fcm_tokens,fcm_token',
     ]);
 
     if ($validator->fails()) {
       return response()->apiResponse(['errors' => $validator->errors()], 422);
     }
-
     // Get and delete the FCM token
     $user = $request->user();
     $fcmToken = $user->fcmTokens()->where('fcm_token', $request->fcm_token)->first();
-
     if ($fcmToken) {
       $fcmToken->delete();
     }
-
     // Revoke the user's access token
     $user->token()->revoke();
 

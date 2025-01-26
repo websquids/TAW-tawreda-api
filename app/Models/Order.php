@@ -18,7 +18,7 @@ class Order extends Model {
     'order_type',
     'order_status',
     'total',
-    'address_id',
+    'status',
   ];
 
 
@@ -39,16 +39,54 @@ class Order extends Model {
     'REFUND_COMPLETED' => 8,
   ];
 
+  public function getStatusAttribute($value) {
+    // dd($value);
+    return array_flip(self::ORDER_STATUSES)[$value];
+  }
+
+  protected static array $fields = [
+    'order_type' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'order_status' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'total' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'status' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'created_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
+    'updated_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
+  ];
+
 
   public function user() {
     return $this->belongsTo(User::class);
   }
 
-  public function address() {
-    return $this->hasOne(Address::class, 'id', 'address_id');
+  public function orderAddress() {
+    return $this->hasOne(OrderAddress::class, 'order_id', 'id');
   }
 
   public function orderProducts() {
     return $this->hasMany(OrderProduct::class);
+  }
+
+
+  public static function getFields(): array {
+    $fields = self::$fields;
+    return $fields;
   }
 }

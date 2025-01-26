@@ -19,6 +19,33 @@ class Cart extends Model {
     'total',
   ];
 
+  protected static array $fields = [
+    'type' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'total' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'status' => [
+      'searchable' => true,
+      'sortable' => true,
+    ],
+    'created_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
+    'updated_at' => [
+      'searchable' => false,
+      'sortable' => true,
+    ],
+  ];
+  public static function getFields(): array {
+    $fields = self::$fields;
+    return $fields;
+  }
+
   public function user() {
     return $this->belongsTo(User::class);
   }

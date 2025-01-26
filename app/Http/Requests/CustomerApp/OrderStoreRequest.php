@@ -4,6 +4,7 @@ namespace App\Http\Requests\CustomerApp;
 
 use App\Constants\OrderTypes;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrderStoreRequest extends FormRequest {
   /**
@@ -20,7 +21,10 @@ class OrderStoreRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-      'address_id' => 'required|exists:addresses,id',
+      'address_id' => [
+        Rule::when($this->order_type === OrderTypes::CUSTOMER, 'required'),
+        'exists:addresses,id',
+      ],
       'order_type' => ['required', 'in:'.implode(',', OrderTypes::getAllTypes())],
     ];
   }

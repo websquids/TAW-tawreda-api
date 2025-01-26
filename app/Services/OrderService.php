@@ -36,4 +36,8 @@ class OrderService {
     $order->save();
     return $order;
   }
+
+  public function deleteOrder($order) {
+    $order->delete();
+  }
 }

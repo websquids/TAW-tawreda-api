@@ -26,11 +26,14 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::post('categories/bulk-delete', [App\Http\Controllers\CategoryController::class, 'bulkDelete'])->name('categories.bulkDelete');
   Route::post('categories/{category}', [App\Http\Controllers\CategoryController::class, 'update'])->name('categories.update');
   Route::get('users', [App\Http\Controllers\UserController::class, 'getUsers']);
+  Route::get('orders', [App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
+  Route::get('orders/{order}', [App\Http\Controllers\OrderController::class, 'show']);
+  Route::delete('orders/{order}', [App\Http\Controllers\OrderController::class, 'destroy']);
+  Route::get('cart', [App\Http\Controllers\CartController::class, 'index']);
 });
 
 Route::group(['prefix' => 'customer_app', 'middleware' => ['setLanguage']], function () {
   Route::post('/auth/login', [AuthController::class, 'customerLogin']);
-  Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
   Route::post('/auth/register', [AuthController::class, 'register']);
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
   Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
@@ -48,6 +51,7 @@ Route::group(['prefix' => 'customer_app', 'middleware' => ['setLanguage']], func
     Route::post('/fcm', [App\Http\Controllers\CustomerApp\FcmTokenController::class, 'edit']);
     Route::post('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'store']);
     Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index']);
+    Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
   });
 });
 
