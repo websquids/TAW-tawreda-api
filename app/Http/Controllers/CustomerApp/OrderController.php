@@ -8,17 +8,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerApp\OrderStoreRequest;
 use App\Http\Resources\Customer\OrderResource;
 use App\Models\Order;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller {
+  protected OrderService $orderService;
+  public function __construct(
+    OrderService $orderService
+  ) {
+    $this->orderService = $orderService;
+  }
   public function index(Request $request) {
-    if ($request->input('order_type') == 'investor') {
-      $orders = $request->user()->orders()->where('order_type', 'investor')->get();
-    } else {
-      $orders = $request->user()->orders()->where('order_type', 'customer')->get();
-    }
-    return response()->apiResponse(OrderResource::collection($orders));
+    // dd($request->input('order_type'));
+    // if ($request->input('order_type') === OrderTypes::INVESTOR) {
+        //     $orders = $request->user()->orders()->where('order_type', OrderTypes::INVESTOR);
+    // } else {
+        //     $orders = $request->user()->orders()->where('order_type', OrderTypes::CUSTOMER);
+    // }
+    $orders = $this->orderService->getFilteredOrders($request);
+    return response()->apiResponse($orders);
+    // return response()->apiResponse(OrderResource::collection($orders));
   }
 
   public function store(OrderStoreRequest $request) {

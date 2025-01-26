@@ -69,21 +69,8 @@ class OrderResource extends JsonResource {
         }),
       ];
     });
-
-    return [
+    $data = [
       'id' => $this->id,
-      'address' => [
-        'id' => $this->orderAddress->address->id,
-        'street' => $this->orderAddress->address->street,
-        'city' => $this->orderAddress->address->city,
-        'state' => $this->orderAddress->address->state,
-        'country' => $this->orderAddress->address->country,
-        'postal_code' => $this->orderAddress->address->postal_code,
-        'building_number' => $this->orderAddress->address->building_number,
-        'mobile_number' => $this->orderAddress->address->mobile_number,
-        'latitude' => $this->orderAddress->address->latitude,
-        'longitude' => $this->orderAddress->address->longitude,
-      ],
       'order_type' => $this->order_type,
       'total' => $this->total,
       'status' => $this->getStatusAttribute($this->order_status),
@@ -97,5 +84,22 @@ class OrderResource extends JsonResource {
       'created_at' => $this->created_at,
       'updated_at' => $this->updated_at,
     ];
+
+    if ($this->order_type !== 'investor') {
+      $data['address'] = [
+        'id' => $this->orderAddress->address->id,
+        'street' => $this->orderAddress->address->street,
+        'city' => $this->orderAddress->address->city,
+        'state' => $this->orderAddress->address->state,
+        'country' => $this->orderAddress->address->country,
+        'postal_code' => $this->orderAddress->address->postal_code,
+        'building_number' => $this->orderAddress->address->building_number,
+        'mobile_number' => $this->orderAddress->address->mobile_number,
+        'latitude' => $this->orderAddress->address->latitude,
+        'longitude' => $this->orderAddress->address->longitude,
+      ];
+    }
+
+    return $data;
   }
 }
