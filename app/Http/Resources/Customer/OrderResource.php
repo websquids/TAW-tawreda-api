@@ -13,7 +13,7 @@ class OrderResource extends JsonResource {
    * @return array<string, mixed>
    */
   public function toArray($request): array {
-    if ($request->routeIs('orders.index')) {
+    if ($request->routeIs('orders.index', 'customer_app.orders.index')) {
       return $this->transformForIndex();
     }
 

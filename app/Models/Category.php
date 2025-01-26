@@ -21,6 +21,9 @@ class Category extends Model implements TranslatableContract, HasMedia {
    */
   public $translatedAttributes = ['title', 'description'];
 
+
+
+
   protected $fillable = [
     'parent_id',
   ];

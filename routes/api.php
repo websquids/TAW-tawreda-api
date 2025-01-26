@@ -32,7 +32,7 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::get('cart', [App\Http\Controllers\CartController::class, 'index']);
 });
 
-Route::group(['prefix' => 'customer_app', 'middleware' => ['setLanguage']], function () {
+Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middleware' => ['setLanguage']], function () {
   Route::post('/auth/login', [AuthController::class, 'customerLogin']);
   Route::post('/auth/register', [AuthController::class, 'register']);
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
@@ -50,7 +50,8 @@ Route::group(['prefix' => 'customer_app', 'middleware' => ['setLanguage']], func
     Route::delete('/addresses/{id}', [App\Http\Controllers\CustomerApp\AddressController::class, 'destroy']);
     Route::post('/fcm', [App\Http\Controllers\CustomerApp\FcmTokenController::class, 'edit']);
     Route::post('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'store']);
-    Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index']);
+    Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index'])->name('customer_app.orders.index');
+    Route::get('/orders/{id}', [App\Http\Controllers\CustomerApp\OrderController::class, 'show']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
   });
 });

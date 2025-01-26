@@ -28,7 +28,8 @@ class OrderService {
   }
 
   public function getOrderById($id) {
-    return Order::find($id);
+    $order = Order::find($id)->get();
+    return OrderResource::collection($order);
   }
 
   public function updateOrder($request, $order) {

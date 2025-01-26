@@ -63,6 +63,7 @@ class CategoryController extends Controller implements HasMiddleware {
         $category->clearMediaCollection();
         $category->addMedia($request->file('image'))->toMediaCollection();
       }
+      $category->save();
       DB::commit();
       return response()->apiResponse('Category updated successfully.', '', 200);
     } catch (\Exception $e) {

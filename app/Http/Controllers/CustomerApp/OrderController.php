@@ -20,15 +20,14 @@ class OrderController extends Controller {
     $this->orderService = $orderService;
   }
   public function index(Request $request) {
-    // dd($request->input('order_type'));
-    // if ($request->input('order_type') === OrderTypes::INVESTOR) {
-        //     $orders = $request->user()->orders()->where('order_type', OrderTypes::INVESTOR);
-    // } else {
-        //     $orders = $request->user()->orders()->where('order_type', OrderTypes::CUSTOMER);
-    // }
     $orders = $this->orderService->getFilteredOrders($request);
     return response()->apiResponse($orders);
     // return response()->apiResponse(OrderResource::collection($orders));
+  }
+
+  public function show($id) {
+    $order = $this->orderService->getOrderById($id);
+    return response()->apiResponse($order);
   }
 
   public function store(OrderStoreRequest $request) {
