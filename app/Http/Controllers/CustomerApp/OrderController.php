@@ -27,6 +27,9 @@ class OrderController extends Controller {
 
   public function show($id) {
     $order = $this->orderService->getOrderById($id);
+    if (!$order) {
+      return response()->apiResponse(null, 'Order not found', false, 404);
+    }
     return response()->apiResponse($order);
   }
 
