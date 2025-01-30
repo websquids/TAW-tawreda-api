@@ -42,6 +42,9 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
   Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
 
   Route::group(['middleware' => ['role:customer', 'auth:api']], function () {
+    Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
+    Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
+    Route::get('/products/min-max-price', [App\Http\Controllers\CustomerApp\ProductController::class, 'getMinimumandMaximumPrice']);
     Route::get('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'index']);
     Route::post('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'store']);
     Route::delete('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'destroy']);

@@ -25,4 +25,9 @@ class ProductController extends Controller {
     $product = Product::findOrFail($id)->load('brand', 'category', 'unit');
     return response()->apiResponse(new ProductResource($product));
   }
+
+  public function getMinimumandMaximumPrice(): JsonResponse {
+    $minMaxPrice = $this->productService->getMinMaxPrice();
+    return response()->apiResponse($minMaxPrice);
+  }
 }

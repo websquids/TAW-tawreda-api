@@ -28,4 +28,10 @@ class ProductService {
 
     return $paginatedProducts;
   }
+
+  public function getMinMaxPrice() {
+    $minPrice = Product::min('price');
+    $maxPrice = Product::max('price');
+    return ['min_price' => $minPrice, 'max_price' => $maxPrice];
+  }
 }
