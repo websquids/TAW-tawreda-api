@@ -57,6 +57,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::get('/orders/{id}', [App\Http\Controllers\CustomerApp\OrderController::class, 'show']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
   });
+  Route::post('/auth/verify-otp/{chanel}', [AuthController::class, 'verifyOTP']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login']);
