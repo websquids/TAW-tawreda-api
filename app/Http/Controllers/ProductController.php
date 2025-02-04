@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller implements HasMiddleware {
   public static function middleware(): array {
@@ -62,6 +63,24 @@ class ProductController extends Controller implements HasMiddleware {
           $product->addMedia($image)->toMediaCollection('products');
         }
       }
+      DB::commit();
+      return response()->json(new ProductResource($product));
+    } catch (\Exception $e) {
+      DB::rollback();
+      throw $e;
+    }
+  }
+
+  public function updateQuantity(Request $request, Product $product): JsonResponse {
+    DB::beginTransaction();
+    try {
+      $validatedData = Validator::make($request->all(), [
+        'current_stock_quantity' => 'required|numeric',
+      ]);
+      if ($validatedData->fails()) {
+        return response()->json(['errors' => $validatedData->errors()], 422);
+      }
+      $product->update(['current_stock_quantity' => $request->current_stock_quantity]);
       DB::commit();
       return response()->json(new ProductResource($product));
     } catch (\Exception $e) {

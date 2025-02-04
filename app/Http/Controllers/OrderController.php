@@ -59,16 +59,42 @@ class OrderController extends Controller {
     return response()->apiResponse($orderStatuses);
   }
 
-  public function updateOrderStatus(Request $request, Order $order): JsonResponse {
+  public function bulkUpdateOrderStatus(Request $request): JsonResponse {
     $request->validate([
+      'order_ids' => [
+        'required',
+        'array',
+        'min:1',
+      ],
+      'order_ids.*' => [
+        'exists:orders,id',
+      ],
       'order_status_id' => [
         'required',
-        'in:' . implode(',', array_values($this->orderService->getAllOrderStatus())) ,
+        'in:' . implode(',', array_values($this->orderService->getAllOrderStatus())),
       ],
     ]);
+
+    $orderIds = $request->input('order_ids');
     $status = $request->input('order_status_id');
-    $this->orderService->updateOrderStatus($order, $status);
-    $order = OrderResource::make($order);
-    return response()->apiResponse($order);
+    DB::beginTransaction();
+
+    try {
+      foreach ($orderIds as $orderId) {
+        $order = Order::find($orderId);
+        $this->orderService->updateOrderStatus($order, $status);
+      }
+      DB::commit();
+      $updatedOrders = Order::whereIn('id', $orderIds)->get();
+      $ordersResource = OrderResource::collection($updatedOrders);
+
+      return response()->apiResponse($ordersResource);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'message' => 'Failed to update order statuses.',
+        'error' => $e->getMessage(),
+      ], 500);
+    }
   }
 }

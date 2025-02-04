@@ -15,6 +15,7 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::apiResource('products', App\Http\Controllers\ProductController::class);
   Route::post('products/bulk-delete', [App\Http\Controllers\ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
   Route::post('products/{product}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
+  Route::put('/products/{product}/quantity', [App\Http\Controllers\ProductController::class, 'updateQuantity']);
 
   Route::apiResource('brands', App\Http\Controllers\BrandController::class);
   Route::post('brands/bulk-delete', [App\Http\Controllers\BrandController::class, 'bulkDelete'])->name('brands.bulkDelete');
@@ -28,7 +29,7 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::get('users', [App\Http\Controllers\UserController::class, 'getUsers']);
   Route::get('orders', [App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
   Route::get('/orders/order-statuses', [App\Http\Controllers\OrderController::class, 'getAllOrderStatus']);
-  Route::put('orders/{order}/status', [App\Http\Controllers\OrderController::class, 'updateOrderStatus'])->name('orders.updateOrderStatus');
+  Route::post('orders/status-update', [App\Http\Controllers\OrderController::class, 'bulkUpdateOrderStatus'])->name('orders.updateOrderStatus');
   Route::get('orders/{order}', [App\Http\Controllers\OrderController::class, 'show']);
   Route::delete('orders/{order}', [App\Http\Controllers\OrderController::class, 'destroy']);
   Route::get('cart', [App\Http\Controllers\CartController::class, 'index']);
@@ -40,10 +41,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
   Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
   Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
-
   Route::group(['middleware' => ['role:customer', 'auth:api']], function () {
-    Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
-    Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
     Route::get('/products/min-max-price', [App\Http\Controllers\CustomerApp\ProductController::class, 'getMinimumandMaximumPrice']);
     Route::get('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'index']);
     Route::post('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'store']);
