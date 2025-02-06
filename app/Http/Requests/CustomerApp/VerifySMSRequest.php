@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\CustomerApp;
 
 use App\Rules\ValidPhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest {
+class VerifySMSRequest extends FormRequest {
   /**
    * Determine if the user is authorized to make this request.
    */
@@ -13,9 +13,6 @@ class RegisterRequest extends FormRequest {
     return true;
   }
 
-  /**
-   * Prepare the data for validation.
-   */
   protected function prepareForValidation() {
     if ($this->has('phone')) {
       $this->merge([
@@ -31,10 +28,11 @@ class RegisterRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-      'name' => 'required|string|max:255',
-      'phone' => ['required', 'string', new ValidPhoneNumber(), 'unique:users'],
-      'email' => 'nullable|string|email|max:255,unique:users',
-      'password' => 'required|string|min:8|confirmed',
+      // 'phone' => 'required|exists:users,phone|exists:otps,phone|',
+      'phone' => ['required', 'exists:users,phone', 'exists:otps,phone', new ValidPhoneNumber()],
+      'otp' => 'required|numeric|digits:6',
+      'fcm_token' => 'required',
+      'device_name' => 'required|string',
     ];
   }
 }

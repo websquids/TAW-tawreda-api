@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\CustomerApp\VerifySMSRequest;
 use App\Models\OTP;
 use App\Models\User;
 use App\Services\OtpService;
@@ -80,7 +81,7 @@ class AuthController extends Controller {
     }
   }
 
-  public function verifyOTP(Request $request, $chanel = 'sms') {
+  public function verifyOTP(VerifySMSRequest $request, $chanel = 'sms') {
     switch ($chanel) {
       case 'sms':
         return $this->verifySMS($request);
@@ -90,16 +91,7 @@ class AuthController extends Controller {
   }
 
   protected function verifySMS($request) {
-    $validator = Validator::make($request->all(), [
-      'phone' => 'required|exists:users,phone|exists:otps,phone',
-      'otp' => 'required|numeric|digits:6',
-      'fcm_token' => 'required',
-      'device_name' => 'required|string',
-    ]);
     try {
-      if ($validator->fails()) {
-        return response()->apiResponse(['errors' => $validator->errors()], 422);
-      }
       $user = User::where('phone', $request->phone)->first();
       $verifyStatus = $this->otpService->verifyOTP($request->phone, $request->otp);
       switch ($verifyStatus['status']) {
