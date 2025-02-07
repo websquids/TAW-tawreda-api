@@ -26,6 +26,8 @@ class CategoryResource extends JsonResource {
       'title' => $translation?->title ?? '',
       'description' => $translation?->description ?? '',
       'parent_id' => $this->parent_id,
+      'created_at' => $this->created_at,
+      'updated_at' => $this->updated_at,
     ];
     $data['media'] = $mediaWithConversions;
     if ($request->get('all_translation_data') == 'true') {
