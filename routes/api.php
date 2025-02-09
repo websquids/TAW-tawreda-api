@@ -38,6 +38,8 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
 Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middleware' => ['setLanguage']], function () {
   Route::post('/auth/login', [AuthController::class, 'customerLogin']);
   Route::post('/auth/register', [AuthController::class, 'register']);
+  Route::post('/auth/forget-password', [AuthController::class, 'forgetPassword']);
+  Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
   Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
   Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);

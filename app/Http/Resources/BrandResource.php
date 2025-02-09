@@ -23,6 +23,8 @@ class BrandResource extends JsonResource {
       'id' => $this->id,
       'name' => $translated->name,
       'media' => $mediaWithConversions,
+      'created_at' => $this->created_at,
+      'updated_at' => $this->updated_at,
     ];
     if ($request->get('all_translation_data') == 'true') {
       $data['translations'] = $this->getTranslationsArray();

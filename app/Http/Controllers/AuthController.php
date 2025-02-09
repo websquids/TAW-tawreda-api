@@ -144,4 +144,59 @@ class AuthController extends Controller {
 
     return response()->apiResponse(['message' => 'Successfully logged out.'], 200);
   }
+
+  public function resetPassword(Request $request) {
+    $validator = Validator::make($request->all(), [
+      'phone' => 'required|exists:users,phone',
+      'password' => 'required|string|min:8|confirmed',
+      'otp' => 'required|numeric|digits:6',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    try {
+      $user = User::where('phone', $request->phone)->first();
+
+      // Verify OTP
+      $verifyStatus = $this->otpService->verifyOTP($request->phone, $request->otp);
+
+      switch ($verifyStatus['status']) {
+        case OTP::STATUS['VALID']:
+          break;
+        case OTP::STATUS['EXPIRED_AND_RESENT']:
+          return response()->apiResponse(['message' => $verifyStatus['message']], 400);
+        default:
+          return response()->apiResponse(['message' => 'Invalid OTP.'], 400);
+      }
+
+      $user->password = Hash::make($request->password);
+      $user->save();
+      $this->otpService->deleteOtpByPhone($request->phone);
+      return response()->apiResponse(['message' => 'Password reset successfully.'], 200);
+    } catch (\Exception $e) {
+      return response()->apiResponse(['message' => $e->getMessage()], 500);
+    }
+  }
+
+  public function forgetPassword(Request $request) {
+    $validator = Validator::make($request->all(), [
+      'phone' => 'required|exists:users,phone',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    try {
+      $user = User::where('phone', $request->phone)->first();
+      $this->otpService->sendOTP($request->phone, null);
+      return response()->apiResponse([
+        'message' => 'OTP sent to your phone number. Please use it to reset your password.',
+      ], 200);
+    } catch (\Exception $e) {
+      return response()->apiResponse(['message' => $e->getMessage()], 500);
+    }
+  }
 }
