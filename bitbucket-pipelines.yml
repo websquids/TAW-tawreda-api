@@ -8,34 +8,44 @@ pipelines:
           caches:
             - composer
           script:
-            - apt-get update && apt-get install -y unzip libzip-dev libpq-dev libexif-dev
+            # Update and install dependencies
+            - apt-get update && apt-get install -y git unzip libzip-dev libpq-dev libexif-dev
             - docker-php-ext-configure exif
             - docker-php-ext-install zip pdo pdo_mysql exif
+
+            # Install Composer
             - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+            # Install project dependencies
             - composer install --no-interaction --no-progress --prefer-dist
+
+            # Set up environment
             - cp .env.example .env
             - php artisan key:generate
             - php artisan optimize:clear
-            # Add your testing commands here (e.g., php artisan test)
+            # Add your testing commands here
+            # Example: - php artisan test
 
       - step:
           name: Deploy to Staging
           deployment: staging
           trigger: manual
           script:
+            # Install SSH and Rsync
             - apt-get update && apt-get install -y openssh-client rsync
+
+            # Configure SSH
             - mkdir -p ~/.ssh
             - chmod 700 ~/.ssh
             - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
             - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
             - chmod 600 ~/.ssh/id_rsa
 
-            # Sync files
+            # Sync files to server
             - rsync -avz --delete --exclude='.env' --exclude='.git*' ./ $SSH_USER@$SSH_HOST:$SSH_PATH
 
             # Run deployment commands
             - ssh $SSH_USER@$SSH_HOST "cd $SSH_PATH && composer install --no-dev --optimize-autoloader"
             - ssh $SSH_USER@$SSH_HOST "cd $SSH_PATH && php artisan storage:link"
             - ssh $SSH_USER@$SSH_HOST "cd $SSH_PATH && php artisan optimize"
-            # Optional: Add migration command if needed
-            # - ssh $SSH_USER@$SSH_HOST "cd $SSH_PATH && php artisan migrate --force"
+            - ssh $SSH_USER@$SSH_HOST "cd $SSH_PATH && php artisan migrate --force"
