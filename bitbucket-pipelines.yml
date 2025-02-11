@@ -2,7 +2,7 @@ image: php:8.2-cli
 
 pipelines:
   branches:
-    main:
+    dev:
       - step:
           name: Build and Test
           caches:
@@ -18,8 +18,8 @@ pipelines:
             # Add your testing commands here (e.g., php artisan test)
 
       - step:
-          name: Deploy to Production
-          deployment: production
+          name: Deploy to Staging
+          deployment: staging
           trigger: manual
           script:
             - apt-get update && apt-get install -y openssh-client rsync
