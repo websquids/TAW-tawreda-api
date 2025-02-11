@@ -9,13 +9,14 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Product extends Model implements TranslatableContract, HasMedia {
   use HasFactory;
   use InteractsWithMedia;
   use Translatable;
-
+  use SoftDeletes;
   /**
    * The attributes that are mass assignable.
    *

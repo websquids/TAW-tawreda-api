@@ -8,12 +8,14 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Category extends Model implements TranslatableContract, HasMedia {
   use Translatable;
   use HasFactory;
   use InteractsWithMedia;
+  use SoftDeletes;
   /**
    * The attributes that are mass assignable.
    *
@@ -104,5 +106,9 @@ class Category extends Model implements TranslatableContract, HasMedia {
 
   public function products() {
     return $this->hasMany(Product::class);
+  }
+
+  public function children() {
+    return $this->hasMany(Category::class, 'parent_id');
   }
 }

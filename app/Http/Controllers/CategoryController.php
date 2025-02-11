@@ -77,6 +77,11 @@ class CategoryController extends Controller implements HasMiddleware {
     if ($category->products()->exists()) {
       return response()->json(['error' => 'Cannot delete category with associated products.'], 400);
     }
+    if ($category->parent_id === null) {
+      if ($category->children()->exists()) {
+        return response()->json(['error' => 'Cannot delete category with children.'], 400);
+      }
+    }
     $category->clearMediaCollection();
     $category->delete();
     return response()->json();
@@ -84,7 +89,40 @@ class CategoryController extends Controller implements HasMiddleware {
 
   public function bulkDelete(Request $request) {
     $ids = $request->get('ids', []);
-    $result = Category::whereIn('id', $ids)->delete();
-    return response()->json($result);
+
+    $categoriesWithProducts = Category::whereIn('id', $ids)
+    ->whereHas('products')
+    ->get()->toArray();
+
+    // check if the parent category has children
+    $parentCategoriesHasChildren = Category::whereIn('id', $ids)
+    ->whereNull('parent_id')
+    ->whereHas('children')
+    ->get();
+
+    foreach ($parentCategoriesHasChildren as $parentCategory) {
+      if ($parentCategory->children()->exists()) {
+        $ids = array_diff($ids, [$parentCategory->id]);
+      } else {
+        $parentCategory->clearMediaCollection();
+        $parentCategory->delete();
+        $ids = array_diff($ids, [$parentCategory->id]);
+      }
+    }
+
+    Category::whereIn('id', $ids)
+        ->whereDoesntHave('products')
+        ->delete();
+
+    $message = '';
+    if (!empty($categoriesWithProducts) || !empty($parentCategoriesHasChildren->toArray())) {
+      $message = 'Some categories could not be deleted due to associated products or having children categories.';
+    } else {
+      $message = 'Categories deleted successfully.';
+    }
+
+    return response()->json([
+      'message' => $message,
+    ]);
   }
 }
