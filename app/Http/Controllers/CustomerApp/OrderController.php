@@ -37,9 +37,9 @@ class OrderController extends Controller {
     DB::beginTransaction();
     try {
       $cartItems = $this->getCartItems($request);
-      // if ($cartItems->isEmpty()) {
-            //     return response()->apiResponse(null, 'Cart is empty', false, 400);
-      // }
+      if ($cartItems->isEmpty()) {
+        return response()->apiResponse(null, 'Cart is empty', false, 400);
+      }
       $total = $this->getTotalPrice($cartItems);
       $order = $request->user()->orders()->create([
         'order_type' => $request->order_type,
@@ -72,9 +72,13 @@ class OrderController extends Controller {
   protected function getCartItems($request) {
     return $request->user()
         ->cart()
-        ->where('type', CartType::SHOPPING)
+        ->where('type', $this->getCartType($request->order_type))
         ->with('cartItems.product')
         ->first()->cartItems;
+  }
+
+  protected function getCartType($orderType) {
+    return $orderType === OrderTypes::CUSTOMER ? CartType::SHOPPING : CartType::INVESTMENT;
   }
 
   protected function getTotalPrice($cartItems) {

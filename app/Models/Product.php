@@ -65,7 +65,7 @@ class Product extends Model implements TranslatableContract, HasMedia {
       'sortable' => true,
     ],
     'price' => [
-      'searchable' => false,
+      'searchable' => true,
       'sortable' => true,
     ],
     'discount' => [
