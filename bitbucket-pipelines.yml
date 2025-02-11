@@ -8,8 +8,9 @@ pipelines:
           caches:
             - composer
           script:
-            - apt-get update && apt-get install -y unzip libzip-dev libpq-dev
-            - docker-php-ext-install zip pdo pdo_mysql
+            - apt-get update && apt-get install -y unzip libzip-dev libpq-dev libexif-dev
+            - docker-php-ext-configure exif
+            - docker-php-ext-install zip pdo pdo_mysql exif
             - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             - composer install --no-interaction --no-progress --prefer-dist
             - cp .env.example .env
