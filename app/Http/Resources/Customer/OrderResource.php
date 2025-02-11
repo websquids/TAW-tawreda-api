@@ -26,13 +26,8 @@ class OrderResource extends JsonResource {
    * @return array<string, mixed>
    */
   public function transformForIndex(): array {
-    return [
+    $data = [
       'id' => $this->id,
-      'address' => [
-        'city' => $this->orderAddress->address->city,
-        'street' => $this->orderAddress->address->street,
-        'building_number' => $this->orderAddress->address->building_number,
-      ],
       'user' => [
         'name' => $this->user->name,
       ],
@@ -40,6 +35,14 @@ class OrderResource extends JsonResource {
       'created_at' => $this->created_at,
       'total' => $this->total,
     ];
+    if ($this->order_type !== 'investor') {
+      $data['address'] = [
+        'city' => $this->orderAddress->address->city,
+        'street' => $this->orderAddress->address->street,
+        'building_number' => $this->orderAddress->address->building_number,
+      ];
+    }
+    return $data;
   }
 
   /**

@@ -13,8 +13,17 @@ class OrderService {
     $this->orderFilter = new OrderFilter();
   }
   public function getFilteredOrders(Request $request) {
-    $orders = $this->orderFilter->apply(Order::query(), $request);
+    $orders = $this->orderFilter->filterByCurrentUser(Order::query(), $request);
 
+    $paginationOrders = $orders->paginate($request->get('perPage', 10));
+
+    $paginationOrders->data = OrderResource::collection($paginationOrders);
+
+    return $paginationOrders;
+  }
+
+  public function getFilteredOrdersByCurrentUser(Request $request) {
+    $orders = $this->orderFilter->filterByCurrentUser(Order::query(), $request);
     $paginationOrders = $orders->paginate($request->get('perPage', 10));
 
     $paginationOrders->data = OrderResource::collection($paginationOrders);

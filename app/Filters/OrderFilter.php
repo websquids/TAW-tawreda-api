@@ -12,11 +12,12 @@ class OrderFilter extends BaseFilter {
   }
 
   public function apply(Builder $query, Request $request): Builder {
-    if ($request->has('order_type')) {
-      $query->where('order_type', $request->get('order_type'));
-    } else {
-      $query->where('order_type', Order::ORDER_TYPES['CUSTOMER']);
-    }
+    parent::apply($query, $request);
+    return $query;
+  }
+
+  public function filterByCurrentUser(Builder $query, Request $request): Builder {
+    $query->where('user_id', auth()->id());
     parent::apply($query, $request);
     return $query;
   }

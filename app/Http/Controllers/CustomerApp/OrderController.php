@@ -20,7 +20,7 @@ class OrderController extends Controller {
     $this->orderService = $orderService;
   }
   public function index(Request $request) {
-    $orders = $this->orderService->getFilteredOrders($request);
+    $orders = $this->orderService->getFilteredOrdersByCurrentUser($request);
     return response()->apiResponse($orders);
     // return response()->apiResponse(OrderResource::collection($orders));
   }
