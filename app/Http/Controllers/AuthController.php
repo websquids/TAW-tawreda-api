@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ResetPasswordIdentifierTypes as ConstantsResetPasswordIdentifierTypes;
+use App\Constants\VerifyTypes;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\CustomerApp\VerifySMSRequest;
 use App\Models\OTP;
 use App\Models\User;
 use App\Services\OtpService;
+use App\Services\ResetPasswordService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,8 +18,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller {
   protected OtpService $otpService;
-  public function __construct(OtpService $otpService) {
+  protected ResetPasswordService $resetPasswordService;
+  public function __construct(OtpService $otpService, ResetPasswordService $resetPasswordService) {
     $this->otpService = $otpService;
+    $this->resetPasswordService = $resetPasswordService;
   }
   public function login(Request $request) {
     $validator = Validator::make($request->all(), [
@@ -92,36 +97,62 @@ class AuthController extends Controller {
 
   protected function verifySMS($request) {
     try {
-      $user = User::where('phone', $request->phone)->first();
       $verifyStatus = $this->otpService->verifyOTP($request->phone, $request->otp);
-      switch ($verifyStatus['status']) {
-        case OTP::STATUS['VALID']:
-          break;
-        case OTP::STATUS['EXPIRED_AND_RESENT']:
-          return response()->apiResponse(['message' => $verifyStatus['message']], 400);
-        default:
-          return response()->apiResponse(['message' => 'Invalid OTP.'], 400);
+
+      if ($verifyStatus['status'] === OTP::STATUS['EXPIRED_AND_RESENT']) {
+        return response()->apiResponse(['message' => $verifyStatus['message']], 400);
       }
-      $user->update(['phone_verified_at' => now()]);
-      $this->otpService->deleteOtpByPhone($request->phone);
-      $token = $user->createToken('UserApp')->accessToken;
-      $roles = $user->getRoleNames();
-      $permissions = $user->getAllPermissions()->pluck('name');
-      $user->fcmTokens()->create([
-        'fcm_token' => $request->fcm_token,
-        'device_name' => $request->device_name,
-      ]);
-      return response()->apiResponse(
-        [
-          'token' => $token,
-          'user' => $user,
-          'roles' => $roles,
-          'permissions' => $permissions,
-        ],
-      );
+
+      if ($verifyStatus['status'] !== OTP::STATUS['VALID']) {
+        return response()->apiResponse(['message' => 'Invalid OTP.'], 400);
+      }
+
+      return match ($request->verify_type) {
+        VerifyTypes::REGISTER => $this->handleRegistrationVerification($request),
+        VerifyTypes::FORGET_PASSWORD => $this->handleForgetPasswordVerification($request),
+        default => response()->apiResponse(['message' => 'Invalid verify type.'], 400),
+      };
     } catch (\Exception $e) {
       return response()->apiResponse(['message' => $e->getMessage()], 500);
     }
+  }
+
+  private function handleRegistrationVerification($request) {
+    $user = User::where('phone', $request->phone)->first();
+
+    if ($user->phone_verified_at !== null) {
+      return response()->apiResponse(['message' => 'Phone number already verified.'], 400);
+    }
+
+    $user->update(['phone_verified_at' => now()]);
+
+    $token = $user->createToken('UserApp')->accessToken;
+    $roles = $user->getRoleNames();
+    $permissions = $user->getAllPermissions()->pluck('name');
+
+    $user->fcmTokens()->create([
+      'fcm_token' => $request->fcm_token,
+      'device_name' => $request->device_name,
+    ]);
+
+    return response()->apiResponse(
+      [
+        'token' => $token,
+        'user' => $user,
+        'roles' => $roles,
+        'permissions' => $permissions,
+      ],
+    );
+  }
+
+  private function handleForgetPasswordVerification($request) {
+    $user = User::where('phone', $request->phone)->first();
+
+    if ($user->phone_verified_at === null) {
+      return response()->apiResponse(['message' => 'Phone number not verified.'], 400);
+    }
+    $resetPasswordToken = $this->resetPasswordService->createResetToken($request->phone, ConstantsResetPasswordIdentifierTypes::PHONE);
+    return response()->apiResponse(['reset_password_token' => $resetPasswordToken->token], 200);
   }
 
   public function customerLogout(Request $request) {
@@ -147,9 +178,8 @@ class AuthController extends Controller {
 
   public function resetPassword(Request $request) {
     $validator = Validator::make($request->all(), [
-      'phone' => 'required|exists:users,phone',
+      'reset_password_token' => 'required',
       'password' => 'required|string|min:8|confirmed',
-      'otp' => 'required|numeric|digits:6',
     ]);
 
     if ($validator->fails()) {
@@ -157,23 +187,12 @@ class AuthController extends Controller {
     }
 
     try {
-      $user = User::where('phone', $request->phone)->first();
-
-      // Verify OTP
-      $verifyStatus = $this->otpService->verifyOTP($request->phone, $request->otp);
-
-      switch ($verifyStatus['status']) {
-        case OTP::STATUS['VALID']:
-          break;
-        case OTP::STATUS['EXPIRED_AND_RESENT']:
-          return response()->apiResponse(['message' => $verifyStatus['message']], 400);
-        default:
-          return response()->apiResponse(['message' => 'Invalid OTP.'], 400);
+      $user = $this->resetPasswordService->getUserByResetToken($request->reset_password_token);
+      if (!$user) {
+        return response()->apiResponse(['message' => 'Invalid reset password token.'], 400);
       }
-
       $user->password = Hash::make($request->password);
       $user->save();
-      $this->otpService->deleteOtpByPhone($request->phone);
       return response()->apiResponse(['message' => 'Password reset successfully.'], 200);
     } catch (\Exception $e) {
       return response()->apiResponse(['message' => $e->getMessage()], 500);
