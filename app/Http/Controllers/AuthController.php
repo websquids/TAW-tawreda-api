@@ -6,6 +6,7 @@ use App\Constants\ResetPasswordIdentifierTypes as ConstantsResetPasswordIdentifi
 use App\Constants\VerifyTypes;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\CustomerApp\ChangePasswordRequest;
 use App\Http\Requests\CustomerApp\VerifySMSRequest;
 use App\Models\OTP;
 use App\Models\User;
@@ -199,6 +200,13 @@ class AuthController extends Controller {
     }
   }
 
+  public function changePassword(ChangePasswordRequest $request) {
+    $user = auth()->user();
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+    return response()->apiResponse(['message' => 'Password changed successfully.'], 200);
+  }
+
   public function forgetPassword(Request $request) {
     $validator = Validator::make($request->all(), [
       'phone' => 'required|exists:users,phone',
@@ -217,5 +225,11 @@ class AuthController extends Controller {
     } catch (\Exception $e) {
       return response()->apiResponse(['message' => $e->getMessage()], 500);
     }
+  }
+
+  public function deleteUser(Request $request) {
+    $user = $request->user();
+    $user->delete();
+    return response()->apiResponse(['message' => 'User deleted successfully.'], 200);
   }
 }

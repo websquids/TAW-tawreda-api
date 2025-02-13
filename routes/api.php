@@ -58,6 +58,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index'])->name('customer_app.orders.index');
     Route::get('/orders/order-statuses', [App\Http\Controllers\OrderController::class, 'getAllOrderStatus']);
     Route::get('/orders/{id}', [App\Http\Controllers\CustomerApp\OrderController::class, 'show']);
+    Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
   });
   Route::post('/auth/verify-otp/{chanel}', [AuthController::class, 'verifyOTP']);
