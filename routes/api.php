@@ -33,6 +33,9 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::get('orders/{order}', [App\Http\Controllers\OrderController::class, 'show']);
   Route::delete('orders/{order}', [App\Http\Controllers\OrderController::class, 'destroy']);
   Route::get('cart', [App\Http\Controllers\CartController::class, 'index']);
+  Route::post('sliders', [App\Http\Controllers\SliderController::class, 'store'])->name('sliders.store');
+  Route::get('sliders', [App\Http\Controllers\SliderController::class, 'index'])->name('sliders.index');
+  Route::put('sliders/{slider}', [App\Http\Controllers\SliderController::class, 'edit'])->name('sliders.edit');
 });
 
 Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middleware' => ['setLanguage']], function () {
