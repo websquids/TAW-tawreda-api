@@ -43,6 +43,7 @@ class RolesAndPermissionsSeeder extends Seeder {
       'edit address',
       'view order',
       'create order',
+      'view app_settings',
     ];
 
     foreach ($customerPermissions as $permission) {
