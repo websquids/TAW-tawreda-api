@@ -7,6 +7,7 @@ use App\Constants\VerifyTypes;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\CustomerApp\ChangePasswordRequest;
+use App\Http\Requests\CustomerApp\DeleteAccountRequest;
 use App\Http\Requests\CustomerApp\VerifySMSRequest;
 use App\Models\OTP;
 use App\Models\User;
@@ -227,7 +228,7 @@ class AuthController extends Controller {
     }
   }
 
-  public function deleteUser(Request $request) {
+  public function deleteUser(DeleteAccountRequest $request) {
     $user = $request->user();
     $user->delete();
     return response()->apiResponse(['message' => 'User deleted successfully.'], 200);
