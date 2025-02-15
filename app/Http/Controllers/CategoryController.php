@@ -50,7 +50,6 @@ class CategoryController extends Controller implements HasMiddleware {
     } catch (\Exception $e) {
       DB::rollBack();
       Log::error('Category creation failed: ' . $e->getMessage());
-
       return response()->json(['error' => 'Failed to create category.'], 500);
     }
   }

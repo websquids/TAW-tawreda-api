@@ -36,6 +36,8 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::post('sliders', [App\Http\Controllers\SliderController::class, 'store'])->name('sliders.store');
   Route::get('sliders', [App\Http\Controllers\SliderController::class, 'index'])->name('sliders.index');
   Route::put('sliders/{slider}', [App\Http\Controllers\SliderController::class, 'edit'])->name('sliders.edit');
+  Route::post('app-settings', [App\Http\Controllers\AppSettingsController::class, 'store'])->name('app_settings.store');
+  // Route::get('app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])->name('app_settings.index');
 });
 
 Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middleware' => ['setLanguage']], function () {
@@ -63,6 +65,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::get('/orders/{id}', [App\Http\Controllers\CustomerApp\OrderController::class, 'show']);
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
+    Route::get('/app-settings', [App\Http\Controllers\CustomerApp\AppSettingsController::class, 'index']);
   });
   Route::post('/auth/verify-otp/{chanel}', [AuthController::class, 'verifyOTP']);
 });

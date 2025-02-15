@@ -19,6 +19,8 @@ class RolesAndPermissionsSeeder extends Seeder {
       'order',
       'cart',
       'address',
+      'sliders',
+      'app_settings',
     ];
 
     foreach ($resources as $resource) {

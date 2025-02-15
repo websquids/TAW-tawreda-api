@@ -19,7 +19,7 @@ class CategoryStoreRequest extends FormRequest {
     return [
       'en.title' => ['required', 'string'],
       'ar.title' => ['required', 'string'],
-      //   'image' => ['required', 'mimes:jpg,jpeg,png',],
+      'image' => ['required', 'mimes:jpg,jpeg,png',],
       'parent_id' => ['nullable', 'exists:categories,id,parent_id,NULL'],
     ];
   }
