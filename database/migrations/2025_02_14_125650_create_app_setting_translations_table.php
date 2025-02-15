@@ -13,7 +13,7 @@ return new class () extends Migration {
       $table->id();
       $table->foreignId('app_setting_id')->constrained('app_settings')->cascadeOnDelete();
       $table->string('locale')->index();
-      $table->string('value');
+      $table->longText('value');
       $table->timestamps();
     });
   }

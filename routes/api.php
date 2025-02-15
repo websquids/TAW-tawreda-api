@@ -45,7 +45,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
   Route::post('/auth/register', [AuthController::class, 'register']);
   Route::post('/auth/forget-password', [AuthController::class, 'forgetPassword']);
   Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
-  Route::get('/delete-account', [AuthController::class, 'deleteUser']);
+  Route::delete('/delete-account', [AuthController::class, 'deleteUser']);
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
   Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
   Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
