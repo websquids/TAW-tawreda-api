@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Filters\AppSettingsFilter;
+use App\Http\Resources\CustomerApp\AppSettingsResource;
 use App\Models\AppSetting;
 use App\Models\AppSettingValue;
 
@@ -58,6 +59,25 @@ class AppSettingsService {
   }
 
   public function getAppSettings($request) {
-    return $this->filter->apply($this->appSetting->query(), $request);
+    $query = $this->filter->apply($this->appSetting->query(), $request);
+
+    $perPage = (int) $request->get('perPage', 10);
+
+    if ($perPage === -1) {
+      $appSettings = $query->get();
+      return $appSettings;
+    }
+
+    // Otherwise, paginate the results
+    $paginatedAppSettings = $query->paginate($perPage);
+
+    $paginatedAppSettings->data = AppSettingsResource::collection($paginatedAppSettings);
+
+    return $paginatedAppSettings;
+  }
+
+  public function getById($id) {
+    $appSetting = $this->appSetting->findOrFail($id);
+    return $appSetting;
   }
 }

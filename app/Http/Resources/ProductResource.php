@@ -13,6 +13,8 @@ class ProductResource extends JsonResource {
    * Transform the resource into an array.
    */
   public function toArray(Request $request): array {
+    // get app_mode from the request parameters
+    $appMode = $request->get('app_mode');
     $locale = App::getLocale();
     $mediaItems = $this->getMedia('products');
 
@@ -57,6 +59,7 @@ class ProductResource extends JsonResource {
       'max_order_quantity' => $this->max_order_quantity,
       'min_storage_quantity' => $this->min_storage_quantity,
       'max_storage_quantity' => $this->max_storage_quantity,
+      'storage_discount' => $this->storage_discount,
     ];
     if ($request->get('has_image') !== 'false') {
       $data['images'] = $this->getMedia('gallery')->map(fn ($media) => url($media->getUrl()))->toArray();
@@ -70,6 +73,9 @@ class ProductResource extends JsonResource {
     } else {
       $data['title'] = $translatedTitle?->title ?? '';
       $data['description'] = $translatedTitle?->description ?? '';
+    }
+    if ($appMode == 'investor') {
+      $data['investor_price'] = calcPriceWithDiscount($this->price, $this->storage_discount);
     }
     return $data;
   }

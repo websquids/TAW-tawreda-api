@@ -18,6 +18,7 @@ class AppSettingsResource extends JsonResource {
       'id' => $this->id,
       'key' => $this->key,
       'type' => $this->type,
+      'has_translation' => $this->has_translation,
       'value' => $this->has_translation ? $translated : $this->value,
       'created_at' => $this->created_at,
       'updated_at' => $this->updated_at,

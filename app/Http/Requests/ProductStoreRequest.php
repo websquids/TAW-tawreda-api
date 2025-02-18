@@ -33,6 +33,7 @@ class ProductStoreRequest extends FormRequest {
       'max_storage_quantity' => ['required', 'integer'],
       'images' => ['required', 'array', 'max:10'],
       'images.*' => ['file', 'image'],
+      'storage_discount' => ['required', 'numeric', 'between:-999999.99,999999.99'],
     ];
   }
 }

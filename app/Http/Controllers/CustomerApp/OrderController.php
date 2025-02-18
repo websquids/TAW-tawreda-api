@@ -35,38 +35,66 @@ class OrderController extends Controller {
 
   public function store(OrderStoreRequest $request) {
     DB::beginTransaction();
+
     try {
       $cartItems = $this->getCartItems($request);
+
       if ($cartItems->isEmpty()) {
         return response()->apiResponse(null, 'Cart is empty', false, 400);
       }
-      $total = $this->getTotalPrice($cartItems);
-      $order = $request->user()->orders()->create([
-        'order_type' => $request->order_type,
-        'total' => $total,
-        'order_status' => Order::ORDER_STATUSES['PENDING'],
-      ]);
+
+      $order = $this->createOrder($request, $cartItems);
+
       if ($request->order_type === OrderTypes::CUSTOMER) {
-        $order->orderAddress()->create([
-          'address_id' => $request->address_id,
-          'order_id' => $order->id,
-        ]);
+        $this->attachOrderAddress($order, $request->address_id);
       }
-      foreach ($cartItems as $item) {
-        $order->orderProducts()->create([
-          'product_id' => $item['product_id'],
-          'quantity' => $item['quantity'],
-          'price' => $item['price'],
-        ]);
-      }
+
+      $this->attachOrderProducts($order, $cartItems, $request->order_type);
+
       $this->deleteCartItems($cartItems);
+
       DB::commit();
+
       return response()->apiResponse($order);
     } catch (\Exception $e) {
       DB::rollBack();
       return response()->apiResponse(null, $e->getMessage(), false, 500);
     }
   }
+
+  protected function createOrder($request, $cartItems) {
+    $total = $this->getTotalPrice($cartItems, $request->order_type);
+
+    return $request->user()->orders()->create([
+      'order_type' => $request->order_type,
+      'total' => $total,
+      'order_status' => Order::ORDER_STATUSES['PENDING'],
+    ]);
+  }
+
+  protected function attachOrderAddress($order, $addressId) {
+    $order->orderAddress()->create([
+      'address_id' => $addressId,
+      'order_id' => $order->id,
+    ]);
+  }
+
+  protected function attachOrderProducts($order, $cartItems, $orderType) {
+    foreach ($cartItems as $item) {
+      $orderProduct = $order->orderProducts()->create([
+        'product_id' => $item['product_id'],
+        'quantity' => $item['quantity'],
+        'price' => $item['price'],
+      ]);
+      if ($orderType === OrderTypes::INVESTOR) {
+        $orderProductInvestorPrice = calcPriceWithDiscount($item->price, $item->product->storage_discount);
+        $orderProduct->orderProductInvestorPrice()->create([
+          'investor_price' => $orderProductInvestorPrice,
+        ]);
+      }
+    }
+  }
+
 
 
   protected function getCartItems($request) {
@@ -81,10 +109,11 @@ class OrderController extends Controller {
     return $orderType === OrderTypes::CUSTOMER ? CartType::SHOPPING : CartType::INVESTMENT;
   }
 
-  protected function getTotalPrice($cartItems) {
+  protected function getTotalPrice($cartItems, $orderType) {
     $total = 0;
     foreach ($cartItems as $item) {
-      $total += $this->getPriceWithDiscount($item->price, $item->quantity, $item->product->discount);
+      $discount = $orderType === OrderTypes::CUSTOMER ? $item->product->discount : $item->product->storage_discount;
+      $total += $this->getPriceWithDiscount($item->price, $item->quantity, $discount);
     }
     return $total;
   }

@@ -37,7 +37,9 @@ Route::middleware('auth:api', 'setLanguage')->group(function () {
   Route::get('sliders', [App\Http\Controllers\SliderController::class, 'index'])->name('sliders.index');
   Route::put('sliders/{slider}', [App\Http\Controllers\SliderController::class, 'edit'])->name('sliders.edit');
   Route::post('app-settings', [App\Http\Controllers\AppSettingsController::class, 'store'])->name('app_settings.store');
-  // Route::get('app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])->name('app_settings.index');
+  Route::get('app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])->name('app_settings.index');
+  Route::get('app-settings/{appSetting}', [App\Http\Controllers\AppSettingsController::class, 'show']);
+  Route::put('app-settings/{appSetting}', [App\Http\Controllers\AppSettingsController::class, 'edit'])->name('app_settings.edit');
 });
 
 Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middleware' => ['setLanguage']], function () {

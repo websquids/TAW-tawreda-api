@@ -34,6 +34,7 @@ class Product extends Model implements TranslatableContract, HasMedia {
     'max_order_quantity',
     'min_storage_quantity',
     'max_storage_quantity',
+    'storage_discount',
   ];
 
   /**

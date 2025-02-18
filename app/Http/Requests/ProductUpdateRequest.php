@@ -31,6 +31,7 @@ class ProductUpdateRequest extends FormRequest {
       'max_order_quantity' => ['required', 'integer', 'gte:min_order_quantity'],
       'min_storage_quantity' => ['required', 'integer', 'min:1'],
       'max_storage_quantity' => ['required', 'integer', 'gte:min_storage_quantity'],
+      'storage_discount' => ['required', 'numeric', 'between:-999999.99,999999.99'],
     ];
   }
 }

@@ -29,4 +29,7 @@ class OrderProduct extends Model {
   public function product() {
     return $this->belongsTo(Product::class);
   }
+  public function orderProductInvestorPrice() {
+    return $this->hasOne(OrderProductInvestorPrice::class);
+  }
 }

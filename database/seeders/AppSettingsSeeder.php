@@ -16,8 +16,10 @@ class AppSettingsSeeder extends Seeder {
     $data = [
       [
         'key' => 'terms and conditions',
-        'type' => AppSettingTypes::STRING,
+        'type' => AppSettingTypes::HTML,
         'has_translation' => true,
+        'is_deletable' => false,
+        'is_value_editable' => false,
         'translations' => [
           'en' => [
             'value' => '<div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -49,8 +51,10 @@ class AppSettingsSeeder extends Seeder {
       ],
       [
         'key' => 'about us',
-        'type' => AppSettingTypes::STRING,
+        'type' => AppSettingTypes::HTML,
         'has_translation' => true,
+        'is_deletable' => false,
+        'is_value_editable' => false,
         'translations' => [
           'en' => [
             'value' => '<div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -78,7 +82,7 @@ class AppSettingsSeeder extends Seeder {
       ],
       [
         'key' => 'privacy policy',
-        'type' => AppSettingTypes::STRING,
+        'type' => AppSettingTypes::HTML,
         'has_translation' => true,
         'translations' => [
           'en' => [
@@ -111,8 +115,10 @@ class AppSettingsSeeder extends Seeder {
       ],
       [
         'key' => 'faqs',
-        'type' => AppSettingTypes::STRING,
+        'type' => AppSettingTypes::HTML,
         'has_translation' => true,
+        'is_deletable' => false,
+        'is_value_editable' => false,
         'translations' => [
           'en' => [
             'value' => '<div style="font-family: Arial, sans-serif; padding: 20px;">
