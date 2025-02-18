@@ -229,8 +229,9 @@ class AuthController extends Controller {
   }
 
   public function deleteUser(DeleteAccountRequest $request) {
-    $user = $request->user();
+    // delete user
+    $user = auth('api')->user();
     $user->delete();
-    return response()->apiResponse(['message' => 'User deleted successfully.'], 200);
+    return response()->apiResponse(['message' => 'Account deleted successfully.'], 200);
   }
 }

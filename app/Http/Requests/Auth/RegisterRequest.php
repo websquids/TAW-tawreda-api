@@ -33,7 +33,8 @@ class RegisterRequest extends FormRequest {
     return [
       'name' => 'required|string|max:255',
       'phone' => ['required', 'string', new ValidPhoneNumber(), 'unique:users'],
-      'email' => 'nullable|string|email|max:255,unique:users',
+      'email' => 'nullable|string|email|max:255|unique:users,email',
+
       'password' => 'required|string|min:8|confirmed',
     ];
   }
