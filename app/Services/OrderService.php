@@ -33,7 +33,7 @@ class OrderService {
 
       // If there is no order, return an appropriate response
       if (!$firstOrder) {
-        return response()->json(['message' => 'No orders found'], 404);
+        throw new \Exception('please create an order first', 404);
       }
 
       // Use transformForShow for the first order
