@@ -23,8 +23,12 @@ class OrderController extends Controller {
     $this->appSettingsService = $appSettingsService;
   }
   public function index(Request $request) {
-    $orders = $this->orderService->getFilteredOrdersByCurrentUser($request);
-    return response()->apiResponse($orders);
+    try {
+      $orders = $this->orderService->getFilteredOrdersByCurrentUser($request);
+      return response()->apiResponse($orders);
+    } catch (\Exception $e) {
+      return response()->apiResponse(null, $e->getMessage(), false, 500);
+    }
   }
 
   public function show($id) {
