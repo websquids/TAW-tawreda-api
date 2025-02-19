@@ -51,6 +51,9 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
   Route::get('/categories', [App\Http\Controllers\CustomerApp\CategoryController::class, 'index']);
   Route::get('/products', [App\Http\Controllers\CustomerApp\ProductController::class, 'index']);
   Route::get('/products/{id}', [App\Http\Controllers\CustomerApp\ProductController::class, 'show']);
+  Route::get('/sliders', [App\Http\Controllers\CustomerApp\SliderController::class, 'index']);
+  Route::get('/brands', [App\Http\Controllers\CustomerApp\BrandController::class, 'index']);
+
   Route::group(['middleware' => ['role:customer', 'auth:api']], function () {
     Route::get('/products/min-max-price', [App\Http\Controllers\CustomerApp\ProductController::class, 'getMinimumandMaximumPrice']);
     Route::get('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'index']);
@@ -69,8 +72,6 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
     Route::get('/app-settings', [App\Http\Controllers\CustomerApp\AppSettingsController::class, 'index']);
-    Route::get('/sliders', [App\Http\Controllers\CustomerApp\SliderController::class, 'index']);
-    Route::get('/brands', [App\Http\Controllers\CustomerApp\BrandController::class, 'index']);
   });
   Route::post('/auth/verify-otp/{chanel}', [AuthController::class, 'verifyOTP']);
 });
