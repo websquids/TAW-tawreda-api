@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Customer;
 
+use App\Enums\CartType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +16,7 @@ class CartResource extends JsonResource {
     return [
       'id' => $this->id,
       'user_id' => $this->user_id,
-      'total' => $this->total,
+      'total' => $this->calculateTotal($this->cartItems, $this->type),
       'type' => $this->type,
       'cart_items' => $this->whenLoaded('cartItems', function () {
         return $this->cartItems()->orderBy('created_at')->get()->map(function ($item) {
@@ -45,10 +46,12 @@ class CartResource extends JsonResource {
     ];
   }
 
-  private function calculateTotal($products) {
+  private function calculateTotal($cartItems, $cartType) {
     $total = 0;
-    foreach ($products as $product) {
-      $total += calcPriceWithDiscount($product->price, $product->discount);
+    foreach ($cartItems as $cartItem) {
+      $product = $cartItem->product;
+      $discount = $cartType === CartType::SHOPPING ? $product->discount : $product->storage_discount;
+      $total += calcPriceWithDiscount($cartItem->price, $discount) * $cartItem->quantity;
     }
     return $total;
   }
