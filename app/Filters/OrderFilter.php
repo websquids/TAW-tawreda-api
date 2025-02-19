@@ -17,7 +17,7 @@ class OrderFilter extends BaseFilter {
   }
 
   public function filterByCurrentUser(Builder $query, Request $request): Builder {
-    $query->where('user_id', auth()->id());
+    $query->where('user_id', auth('api')->id());
     parent::apply($query, $request);
     return $query;
   }

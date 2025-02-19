@@ -99,6 +99,7 @@ class AuthController extends Controller {
 
   protected function verifySMS($request) {
     try {
+      // dd($request->phone, $request->otp);
       $verifyStatus = $this->otpService->verifyOTP($request->phone, $request->otp);
 
       if ($verifyStatus['status'] === OTP::STATUS['EXPIRED_AND_RESENT']) {

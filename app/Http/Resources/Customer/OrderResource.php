@@ -53,35 +53,6 @@ class OrderResource extends JsonResource {
    * @return array<string, mixed>
    */
   public function transformForShow(): array {
-    // $orderItems = $this->orderProducts->map(function ($orderProduct) {
-        //     $product = $orderProduct->product;
-        //     $discountedPrice = $orderProduct->price * (1 - ($product->discount / 100));
-        //     $totalPrice = $discountedPrice * $orderProduct->quantity;
-        //     $data = [
-        //         'id' => $orderProduct->id,
-        //         'product_name' => $product->title,
-        //         'product_price' => $orderProduct->price,
-        //         'quantity' => $orderProduct->quantity,
-        //         'discount' => $product->discount,
-        //         'media' => $product->getMedia('products')->map(function ($media) {
-        //             return [
-        //               'original' => $media->getUrl(),
-        //               'thumb' => $media->getUrl('thumb'),
-        //               'medium' => $media->getUrl('medium'),
-        //               'large' => $media->getUrl('large'),
-        //             ];
-        //         }),
-        //       ];
-        //     if ($this->order_type === OrderTypes::INVESTOR) {
-        //         $data['old_investor_price_price'] = $orderProduct->orderProductInvestorPrice->investor_price;
-        //         $data['old_total_investor_price'] = $orderProduct->orderProductInvestorPrice->investor_price * $orderProduct->quantity;
-        //         $data['new_investor_price'] = calcPriceWithDiscount($orderProduct->price, $product->storage_discount);
-        //         $data['new_total_investor_price'] = $data['new_investor_price'] * $orderProduct->quantity;
-        //     } else {
-        //         $data['total_price'] = $totalPrice;
-        //     }
-        //     return $data;
-    // });
     $data = [
       'id' => $this->id,
       'order_type' => $this->order_type,

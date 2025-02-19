@@ -15,7 +15,16 @@ class SliderService {
     $this->sliderFilter = $sliderFilter;
   }
   public function getActiveSlider(): Slider {
-    return $this->sliderModel->where('is_active', true)->getMedia('sliders')->first();
+    $slider = $this->sliderModel->where('is_active', true)->first();
+    if (!$slider) {
+      throw new \Exception('No active slider found');
+    }
+    // $slider['media'] = $slider->getMedia('sliders')->map(function ($media) {
+        //     return [
+        //       'original' => $media->getUrl(),
+        //     ];
+    // })->toArray();
+    return $slider;
   }
 
   public function getFilteredSlider($request) {

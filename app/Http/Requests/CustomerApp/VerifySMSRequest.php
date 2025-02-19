@@ -3,7 +3,6 @@
 namespace App\Http\Requests\CustomerApp;
 
 use App\Constants\VerifyTypes;
-use App\Rules\ValidPhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VerifySMSRequest extends FormRequest {
@@ -29,7 +28,6 @@ class VerifySMSRequest extends FormRequest {
    */
   public function rules(): array {
     return [
-      'phone' => ['required', 'exists:users,phone', 'exists:otps,phone', new ValidPhoneNumber()],
       'otp' => 'required|numeric|digits:6',
       'fcm_token' => 'required_if:verify_type,register', // required if verify type is register
       'device_name' => 'required_if:verify_type,register', // required if verify type is register

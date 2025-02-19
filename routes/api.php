@@ -69,6 +69,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
     Route::get('/app-settings', [App\Http\Controllers\CustomerApp\AppSettingsController::class, 'index']);
+    Route::get('/sliders', [App\Http\Controllers\CustomerApp\SliderController::class, 'index']);
   });
   Route::post('/auth/verify-otp/{chanel}', [AuthController::class, 'verifyOTP']);
 });

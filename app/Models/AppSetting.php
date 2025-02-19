@@ -10,7 +10,13 @@ class AppSetting extends Model implements TranslatableContract {
   use Translatable;
 
   public $translatedAttributes = ['value'];
-  protected $fillable = ['key'];
+  protected $fillable = [
+    'key',
+    'is_key_editable',
+    'is_deletable',
+    'type',
+    'has_translation',
+  ];
 
 
   protected static array $fields = [
@@ -50,6 +56,6 @@ class AppSetting extends Model implements TranslatableContract {
     return $fields;
   }
   public function value() {
-    return $this->hasOne(AppSettingValue::class);
+    return $this->hasOne(AppSettingValue::class, 'app_setting_id', 'id');
   }
 }

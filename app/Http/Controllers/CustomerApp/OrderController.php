@@ -6,23 +6,25 @@ use App\Constants\OrderTypes;
 use App\Enums\CartType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerApp\OrderStoreRequest;
-use App\Http\Resources\Customer\OrderResource;
 use App\Models\Order;
+use App\Services\AppSettingsService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller {
   protected OrderService $orderService;
+  protected AppSettingsService $appSettingsService;
   public function __construct(
-    OrderService $orderService
+    OrderService $orderService,
+    AppSettingsService $appSettingsService
   ) {
     $this->orderService = $orderService;
+    $this->appSettingsService = $appSettingsService;
   }
   public function index(Request $request) {
     $orders = $this->orderService->getFilteredOrdersByCurrentUser($request);
     return response()->apiResponse($orders);
-    // return response()->apiResponse(OrderResource::collection($orders));
   }
 
   public function show($id) {
@@ -64,12 +66,34 @@ class OrderController extends Controller {
 
   protected function createOrder($request, $cartItems) {
     $total = $this->getTotalPrice($cartItems, $request->order_type);
-
+    $this->checkOrderAmount($request->order_type, $total);
     return $request->user()->orders()->create([
       'order_type' => $request->order_type,
       'total' => $total,
       'order_status' => Order::ORDER_STATUSES['PENDING'],
     ]);
+  }
+
+  protected function checkOrderAmount(string $orderType, $total) {
+    if ($orderType === OrderTypes::INVESTOR) {
+      $minAmount = $this->appSettingsService->getSettingByKey('minimum investor order amount');
+      $maxAmount = $this->appSettingsService->getSettingByKey('maximum investor order amount');
+      if ($total < $minAmount->value) {
+        throw new \Exception('Minimum order amount is ' . $minAmount);
+      }
+      if ($total > $maxAmount->value) {
+        throw new \Exception('Maximum order amount is ' . $maxAmount);
+      }
+    } else {
+      $minAmount = $this->appSettingsService->getSettingByKey('minimum order amount');
+      $maxAmount = $this->appSettingsService->getSettingByKey('maximum order amount');
+      if ($total < $minAmount->value) {
+        throw new \Exception('Minimum order amount is ' . $minAmount);
+      }
+      if ($total > $maxAmount->value) {
+        throw new \Exception('Maximum order amount is ' . $maxAmount);
+      }
+    }
   }
 
   protected function attachOrderAddress($order, $addressId) {

@@ -21,6 +21,9 @@ class AppSettingsService {
 
   public function getSettingByKey($key) {
     $appSetting = $this->appSetting->where('key', $key)->first();
+    if (!$appSetting->has_translation) {
+      $appSetting->value = $appSetting->value()->first()->value;
+    }
     return $appSetting;
   }
 
