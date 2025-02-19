@@ -79,19 +79,19 @@ class OrderController extends Controller {
       $minAmount = $this->appSettingsService->getSettingByKey('minimum investor order amount');
       $maxAmount = $this->appSettingsService->getSettingByKey('maximum investor order amount');
       if ($total < $minAmount->value) {
-        throw new \Exception('Minimum order amount is ' . $minAmount);
+        throw new \Exception('Minimum order amount is ' . $minAmount->value);
       }
       if ($total > $maxAmount->value) {
-        throw new \Exception('Maximum order amount is ' . $maxAmount);
+        throw new \Exception('Maximum order amount is ' . $maxAmount->value);
       }
     } else {
       $minAmount = $this->appSettingsService->getSettingByKey('minimum order amount');
       $maxAmount = $this->appSettingsService->getSettingByKey('maximum order amount');
       if ($total < $minAmount->value) {
-        throw new \Exception('Minimum order amount is ' . $minAmount);
+        throw new \Exception('Minimum order amount is ' . $minAmount->value);
       }
       if ($total > $maxAmount->value) {
-        throw new \Exception('Maximum order amount is ' . $maxAmount);
+        throw new \Exception('Maximum order amount is ' . $maxAmount->value);
       }
     }
   }
