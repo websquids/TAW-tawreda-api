@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\CustomerApp\ChangePasswordRequest;
 use App\Http\Requests\CustomerApp\DeleteAccountRequest;
+use App\Http\Requests\CustomerApp\UpdateProfile;
 use App\Http\Requests\CustomerApp\VerifySMSRequest;
 use App\Models\OTP;
 use App\Models\User;
@@ -21,10 +22,12 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller {
   protected OtpService $otpService;
   protected ResetPasswordService $resetPasswordService;
+
   public function __construct(OtpService $otpService, ResetPasswordService $resetPasswordService) {
     $this->otpService = $otpService;
     $this->resetPasswordService = $resetPasswordService;
   }
+
   public function login(Request $request) {
     $validator = Validator::make($request->all(), [
       'email' => 'required|email',
@@ -47,8 +50,8 @@ class AuthController extends Controller {
     $validator = Validator::make($request->all(), [
       'phone' => 'required|exists:users,phone',
       'password' => 'required|string',
-      'fcm_token' => 'required|string',
-      'device_name' => 'required|string',
+      'fcm_token' => 'nullable|string',
+      'device_name' => 'required_with:fcm_token|nullable|string',
     ]);
     if ($validator->fails()) {
       return response()->json(['errors' => $validator->errors()], 422);
@@ -63,13 +66,15 @@ class AuthController extends Controller {
     $roles = $user->getRoleNames();
     $permissions = $user->getAllPermissions()->pluck('name');
     $token = $user->createToken('UserApp')->accessToken;
-    $user->fcmTokens()->updateOrCreate(
-      ['fcm_token' => $request->fcm_token],
-      [
-        'fcm_token' => $request->fcm_token,
-        'device_name' => $request->device_name,
-      ],
-    );
+    if (!empty($request->fcm_token)) {
+      $user->fcmTokens()->updateOrCreate(
+        ['fcm_token' => $request->fcm_token],
+        [
+          'fcm_token' => $request->fcm_token,
+          'device_name' => $request->device_name,
+        ],
+      );
+    }
     return response()->json(['token' => $token, 'user' => $user, 'roles' => $roles, 'permissions' => $permissions], 200);
   }
 
@@ -85,6 +90,19 @@ class AuthController extends Controller {
     } catch (\Exception $e) {
       DB::rollBack();
       return response()->apiResponse(['message' => $e->getMessage()], 500);
+    }
+  }
+
+  public function updateProfile(UpdateProfile $request) {
+    DB::beginTransaction();
+    try {
+      $user = $request->user();
+      $user->update($request->validated());
+      DB::commit();
+      return response()->apiResponse($user);
+    } catch (\Throwable $th) {
+      DB::rollBack();
+      return response()->apiResponse(['message' => $th->getMessage()], 500);
     }
   }
 

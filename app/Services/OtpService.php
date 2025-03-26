@@ -21,28 +21,27 @@ class OtpService {
           'expires_at' => now()->addMinutes(5),
         ],
       );
-      $this->twilioService->sendSMS($phone, $message ?? "Your OTP is: $otp");
+      $this->twilioService->sendSMS($phone, $message ?? "Your Tawreda OTP is: $otp");
       $otp = OTP::where('phone', $phone)->first();
       return $otp;
     } catch (\Exception $e) {
-      dd($e);
       return response()->json(['message' => $e->getMessage()], 500);
     }
   }
 
   public function verifyOTP($phone, $otp): array {
     $storedOTP = OTP::where('phone', $phone)->first();
-    if ($otp == '123456') {
+    if (config('app.debug') && $otp == '123456') {
       $storedOTP->delete();
-      return ['status' => OTP::STATUS['VALID'],'message' => 'OTP verified successfully.'];
+      return ['status' => OTP::STATUS['VALID'], 'message' => 'OTP verified successfully.'];
     }
     if ($storedOTP->otp == $otp) {
       if ($storedOTP->expires_at < now()) {
         $this->sendOTP($phone, null);
-        return ['status' => OTP::STATUS['EXPIRED_AND_RESENT'],'message' => 'OTP expired. New OTP sent.'];
+        return ['status' => OTP::STATUS['EXPIRED_AND_RESENT'], 'message' => 'OTP expired. New OTP sent.'];
       } else {
         $storedOTP->delete();
-        return ['status' => OTP::STATUS['VALID'],'message' => 'OTP verified successfully.'];
+        return ['status' => OTP::STATUS['VALID'], 'message' => 'OTP verified successfully.'];
       }
     }
     // Default response if OTP is invalid or not found

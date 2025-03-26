@@ -18,9 +18,17 @@ class RegisterRequest extends FormRequest {
    */
   protected function prepareForValidation() {
     if ($this->has('phone')) {
-      $this->merge([
-        'phone' => ltrim($this->input('phone'), '0'), // Remove leading zero
-      ]);
+      $phone = preg_replace('/\D/', '', $this->input('phone')); // Remove non-digit characters
+
+      if (str_starts_with($phone, '20') && strlen($phone) === 12) {
+        $phone = substr($phone, 2); // Remove country code
+      }
+
+      if (str_starts_with($phone, '0') && strlen($phone) === 11) {
+        $phone = substr($phone, 1); // Remove leading zero
+      }
+
+      $this->merge(['phone' => $phone]);
     }
   }
 
