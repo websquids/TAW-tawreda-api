@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CustomerApp;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerApp\GetProducts;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
@@ -16,7 +17,7 @@ class ProductController extends Controller {
     $this->productService = $productService;
   }
 
-  public function index(Request $request): JsonResponse {
+  public function index(GetProducts $request): JsonResponse {
     $categories = $this->productService->getFilteredProducts($request);
     return response()->apiResponse($categories);
   }
