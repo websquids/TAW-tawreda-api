@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\ResetPasswordIdentifierTypes as ConstantsResetPasswordIdentifierTypes;
 use App\Constants\VerifyTypes;
+use App\Http\Requests\Auth\ForgetPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\CustomerApp\ChangePasswordRequest;
@@ -227,18 +228,11 @@ class AuthController extends Controller {
     return response()->apiResponse(['message' => 'Password changed successfully.'], 200);
   }
 
-  public function forgetPassword(Request $request) {
-    $validator = Validator::make($request->all(), [
-      'phone' => 'required|exists:users,phone',
-    ]);
-
-    if ($validator->fails()) {
-      return response()->json(['errors' => $validator->errors()], 422);
-    }
+  public function forgetPassword(ForgetPasswordRequest $request) {
+    $inputs = $request->validated();
 
     try {
-      $user = User::where('phone', $request->phone)->first();
-      $this->otpService->sendOTP($request->phone, null);
+      $this->otpService->sendOTP($inputs['phone'], null);
       return response()->apiResponse([
         'message' => 'OTP sent to your phone number. Please use it to reset your password.',
       ], 200);
