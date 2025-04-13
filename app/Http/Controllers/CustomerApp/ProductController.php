@@ -27,7 +27,7 @@ class ProductController extends Controller {
     return response()->apiResponse(new ProductResource($product));
   }
 
-  public function getMinimumandMaximumPrice(): JsonResponse {
+  public function getMinMaxPrice(): JsonResponse {
     $minMaxPrice = $this->productService->getMinMaxPrice();
     return response()->apiResponse($minMaxPrice);
   }

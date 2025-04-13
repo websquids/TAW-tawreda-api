@@ -49,21 +49,24 @@ abstract class BaseFilter {
    */
   protected function applySearchFilters(Builder $query, array $search): void {
     foreach ($this->getAllowedFields() as $field => $options) {
-      if ($options['searchable'] ?? false) {
-        if (isset($options['relation']) && is_array($options['relation']) && isset($search[$field])) {
-          $key = $options['relation'][1];
-          $value = $search[$field];
-          $query->whereHas($options['relation'][0], function ($query) use ($key, $value) {
-            $query->where($key, $value);
-          });
+      if (!($options['searchable'] ?? false)) {
+        continue;
+      }
+
+      $value = $search[$field] ?? null;
+
+      if (isset($options['relation']) && is_array($options['relation']) && $value) {
+        $key = $options['relation'][1];
+        $query->whereHas($options['relation'][0], function ($q) use ($key, $value) {
+          $q->where($key, $value);
+        });
+      } elseif ($value !== null) {
+        if (($options['type'] ?? '') === 'date_range' && is_array($value) && isset($value['from'], $value['to'])) {
+          $query->whereBetween($field, [$value['from'], $value['to']]);
+        } elseif ($options['translated'] ?? false) {
+          $query->whereTranslationLike($field, '%' . $value . '%');
         } else {
-          $query->when(isset($search[$field]), function ($query) use ($search, $field, $options) {
-            if ($options['translated'] ?? false) {
-              $query->whereTranslationLike($field, '%' . $search[$field] . '%');
-            } else {
-              $query->where($field, 'like', '%' . $search[$field] . '%');
-            }
-          });
+          $query->where($field, 'like', '%' . $value . '%');
         }
       }
     }

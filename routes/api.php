@@ -56,7 +56,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
   Route::group(['middleware' => ['role:customer', 'auth:api']], function () {
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
     Route::delete('/delete-account', [AuthController::class, 'deleteUser']);
-    Route::get('/products/min-max-price', [App\Http\Controllers\CustomerApp\ProductController::class, 'getMinimumandMaximumPrice']);
+    Route::get('/products/min-max-price', [App\Http\Controllers\CustomerApp\ProductController::class, 'getMinMaxPrice']);
     Route::get('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'index']);
     Route::post('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'store']);
     Route::delete('/carts', [App\Http\Controllers\CustomerApp\CartController::class, 'destroy']);
@@ -70,6 +70,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index'])->name('customer_app.orders.index');
     Route::get('/orders/order-statuses', [App\Http\Controllers\OrderController::class, 'getAllOrderStatus']);
     Route::get('/orders/{id}', [App\Http\Controllers\CustomerApp\OrderController::class, 'show']);
+    Route::post('/orders/{id}/resale', [App\Http\Controllers\CustomerApp\OrderController::class, 'requestResale']);
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     Route::post('/auth/logout', [AuthController::class, 'customerLogout']);
     Route::get('/app-settings', [App\Http\Controllers\CustomerApp\AppSettingsController::class, 'index']);

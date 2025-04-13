@@ -5,16 +5,19 @@ namespace App\Http\Controllers\CustomerApp;
 use App\Constants\OrderTypes;
 use App\Enums\CartType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerApp\GetOrders;
 use App\Http\Requests\CustomerApp\OrderStoreRequest;
 use App\Models\Order;
 use App\Services\AppSettingsService;
 use App\Services\OrderService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller {
   protected OrderService $orderService;
   protected AppSettingsService $appSettingsService;
+
   public function __construct(
     OrderService $orderService,
     AppSettingsService $appSettingsService
@@ -22,7 +25,8 @@ class OrderController extends Controller {
     $this->orderService = $orderService;
     $this->appSettingsService = $appSettingsService;
   }
-  public function index(Request $request) {
+
+  public function index(GetOrders $request) {
     try {
       $orders = $this->orderService->getFilteredOrdersByCurrentUser($request);
       return response()->apiResponse($orders);
@@ -67,6 +71,30 @@ class OrderController extends Controller {
       return response()->apiResponse(null, $e->getMessage(), false, 500);
     }
   }
+
+  public function requestResale(Request $request, int $id): JsonResponse {
+    $userId = request()->user()->id;
+
+    // Fetch the order
+    $order = Order::where('id', $id)
+      ->where('user_id', $userId)
+      ->where('order_type', Order::ORDER_TYPES['INVESTOR'])
+      ->first();
+
+    // Validate order existence
+    if (!$order) {
+      return response()->apiResponse([], 'Order not found.', false, 404);
+    }
+
+    // Update order status to RESALE_PENDING
+    $order->order_status = Order::ORDER_STATUSES['RESALE_PENDING'];
+    $order->save();
+
+    $order = $this->orderService->getOrderById($order->id);
+
+    return response()->apiResponse($order, 'Request submitted successfully');
+  }
+
 
   protected function createOrder($request, $cartItems) {
     $total = $this->getTotalPrice($cartItems, $request->order_type);
@@ -123,14 +151,12 @@ class OrderController extends Controller {
     }
   }
 
-
-
   protected function getCartItems($request) {
     return $request->user()
-        ->cart()
-        ->where('type', $this->getCartType($request->order_type))
-        ->with('cartItems.product')
-        ->first()->cartItems;
+      ->cart()
+      ->where('type', $this->getCartType($request->order_type))
+      ->with('cartItems.product')
+      ->first()->cartItems;
   }
 
   protected function getCartType($orderType) {

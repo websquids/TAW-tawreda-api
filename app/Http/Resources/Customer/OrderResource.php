@@ -37,9 +37,9 @@ class OrderResource extends JsonResource {
     ];
     if ($this->order_type !== OrderTypes::INVESTOR) {
       $data['address'] = [
-        'city' => $this->orderAddress->address->city,
-        'street' => $this->orderAddress->address->street,
-        'building_number' => $this->orderAddress->address->building_number,
+        'city' => $this->orderAddress?->address->city,
+        'street' => $this->orderAddress?->address->street,
+        'building_number' => $this->orderAddress?->address->building_number,
       ];
     } else {
       $data['new_total_price'] = $this->calculateNewTotalPrice($this->orderProducts);
@@ -71,16 +71,16 @@ class OrderResource extends JsonResource {
 
     if ($this->order_type !== 'investor') {
       $data['address'] = [
-        'id' => $this->orderAddress->address->id,
-        'street' => $this->orderAddress->address->street,
-        'city' => $this->orderAddress->address->city,
-        'state' => $this->orderAddress->address->state,
-        'country' => $this->orderAddress->address->country,
-        'postal_code' => $this->orderAddress->address->postal_code,
-        'building_number' => $this->orderAddress->address->building_number,
-        'mobile_number' => $this->orderAddress->address->mobile_number,
-        'latitude' => $this->orderAddress->address->latitude,
-        'longitude' => $this->orderAddress->address->longitude,
+        'id' => $this->orderAddress?->address->id,
+        'street' => $this->orderAddress?->address->street,
+        'city' => $this->orderAddress?->address->city,
+        'state' => $this->orderAddress?->address->state,
+        'country' => $this->orderAddress?->address->country,
+        'postal_code' => $this->orderAddress?->address->postal_code,
+        'building_number' => $this->orderAddress?->address->building_number,
+        'mobile_number' => $this->orderAddress?->address->mobile_number,
+        'latitude' => $this->orderAddress?->address->latitude,
+        'longitude' => $this->orderAddress?->address->longitude,
       ];
     } else {
       $data['new_total_price'] = $this->calculateNewTotalPrice($this->orderProducts);

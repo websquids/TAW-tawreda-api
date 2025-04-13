@@ -28,15 +28,24 @@ class Order extends Model {
   ];
 
   public const ORDER_STATUSES = [
-    'PENDING' => 0,
-    'PROCESSING' => 1,
-    'COMPLETED' => 2,
-    'CANCELED' => 3,
-    'FAILED' => 5,
-    'REFUNDED' => 4,
-    'REFUND_PENDING' => 6,
-    'REFUND_FAILED' => 7,
-    'REFUND_COMPLETED' => 8,
+    'PENDING' => 0,             // Order created but not yet processed
+    'PROCESSING' => 1,          // Order is being prepared for fulfillment
+    'PAID' => 2,                // Payment successfully received
+    'SHIPPED' => 3,             // Order has been dispatched for delivery
+    'DELIVERED' => 4,           // Order successfully delivered to customer
+
+    'RETURN_PENDING' => 5,      // Return request received from customer
+    'RETURN_PROCESSING' => 6,   // Return is being processed
+    'RETURN_SHIPPED' => 7,      // Return package shipped back to warehouse
+    'RETURN_DELIVERED' => 8,    // Return package received at warehouse
+
+    'RESALE_PENDING' => 9,      // Returned item evaluated for resale
+    'RESALE_PROCESSING' => 10,  // Item being prepared for resale
+    'RESALE_PAID' => 11,        // Item successfully resold
+
+    'REFUNDED' => 12,           // Full refund issued to customer
+    'CANCELLED' => 13,          // Order cancelled before processing
+    'FAILED' => 14,             // Order failed due to payment/system issues
   ];
 
   public function getStatusAttribute($value) {
@@ -62,8 +71,9 @@ class Order extends Model {
       'sortable' => true,
     ],
     'created_at' => [
-      'searchable' => false,
+      'searchable' => true,
       'sortable' => true,
+      'type' => 'date_range',
     ],
     'updated_at' => [
       'searchable' => false,
