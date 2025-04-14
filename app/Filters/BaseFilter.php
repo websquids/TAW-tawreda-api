@@ -63,6 +63,18 @@ abstract class BaseFilter {
       } elseif ($value !== null) {
         if (($options['type'] ?? '') === 'date_range' && is_array($value) && isset($value['from'], $value['to'])) {
           $query->whereBetween($field, [$value['from'], $value['to']]);
+        } elseif (is_array($value)) {
+          // Check for operator and value keys for more control
+          if (isset($value['value']) && is_array($value['value'])) {
+            $operator = isset($value['operator']) ? strtolower($value['operator']) : 'in';
+            if ($operator === 'in') {
+              $query->whereIn($field, $value['value']);
+            } elseif ($operator === 'not_in') {
+              $query->whereNotIn($field, $value['value']);
+            }
+          } else {
+            $query->whereIn($field, $value);
+          }
         } elseif ($options['translated'] ?? false) {
           $query->whereTranslationLike($field, '%' . $value . '%');
         } else {

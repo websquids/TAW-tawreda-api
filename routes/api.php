@@ -68,6 +68,7 @@ Route::group(['prefix' => 'customer_app','namespace' => 'customer_app', 'middlew
     Route::post('/fcm', [App\Http\Controllers\CustomerApp\FcmTokenController::class, 'edit']);
     Route::post('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'store']);
     Route::get('/orders', [App\Http\Controllers\CustomerApp\OrderController::class, 'index'])->name('customer_app.orders.index');
+    Route::get('/orders/active', [App\Http\Controllers\CustomerApp\OrderController::class, 'getActiveInvestorOrder']);
     Route::get('/orders/order-statuses', [App\Http\Controllers\OrderController::class, 'getAllOrderStatus']);
     Route::get('/orders/{id}', [App\Http\Controllers\CustomerApp\OrderController::class, 'show']);
     Route::post('/orders/{id}/resale', [App\Http\Controllers\CustomerApp\OrderController::class, 'requestResale']);

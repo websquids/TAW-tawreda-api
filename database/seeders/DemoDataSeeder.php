@@ -13,12 +13,12 @@ use App\Models\Product;
 class DemoDataSeeder extends Seeder {
   public function run() {
     // Clear existing data
-    // DB::statement('SET FOREIGN_KEY_CHECKS=0');
+    DB::statement('SET FOREIGN_KEY_CHECKS=0');
     Product::truncate();
     Category::truncate();
     Brand::truncate();
     Unit::truncate();
-    // DB::statement('SET FOREIGN_KEY_CHECKS=1');
+    DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
     // Categories with parent
     $categories = [

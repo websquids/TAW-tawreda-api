@@ -57,6 +57,8 @@ class OrderController extends Controller {
 
       if ($request->order_type === OrderTypes::CUSTOMER) {
         $this->attachOrderAddress($order, $request->address_id);
+      } elseif ($request->order_type === OrderTypes::INVESTOR) {
+        $order->order_status = Order::ORDER_STATUSES['PAID'];
       }
 
       $this->attachOrderProducts($order, $cartItems, $request->order_type);
@@ -95,6 +97,15 @@ class OrderController extends Controller {
     return response()->apiResponse($order, 'Request submitted successfully');
   }
 
+  public function getActiveInvestorOrder(Request $request): JsonResponse {
+    $order = $this->orderService->getActiveInvestorOrder($request);
+
+    if (empty($order)) {
+      return response()->apiResponse(null, 'No active order', false, 404);
+    }
+
+    return response()->apiResponse($order);
+  }
 
   protected function createOrder($request, $cartItems) {
     $total = $this->getTotalPrice($cartItems, $request->order_type);

@@ -42,6 +42,33 @@ class OrderService {
     return OrderResource::make($order);
   }
 
+  public function getActiveInvestorOrder(Request $request) {
+    $request->merge([
+      'search' => [
+        'order_type' => Order::ORDER_TYPES['INVESTOR'],
+        'order_status' => [
+          'operator' => 'in',
+          'value' => [
+            Order::ORDER_STATUSES['PAID'],
+            Order::ORDER_STATUSES['RESALE_PENDING'],
+          ],
+        ],
+      ],
+    ]);
+    $orders = $this->orderFilter->filterByCurrentUser(Order::query(), $request);
+
+    // Get the first order
+    $firstOrder = $orders->first();
+
+    // If there is no order, return an appropriate response
+    if (empty($firstOrder)) {
+      throw new \Exception('please create an order first', 404);
+    }
+
+    // Use transformForShow for the first order
+    return (new OrderResource($firstOrder))->transformForShow();
+  }
+
   public function updateOrder($request, $order) {
     $order->update($request->validated());
     $order->save();
