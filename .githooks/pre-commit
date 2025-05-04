@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Running pre-commit hook to check code formatting..."
+
+# Run Pint (or PHP-CS-Fixer) in dry-run mode to check formatting
+./vendor/bin/php-cs-fixer fix --dry-run --diff
+if [ $? -ne 0 ]; then
+    echo "Code formatting issues detected. Please fix them by running: composer format"
+    exit 1
+fi
+
+echo "Pre-commit hook passed. No formatting issues detected."
+exit 0

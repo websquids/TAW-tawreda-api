@@ -6,63 +6,58 @@ use App\Http\Requests\UnitStoreRequest;
 use App\Http\Requests\UnitUpdateRequest;
 use App\Http\Resources\UnitResource;
 use App\Models\Unit;
+use App\Services\UnitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UnitController extends Controller
-{
-    public function index(Request $request): JsonResponse
-    {
-        // Initialize the query builder for the Unit model
-        $query = Unit::query();
+class UnitController extends Controller implements HasMiddleware {
+  public static function middleware(): array {
+    return [
+      new Middleware('check.role.permissions:view unit', only: ['index', 'show']),
+      new Middleware('check.role.permissions:edit unit', only: ['update']),
+      new Middleware('check.role.permissions:delete unit', only: ['bulkDelete']),
+      new Middleware('check.role.permissions:create unit', only: ['store']),
+      new Middleware('check.role.permissions:edit unit', only: ['update']),
+    ];
+  }
+  protected UnitService $unitService;
 
-        // Apply filters based on request parameters if they exist
-        if ($request->has('name_en')) {
-            $query->where('name_en', 'like', '%' . $request->name_en . '%');
-        }
+  public function __construct(UnitService $uniteService) {
+    $this->unitService = $uniteService;
+  }
+  public function index(Request $request): JsonResponse {
+    $units = $this->unitService->getFilteredUnits($request);
+    return response()->apiResponse($units);
+  }
 
-        if ($request->has('name_ar')) {
-            $query->where('name_ar', 'like', '%' . $request->name_ar . '%');
-        }
-
-        if ($request->has('description_en')) {
-            $query->where('description_en', 'like', '%' . $request->description_en . '%');
-        }
-
-        if ($request->has('description_ar')) {
-            $query->where('description_ar', 'like', '%' . $request->description_ar . '%');
-        }
-
-        // Paginate the results after applying the filters
-        $units = $query->paginate(10);
-
-        // Format the paginated results using the UnitResource
-        $units->data = UnitResource::collection($units);
-
-        // Return the filtered and paginated results as a JSON response
-        return response()->json($units);
+  public function show($unit): JsonResponse {
+    $unit = Unit::find($unit);
+    if (!$unit) {
+      return response()->json(['message' => 'Unit not found'], 404);
     }
+    return response()->apiResponse(new UnitResource($unit));
+  }
 
-    public function show(Request $request, Unit $unit): JsonResponse
-    {
-        return response()->json(new UnitResource($unit));
-    }
+  public function store(UnitStoreRequest $request): JsonResponse {
+    $unit = Unit::create($request->validated());
+    return response()->json(new UnitResource($unit));
+  }
 
-    public function store(UnitStoreRequest $request): JsonResponse
-    {
-        $unit = Unit::create($request->validated());
-        return response()->json(new UnitResource($unit));
-    }
+  public function update(UnitUpdateRequest $request, Unit $unit): JsonResponse {
+    $unit->update($request->validated());
+    return response()->json(new UnitResource($unit));
+  }
 
-    public function update(UnitUpdateRequest $request, Unit $unit): JsonResponse
-    {
-        $unit->update($request->validated());
-        return response()->json(new UnitResource($unit));
-    }
+  public function destroy(Request $request, Unit $unit): JsonResponse {
+    $unit->delete();
+    return response()->json();
+  }
 
-    public function destroy(Request $request, Unit $unit): JsonResponse
-    {
-        $unit->delete();
-        return response()->json();
-    }
+  public function bulkDelete(Request $request): JsonResponse {
+    $ids = $request->get('ids', []);
+    $result = Unit::whereIn('id', $ids)->delete();
+    return response()->json($result);
+  }
 }

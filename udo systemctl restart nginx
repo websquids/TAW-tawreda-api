@@ -1,0 +1,294 @@
+Feb 10 18:00:00 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 11022.[0m
+Feb 10 18:00:00 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:00 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Feb 10 18:00:00 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:00 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Feb 10 18:00:01 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:01 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Feb 10 18:00:01 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:01 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Feb 10 18:00:02 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:02 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+Feb 10 18:00:02 omar-HP-Z440-Workstation nginx[384465]: nginx: [emerg] still could not bind()
+Feb 10 18:00:02 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:00:02 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:00:02 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 11022 and the job result is failed.[0m
+Feb 10 18:00:26 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 11660.[0m
+Feb 10 18:00:26 omar-HP-Z440-Workstation nginx[385852]: 2025/02/10 18:00:26 [emerg] 385852#385852: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:26 omar-HP-Z440-Workstation nginx[385852]: 2025/02/10 18:00:26 [emerg] 385852#385852: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:27 omar-HP-Z440-Workstation nginx[385852]: 2025/02/10 18:00:26 [emerg] 385852#385852: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:27 omar-HP-Z440-Workstation nginx[385852]: 2025/02/10 18:00:26 [emerg] 385852#385852: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:28 omar-HP-Z440-Workstation nginx[385852]: 2025/02/10 18:00:26 [emerg] 385852#385852: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:00:28 omar-HP-Z440-Workstation nginx[385852]: 2025/02/10 18:00:26 [emerg] 385852#385852: still could not bind()
+Feb 10 18:00:28 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:00:28 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:00:28 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 11660 and the job result is failed.[0m
+Feb 10 18:28:54 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12282.[0m
+Feb 10 18:28:54 omar-HP-Z440-Workstation nginx[417417]: 2025/02/10 18:28:54 [emerg] 417417#417417: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:28:55 omar-HP-Z440-Workstation nginx[417417]: 2025/02/10 18:28:54 [emerg] 417417#417417: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:28:55 omar-HP-Z440-Workstation nginx[417417]: 2025/02/10 18:28:54 [emerg] 417417#417417: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:28:56 omar-HP-Z440-Workstation nginx[417417]: 2025/02/10 18:28:54 [emerg] 417417#417417: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:28:56 omar-HP-Z440-Workstation nginx[417417]: 2025/02/10 18:28:54 [emerg] 417417#417417: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:28:57 omar-HP-Z440-Workstation nginx[417417]: 2025/02/10 18:28:54 [emerg] 417417#417417: still could not bind()
+Feb 10 18:28:57 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:28:57 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:28:57 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12282 and the job result is failed.[0m
+Feb 10 18:31:11 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12654.[0m
+Feb 10 18:31:11 omar-HP-Z440-Workstation nginx[419204]: 2025/02/10 18:31:11 [emerg] 419204#419204: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:12 omar-HP-Z440-Workstation nginx[419204]: 2025/02/10 18:31:11 [emerg] 419204#419204: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:12 omar-HP-Z440-Workstation nginx[419204]: 2025/02/10 18:31:11 [emerg] 419204#419204: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:13 omar-HP-Z440-Workstation nginx[419204]: 2025/02/10 18:31:11 [emerg] 419204#419204: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:13 omar-HP-Z440-Workstation nginx[419204]: 2025/02/10 18:31:11 [emerg] 419204#419204: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:14 omar-HP-Z440-Workstation nginx[419204]: 2025/02/10 18:31:11 [emerg] 419204#419204: still could not bind()
+Feb 10 18:31:14 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:31:14 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:31:14 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12654 and the job result is failed.[0m
+Feb 10 18:31:56 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12782.[0m
+Feb 10 18:31:56 omar-HP-Z440-Workstation nginx[419831]: 2025/02/10 18:31:56 [emerg] 419831#419831: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:57 omar-HP-Z440-Workstation nginx[419831]: 2025/02/10 18:31:56 [emerg] 419831#419831: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:57 omar-HP-Z440-Workstation nginx[419831]: 2025/02/10 18:31:56 [emerg] 419831#419831: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:58 omar-HP-Z440-Workstation nginx[419831]: 2025/02/10 18:31:56 [emerg] 419831#419831: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:58 omar-HP-Z440-Workstation nginx[419831]: 2025/02/10 18:31:56 [emerg] 419831#419831: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:31:59 omar-HP-Z440-Workstation nginx[419831]: 2025/02/10 18:31:56 [emerg] 419831#419831: still could not bind()
+Feb 10 18:31:59 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:31:59 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:31:59 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12782 and the job result is failed.[0m
+Feb 10 18:32:38 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12910.[0m
+Feb 10 18:32:38 omar-HP-Z440-Workstation nginx[420333]: 2025/02/10 18:32:38 [emerg] 420333#420333: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:32:38 omar-HP-Z440-Workstation nginx[420333]: 2025/02/10 18:32:38 [emerg] 420333#420333: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:32:39 omar-HP-Z440-Workstation nginx[420333]: 2025/02/10 18:32:38 [emerg] 420333#420333: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:32:39 omar-HP-Z440-Workstation nginx[420333]: 2025/02/10 18:32:38 [emerg] 420333#420333: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:32:40 omar-HP-Z440-Workstation nginx[420333]: 2025/02/10 18:32:38 [emerg] 420333#420333: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:32:40 omar-HP-Z440-Workstation nginx[420333]: 2025/02/10 18:32:38 [emerg] 420333#420333: still could not bind()
+Feb 10 18:32:40 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:32:40 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:32:40 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12910 and the job result is failed.[0m
+Feb 10 18:33:16 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 13038.[0m
+Feb 10 18:33:16 omar-HP-Z440-Workstation nginx[420934]: 2025/02/10 18:33:16 [emerg] 420934#420934: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:16 omar-HP-Z440-Workstation nginx[420934]: 2025/02/10 18:33:16 [emerg] 420934#420934: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:17 omar-HP-Z440-Workstation nginx[420934]: 2025/02/10 18:33:16 [emerg] 420934#420934: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:17 omar-HP-Z440-Workstation nginx[420934]: 2025/02/10 18:33:16 [emerg] 420934#420934: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:18 omar-HP-Z440-Workstation nginx[420934]: 2025/02/10 18:33:16 [emerg] 420934#420934: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:18 omar-HP-Z440-Workstation nginx[420934]: 2025/02/10 18:33:16 [emerg] 420934#420934: still could not bind()
+Feb 10 18:33:18 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:33:18 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:33:18 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 13038 and the job result is failed.[0m
+Feb 10 18:33:27 omar-HP-Z440-Workstation systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 13166.[0m
+Feb 10 18:33:27 omar-HP-Z440-Workstation nginx[421076]: 2025/02/10 18:33:27 [emerg] 421076#421076: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:27 omar-HP-Z440-Workstation nginx[421076]: 2025/02/10 18:33:27 [emerg] 421076#421076: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:28 omar-HP-Z440-Workstation nginx[421076]: 2025/02/10 18:33:27 [emerg] 421076#421076: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:28 omar-HP-Z440-Workstation nginx[421076]: 2025/02/10 18:33:27 [emerg] 421076#421076: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:29 omar-HP-Z440-Workstation nginx[421076]: 2025/02/10 18:33:27 [emerg] 421076#421076: bind() to 0.0.0.0:80 failed (98: Address already in use)
+Feb 10 18:33:29 omar-HP-Z440-Workstation nginx[421076]: 2025/02/10 18:33:27 [emerg] 421076#421076: still could not bind()
+Feb 10 18:33:29 omar-HP-Z440-Workstation systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+Feb 10 18:33:29 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+Feb 10 18:33:29 omar-HP-Z440-Workstation systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start nginx.service - A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 13166 and the job result is failed.[0m
+Feb 10 18:34:24 omar-HP-Z440-Workstation systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Unit cannot be reloaded because it is inactive.[0m

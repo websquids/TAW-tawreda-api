@@ -6,67 +6,87 @@ use App\Http\Requests\BrandStoreRequest;
 use App\Http\Requests\BrandUpdateRequest;
 use App\Http\Resources\BrandResource;
 use App\Models\Brand;
+use App\Services\BrandService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 
-class BrandController extends Controller
-{
-    public function index(Request $request): JsonResponse
-    {
-        // Initialize the query builder for the Brand model
-        $query = Brand::query();
+class BrandController extends Controller implements HasMiddleware {
+  protected BrandService $brandService;
+  public static function middleware(): array {
+    return [
+      new Middleware('check.role.permissions:view brand', only: ['index', 'show']),
+      new Middleware('check.role.permissions:edit brand', only: ['update']),
+      new Middleware('check.role.permissions:delete brand', only: ['bulkDelete']),
+      new Middleware('check.role.permissions:create brand', only: ['store']),
+      new Middleware('check.role.permissions:edit brand', only: ['update']),
+    ];
+  }
 
-        // Apply filters based on request parameters if they exist
-        if ($request->has('name_en')) {
-            $query->where('name_en', 'like', '%' . $request->name_en . '%');
-        }
+  public function __construct(BrandService $brandService) {
+    $this->brandService = $brandService;
+  }
 
-        if ($request->has('name_ar')) {
-            $query->where('name_ar', 'like', '%' . $request->name_ar . '%');
-        }
+  public function index(Request $request): JsonResponse {
+    $brands = $this->brandService->getFilteredBrands($request);
+    return response()->apiResponse($brands);
+  }
 
-        if ($request->has('description_en')) {
-            $query->where('description_en', 'like', '%' . $request->description_en . '%');
-        }
-
-        if ($request->has('description_ar')) {
-            $query->where('description_ar', 'like', '%' . $request->description_ar . '%');
-        }
-
-        // Paginate the results after applying the filters
-        $brands = $query->paginate(10);
-
-        // Format the paginated results using the BrandResource
-        $brands->data = BrandResource::collection($brands);
-
-        // Return the filtered and paginated results as a JSON response
-        return response()->json($brands);
+  public function show($brand) {
+    $brand = Brand::find($brand);
+    if (!$brand) {
+      return response()->json(['message' => 'Brand not found'], 404);
     }
 
-    public function show(Request $request, Brand $brand)
-    {
-        return response()->json(new BrandResource($brand));
+    return response()->apiResponse(new BrandResource($brand));
+  }
+  public function store(BrandStoreRequest $request) {
+    try {
+      DB::beginTransaction();
+      $brand = Brand::create($request->safe()->except(['image']));
+      $brand->addMedia($request->file('image'))->toMediaCollection('brands');
+      DB::commit();
+      return response()->apiResponse(new BrandResource($brand));
+    } catch (\Exception $e) {
+      DB::rollback();
+      return response()->json(['message' => 'Failed to create brand'], 500);
     }
+  }
 
-    public function store(BrandStoreRequest $request)
-    {
-        $brand = Brand::create($request->validated());
-        $brand->addMedia($request->file('image'))->toMediaCollection('featured');
-        return response()->json(new BrandResource($brand));
-    }
+  public function update(BrandUpdateRequest $request, Brand $brand) {
+    try {
+      DB::beginTransaction();
+      $brand->update($request->safe()->except(['image']));
+      if ($request->hasFile('image')) {
+        $brand->clearMediaCollection('brands');
+        $brand->addMedia($request->file('image'))->toMediaCollection('brands');
+      }
 
-    public function update(BrandUpdateRequest $request, Brand $brand)
-    {
-        $brand->update($request->validated());
-        if ($request->hasFile('image')) {
-            $brand->addMedia($request->file('image'))->toMediaCollection('featured');
-        }
-        return response()->json(new BrandResource($brand));
+      DB::commit();
+      return response()->apiResponse(new BrandResource($brand));
+    } catch (\Exception $e) {
+      DB::rollback();
+      return response()->json(['message' => 'Failed to update brand'], 500);
     }
+  }
 
-    public function destroy(Request $request, Brand $brand)
-    {
-        $brand->delete();
-        return response()->json();
+  public function destroy(Brand $brand) {
+    if (!$brand) {
+      return response()->json(['message' => 'Brand not found'], 404);
     }
+    if ($brand->products()->exists()) {
+      return response()->json(['error' => 'Cannot delete brand with associated products.'], 400);
+    }
+    $brand->clearMediaCollection();
+    $brand->delete();
+    return response()->json();
+  }
+
+  public function bulkDelete(Request $request) {
+    $ids = $request->get('ids', []);
+    $result = Brand::whereIn('id', $ids)->delete();
+    return response()->json($result);
+  }
 }
